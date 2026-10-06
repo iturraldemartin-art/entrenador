@@ -68,7 +68,17 @@
   ::selection{ background:var(--accent-soft-2); }
 
   /* ---------- Shell ---------- */
-  #app{ display:grid; grid-template-columns:216px 1fr; min-height:100vh; }
+  #app{ display:grid; grid-template-columns:1fr; min-height:100vh; }
+  #app > .sidebar{ display:none !important; }   /* el menú lateral pasó a solapas arriba */
+  .toptabs{ display:flex; align-items:center; gap:4px; padding:0 22px; background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:6; overflow-x:auto; scrollbar-width:none; }
+  .toptabs::-webkit-scrollbar{ display:none; }
+  .toptabs .brand{ padding:6px 14px 6px 0; margin-right:6px; border-right:1px solid var(--line); flex:none; }
+  .toptabs .brand-mark{ width:28px; height:28px; }
+  .toptabs nav{ display:flex; gap:2px; }
+  .toptabs .navlink{ width:auto; flex:none; padding:13px 14px 11px; border:none; border-bottom:3px solid transparent; border-radius:0; gap:8px; white-space:nowrap; }
+  .toptabs .navlink.active{ background:none; border-bottom-color:var(--accent); color:var(--ink); }
+  .toptabs .navlink:hover{ background:var(--surface-2); }
+  .toptabs .storage-pill{ margin:0 0 0 auto; flex:none; padding-left:12px; }
   .sidebar{
     background:var(--surface); border-right:1px solid var(--line);
     display:flex; flex-direction:column; padding:18px 14px; gap:22px;
@@ -105,8 +115,8 @@
   main{ min-width:0; }
   .topbar{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:16px 26px; border-bottom:1px solid var(--line); background:var(--paper);
-    position:sticky; top:0; z-index:5;
+    padding:14px 26px; border-bottom:1px solid var(--line); background:var(--paper);
+    position:relative; z-index:5;
   }
   .topbar h1{ font-size:1.5rem; }
   .topbar .sub{ color:var(--ink-2); font-size:.82rem; margin-top:2px; }
@@ -126,7 +136,7 @@
   .cal-time{ font-size:.64rem; color:var(--ink-2); font-family:"IBM Plex Mono",monospace; }
   .day-time{ font-size:.78rem; color:var(--ink-2); font-family:"IBM Plex Mono",monospace; text-transform:none; }
 
-  .view{ display:none; padding:22px 26px 60px; max-width:1180px; }
+  .view{ display:none; padding:22px 26px 60px; max-width:1500px; margin:0 auto; }
   .view.active{ display:block; }
 
   /* ---------- Buttons / inputs ---------- */
@@ -210,6 +220,27 @@
   .day-field{ background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:7px 9px; min-width:0; }
   .day-field label{ margin-bottom:3px; }
   .day-field-val{ font-weight:600; font-size:.92rem; font-family:"Rajdhani",sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .guia{ max-width:640px; }
+  .guia-root{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.25rem; letter-spacing:.04em; padding-bottom:10px; border-bottom:2px solid var(--accent); }
+  .guia-tree{ list-style:none; margin:0; padding:6px 0 0 14px; border-left:2px solid var(--line); margin-left:10px; }
+  .guia-tree > li{ position:relative; display:flex; gap:10px; align-items:flex-start; padding:12px 0 4px 14px; }
+  .guia-tree > li::before{ content:""; position:absolute; left:-14px; top:26px; width:22px; border-top:2px solid var(--line); }
+  .guia-tree > li.ok .guia-t{ color:var(--good); }
+  .guia-tree > li.ok ul{ opacity:.6; }
+  .guia-t{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.05rem; letter-spacing:.03em; }
+  .guia-tree ul{ margin:4px 0 0; padding-left:16px; font-size:.9rem; color:var(--ink-2); }
+  .guia-tree ul li{ margin:2px 0; }
+  .guia-tree code{ font-size:.82rem; background:var(--surface-2); padding:1px 4px; border-radius:4px; }
+  .guia-chk{ flex:0 0 auto; width:30px; height:30px; border-radius:50%; border:2px solid var(--line); background:var(--surface); color:transparent; display:grid; place-items:center; cursor:pointer; margin-top:-2px; }
+  .guia-chk svg{ width:16px; height:16px; }
+  .guia-tree > li.ok .guia-chk{ background:var(--good); border-color:var(--good); color:#fff; }
+  .guia-foot{ margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:.88rem; color:var(--ink-2); }
+  .day-ex-card.has-agr .day-ex-fields{ grid-template-columns:2fr 1fr 1fr 1fr 1.25fr; }
+  .agr-field label{ color:var(--accent); }
+  .agr-row{ display:flex; align-items:center; gap:8px; }
+  .agr-row select{ flex:1 1 auto; min-width:0; }
+  .lift-total{ flex:0 0 auto; font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.25rem; line-height:1; color:var(--accent); }
+  .lift-total small{ font-size:.7rem; margin-left:2px; opacity:.85; }
   .day-field select{ padding:5px 4px; font-family:"IBM Plex Mono",monospace; font-weight:600; background:var(--surface); border-color:var(--line); }
   .day-ex-foot{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
   .last-ref{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -357,6 +388,7 @@
   @media (max-width: 760px){
     #app{ grid-template-columns:1fr; }
     .sidebar{ display:none; }
+    .toptabs{ display:none; }
     main{ padding-bottom:64px; }
     .bottombar{
       display:flex; position:fixed; bottom:0; left:0; right:0; z-index:40;
@@ -376,7 +408,7 @@
     .cal-grid{ gap:4px; }
     .cal-cell{ min-height:70px; padding:5px; }
     .stat-row{ grid-template-columns:repeat(2,1fr); }
-    .day-ex-fields{ grid-template-columns:repeat(2,1fr); }
+    .day-ex-fields, .day-ex-card.has-agr .day-ex-fields{ grid-template-columns:repeat(2,1fr); }
     .day-field.wide{ grid-column:1/-1; }
   }
 
@@ -623,6 +655,9 @@
   .set-lbl{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:.95rem; }
   .set-row select{ padding:5px 4px; font-family:"IBM Plex Mono",monospace; font-weight:600; background:var(--surface); }
   .sets-head{ display:grid; grid-template-columns:40px 64px 1fr 1fr; gap:6px; font-size:.62rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); padding:0 6px; }
+  #dim-layer{ position:fixed; inset:0; z-index:65; background:rgba(0,0,0,.78); display:none; align-items:flex-end; justify-content:center; padding-bottom:90px; color:rgba(255,255,255,.55); font-size:.85rem; text-align:center; -webkit-tap-highlight-color:transparent; }
+  #dim-layer.on{ display:flex; animation:dimIn 1.2s ease; }
+  @keyframes dimIn{ from{ background:rgba(0,0,0,0); } to{ background:rgba(0,0,0,.78); } }
   .rest-bar{ position:fixed; left:50%; transform:translateX(-50%); top:10px; z-index:70; display:flex; align-items:center; gap:10px; background:#39ff14; color:#062b00; padding:8px 10px 8px 16px; border-radius:30px; box-shadow:0 0 18px rgba(57,255,20,.55), var(--shadow); }
   .rest-bar.blink{ animation:restblink .5s steps(2,start) infinite; }
   @keyframes restblink{ 0%{ opacity:1; } 50%{ opacity:.15; } 100%{ opacity:1; } }
@@ -691,6 +726,7 @@
   </aside>
 
   <main>
+    <div class="toptabs" id="toptabs"><nav id="navlist-top"></nav></div>
     <div class="topbar">
       <div class="topbar-title">
         <div class="title-line"><h1 id="view-title">Hoy</h1><span class="title-date" id="title-date"></span></div>
@@ -703,7 +739,7 @@
         </div>
         <button class="btn btn-sm btn-primary" id="timer-start" data-action="timer-start">Iniciar</button>
         <button class="btn btn-sm" id="timer-stop" data-action="timer-stop" disabled>Finalizar</button>
-        <button class="btn btn-sm btn-ghost btn-icon" data-action="alarm-settings" title="Sonido del aviso de 15 min" aria-label="Sonido del aviso"><svg viewBox="0 0 24 24" fill="none"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15L6 16z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20.5a2 2 0 004 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        <button class="btn btn-sm btn-ghost btn-icon" data-action="alarm-settings" title="Sonidos de los avisos (15 min y descanso)" aria-label="Sonidos de los avisos"><svg viewBox="0 0 24 24" fill="none"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15L6 16z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20.5a2 2 0 004 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
         <button class="btn btn-sm btn-ghost btn-icon" data-action="timer-edit" title="Corregir a mano el tiempo de hoy" aria-label="Editar tiempo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20l.8-3.6L16 5.2a1.5 1.5 0 012.1 0l.7.7a1.5 1.5 0 010 2.1L7.6 19.2 4 20z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
         <button class="btn btn-sm btn-ghost btn-icon" data-action="timer-reset" title="Poner en cero el tiempo de hoy" aria-label="Reiniciar cronómetro"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
@@ -722,6 +758,7 @@
     <section class="view" data-view="semana"><div id="view-semana"></div></section>
     <section class="view" data-view="ejercicios"><div id="view-ejercicios"></div></section>
     <section class="view" data-view="progreso"><div id="view-progreso"></div></section>
+    <section class="view" data-view="guardar"><div id="view-guardar"></div></section>
   </main>
 
   <nav class="bottombar" id="navlist-mobile"></nav>
@@ -990,6 +1027,7 @@ const BUILTIN_EXERCISES = [
  {id:"flexiones_lastradas",n:"Flexiones de brazos (lastradas o con pies elevados)",cat:"Pecho",mus:["pecho"],mus2:["triceps","hombros"],eq:"Peso corporal",pat:"push",cues:["Cuerpo en línea recta de cabeza a talones","Bajar hasta casi tocar el piso con el pecho"]},
  // ---- Tríceps (ampliación) ----
  {id:"press_frances_barra",n:"Press francés con barra",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Barra",pat:"extension",cues:["Codos fijos apuntando al techo durante todo el recorrido","Bajar la barra hacia la frente, sin abrir los codos"]},
+ {id:"push_ups_triceps",n:"Push-Ups (flexiones para tríceps)",cat:"Brazos",mus:["triceps"],mus2:["pecho","hombros"],eq:"Peso corporal",pat:"push",cues:["Codos pegados al cuerpo, apuntando hacia atrás","Cuerpo recto como una tabla, abdomen y glúteos firmes"]},
  {id:"fondos_banco",n:"Fondos de tríceps en banco",cat:"Brazos",mus:["triceps"],mus2:["hombros"],eq:"Peso corporal",pat:"extension",cues:["Codos apuntando hacia atrás, sin abrirlos a los costados","Bajar hasta 90° de codo, no más"]},
  {id:"press_cerrado_banca",n:"Press cerrado en banca",cat:"Brazos",mus:["triceps"],mus2:["pecho","hombros"],eq:"Barra",pat:"press",cues:["Manos a lo ancho de los hombros, no más cerradas","Codos pegados al cuerpo durante toda la bajada"]},
  {id:"patada_triceps_mancuerna",n:"Patada de tríceps con mancuerna",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Mancuernas",pat:"extension",cues:["Brazo pegado al cuerpo y paralelo al piso","Extender solo el antebrazo, codo fijo"]},
@@ -1095,6 +1133,22 @@ const EX_VIDEO = {
       "Subí los hombros recto hacia las orejas lo más alto que puedas.",
       "Pausa de un segundo arriba apretando el trapecio.",
       "Bajá despacio hasta sentir el estiramiento, sin girar los hombros en círculo.",
+    ],
+  },
+  "push_ups_triceps": {
+    credit: "Video: @edvanefrainmend28 (TikTok) · sugerido: 4×15",
+    frames: [
+      {t:"1 · Arriba", c:"Manos al ancho de hombros o un poco más cerradas, brazos estirados, cuerpo en línea recta."},
+      {t:"2 · Bajada", c:"Bajá despacio con los codos pegados al cuerpo, apuntando hacia atrás (no hacia los costados)."},
+      {t:"3 · Abajo", c:"Pecho casi tocando el piso entre las manos; desde ahí empujá con los tríceps."},
+    ],
+    steps: [
+      "Apoyá las manos en el piso al ancho de los hombros (o un poco más cerradas), dedos hacia adelante.",
+      "Estirá las piernas atrás: cuerpo recto de la cabeza a los talones, abdomen y glúteos apretados, sin hundir ni levantar la cadera.",
+      "Bajá en 2 segundos flexionando los codos y manteniéndolos pegados al cuerpo, apuntando hacia atrás.",
+      "Llevá el pecho hasta casi tocar el piso, con la mirada apenas adelante para no forzar el cuello.",
+      "Empujá fuerte hasta estirar los brazos sin trabar los codos; sentí que trabaja la parte de atrás del brazo.",
+      "Si cuesta llegar a 15, hacelas con las rodillas apoyadas (versión más fácil) y mantené la misma técnica.",
     ],
   },
   "custom_e1fff391-a75d-4a93-8ff8-ead571992d82": {
@@ -1381,6 +1435,8 @@ async function saveWeekPlan(wp){
   else{ localSave(); render(); }
 }
 async function saveSession(dateStr, data){
+  const prev = state.sessions[dateStr];
+  if(data.cerrado===undefined && prev && prev.cerrado) data = Object.assign({}, data, { cerrado:true });
   state.sessions[dateStr] = data;
   if(db){ await db.doc("sessions/"+dateStr).set(data); }
   else{ localSave(); render(); }
@@ -1431,10 +1487,12 @@ function ensureAudio(){
 // Aviso fuerte: todo pasa por un compresor + saturación suave para sacarle el máximo volumen al parlante
 // del celular, en frecuencias de 2-3 kHz (donde los parlantes chicos suenan más fuerte).
 let alarmOut = null;
-const ALARM_SOUNDS = { campana:"🔔 Campana de box", silbato:"📣 Silbato", alarma:"🚨 Alarma" };
-let alarmSound = "campana";
+const ALARM_SOUNDS = { campana:"🔔 Campana de box", campanadas:"🥊 Campanadas de ring (largas)", silbato:"📣 Silbato", alarma:"🚨 Alarma", gong:"🪘 Gong", digital:"⌚ Reloj digital", sirena:"🚓 Sirena", ascendente:"🎵 Melodía ascendente" };
+let alarmSound = "campana", restSound = "campanadas";
 try{ alarmSound = localStorage.getItem("bitacora-alarm-sound") || "campana"; }catch(e){}
+try{ restSound = localStorage.getItem("entrenador-rest-sound") || "campanadas"; }catch(e){}
 if(!ALARM_SOUNDS[alarmSound]) alarmSound = "campana";
+if(!ALARM_SOUNDS[restSound]) restSound = "campanadas";
 function alarmChain(){
   if(alarmOut || !audioCtx) return alarmOut;
   const comp = audioCtx.createDynamicsCompressor();
@@ -1461,6 +1519,28 @@ function playAlarmSound(kind){
   ensureAudio();
   if(!audioCtx) return;
   const t0 = audioCtx.currentTime + 0.05;
+  if(kind==="campanadas"){ restBells(); return; }
+  if(kind==="gong"){
+    [0, 1.6].forEach(off=> [[180,1],[270,0.7],[410,0.6],[560,0.4],[1250,0.3]].forEach(([f,a])=> tone(t0+off, 2.4, f, "sine", a, { decay:true })) );
+    return;
+  }
+  if(kind==="digital"){
+    [0, 0.9, 1.8].forEach(g=> [0,0.12,0.24,0.36].forEach(b=> tone(t0+g+b, 0.07, 3400, "square", 0.9)) );
+    return;
+  }
+  if(kind==="sirena"){
+    for(let k=0;k<3;k++){
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = t0+k*1.0;
+      o.type = "sawtooth"; o.frequency.setValueAtTime(900, t); o.frequency.linearRampToValueAtTime(2300, t+0.5); o.frequency.linearRampToValueAtTime(900, t+1.0);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.8, t+0.02); g.gain.setValueAtTime(0.8, t+0.95); g.gain.exponentialRampToValueAtTime(0.0001, t+1.0);
+      o.connect(g); g.connect(alarmChain()); o.start(t); o.stop(t+1.02);
+    }
+    return;
+  }
+  if(kind==="ascendente"){
+    [0, 0.9, 1.8].forEach(r=> [1047,1319,1568,2093].forEach((f,i)=> tone(t0+r+i*0.14, i===3?0.45:0.16, f*1.5, "triangle", 1.0, i===3?{decay:true}:null)) );
+    return;
+  }
   if(kind==="silbato"){
     [0, 0.55, 1.1].forEach((off,i)=> tone(t0+off, i===2?0.9:0.4, 2900, "sine", 1.0, { vibrato:28 }) );
   }else if(kind==="alarma"){
@@ -1481,14 +1561,20 @@ function flashAlert(text){
   }catch(e){}
 }
 function playBeep(text){
+  try{ undim(); }catch(e){}
   try{ playAlarmSound(alarmSound); }catch(e){}
   try{ if(navigator.vibrate) navigator.vibrate([400,150,400,150,800]); }catch(e){}
   if(text) flashAlert(text);
 }
 function openAlarmModal(){
-  openModal(`<div class="modal-head"><h2>Sonido del aviso</h2><button class="modal-close" data-action="close-modal">${ICON.close}</button></div>
-    <p style="font-size:.86rem;color:var(--ink-2);margin:0 0 12px;">Suena cada 15 minutos mientras corre el cronómetro. Tocá uno para escucharlo y elegirlo.</p>
-    <div style="display:flex;flex-direction:column;gap:8px;">${Object.keys(ALARM_SOUNDS).map(k=>`<button class="btn ${k===alarmSound?"btn-primary":""}" style="justify-content:flex-start;" data-action="alarm-pick" data-sound="${k}">${ALARM_SOUNDS[k]}${k===alarmSound?" · elegido":""}</button>`).join("")}</div>
+  const list = (cur, act)=> `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;">${Object.keys(ALARM_SOUNDS).map(k=>`<button class="btn ${k===cur?"btn-primary":""}" style="justify-content:flex-start;white-space:normal;text-align:left;" data-action="${act}" data-sound="${k}">${ALARM_SOUNDS[k]}${k===cur?" ✓":""}</button>`).join("")}</div>`;
+  openModal(`<div class="modal-head"><h2>Sonidos de los avisos</h2><button class="modal-close" data-action="close-modal">${ICON.close}</button></div>
+    <h3 class="detail-sec-title" style="margin-top:0;">⏱ Cronómetro · cada 15 minutos</h3>
+    <p style="font-size:.84rem;color:var(--ink-2);margin:0 0 10px;">Tocá uno para escucharlo y elegirlo.</p>
+    ${list(alarmSound, "alarm-pick")}
+    <h3 class="detail-sec-title" style="margin-top:18px;">💪 Fin del descanso · 45 segundos</h3>
+    <p style="font-size:.84rem;color:var(--ink-2);margin:0 0 10px;">Suena al terminar el descanso entre series.</p>
+    ${list(restSound, "rest-pick")}
     <div class="rules-note" style="margin-top:14px;">📱 En el celular el aviso usa el <b>volumen multimedia</b> (el de música/videos), no el del timbre: subilo con los botones de volumen mientras suena.</div>
     <div class="modal-foot"><button class="btn" data-action="close-modal">Listo</button></div>`);
 }
@@ -1560,6 +1646,9 @@ async function timerStart(){
   startKeepAlive();
   requestWakeLock();
   await saveTimer(d, { date:d, totalMs:Number(cur.totalMs)||0, runningSince:Date.now() });
+  // si el día estaba cerrado y seguís entrenando, se vuelve a abrir
+  const ses = state.sessions[d];
+  if(ses && ses.cerrado){ try{ await saveSession(d, Object.assign({}, ses, { cerrado:false })); }catch(_){} }
   toast("Cronómetro iniciado · suena cada 15 min");
 }
 async function timerStop(){
@@ -1568,7 +1657,20 @@ async function timerStop(){
   const total = timerMsFor(d);
   releaseWakeLock(); stopKeepAlive();
   await saveTimer(d, { date:d, totalMs: total, runningSince:null });
-  toast(`Entreno registrado: ${fmtDur(total)}`);
+  // "Finalizar" cierra el día de entreno: guarda todo lo que hiciste y lo marca como completo.
+  try{ restStop(); }catch(_){}
+  try{
+    let entries, notes = "";
+    if(dayDraft && dayDraft.dateStr===d){
+      syncDayDraftFromDom();
+      entries = JSON.parse(JSON.stringify(dayDraft.entries.filter(x=>x.exerciseId)));
+      entries.forEach(en=>{ normalizeEntrySets(en); en.abierto = false; if(exActive(en)) en.detenido = true; });
+      notes = dayDraft.notes||"";
+      dayDraftDirty = false;
+    } else if(state.sessions[d]){ entries = state.sessions[d].entries||[]; notes = state.sessions[d].notes||""; }
+    if(entries && entries.length) await saveSession(d, { date:d, entries, notes, cerrado:true });
+  }catch(_){}
+  toast(`✓ Día cerrado · ${fmtDur(total)} de entreno`);
   if(state.view==="hoy" || state.view==="calendario") render();
 }
 // La página corre dentro de un marco de claude.ai que bloquea confirm()/alert() (devuelven "no" sin
@@ -1670,6 +1772,7 @@ const ICON = {
   calendario: '<svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   semana: '<svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="9.5" width="4" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="17.5" y="9.5" width="4" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><path d="M6.5 12h11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   ejercicios: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5.5" r="2.3" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v7M8 11h8M9 20l3-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  guardar: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   progreso: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3.5-4 3 2.5L18 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   close: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -1690,10 +1793,12 @@ const NAVS = [
   {id:"semana", label:"Semana"},
   {id:"ejercicios", label:"Ejercicios"},
   {id:"progreso", label:"Progreso"},
+  {id:"guardar", label:"Guardar"},
 ];
 function renderNav(){
   const mk = (n)=>`<button class="navlink ${state.view===n.id?"active":""}" data-nav="${n.id}">${ICON[n.id]}<span>${n.label}</span></button>`;
   document.getElementById("navlist-desktop").innerHTML = NAVS.map(mk).join("");
+  const top = document.getElementById("navlist-top"); if(top) top.innerHTML = NAVS.map(mk).join("");
   document.getElementById("navlist-mobile").innerHTML = NAVS.map(mk).join("");
 }
 
@@ -1954,14 +2059,14 @@ function weightProgressStats(scopeStartDateStr){
 // (falling back to last time's numbers, then a sane default); el peso siempre se trae de la última vez
 // que se cargó ese ejercicio, así solo hay que ajustarlo hacia arriba — progresión semana a semana.
 /* ---- Ciclo de peso por bloques de 4 semanas (lunes a viernes), desde el lunes 05/10/2026 ----
-   Semanas 1 y 2 (10 sesiones): base +20% · semana 3: vuelve a la base · semana 4: descarga al 50%.
-   El ciclo siguiente arranca el lunes después de la descarga (02/11, 30/11, 28/12…), sin huecos.
-   Los días anteriores al primer lunes (01 y 02/10) quedan "sin cambios": se sugiere el último peso.
-   BASE de cada ciclo = el peso más alto que levantaste en la fase +20% del ciclo anterior (si lo
-   lograste, sube 20%; si cargaste menos, sube menos). Si en el ciclo anterior ese ejercicio solo se hizo
-   en la fase "base", la base queda igual. Los días de descarga nunca cuentan como base.
-   Las fases van por FECHA (no por sesiones hechas). Todo se redondea hacia arriba al kilo entero.
-   Es una SUGERENCIA: el peso se puede cambiar a mano y lo que guardás es lo que vale. */
+   YA NO SE SUMA +20% AUTOMÁTICO. Cada ejercicio tiene:
+     · BASE  = el peso de siempre (lo que muestra "Kilos").
+     · AGREGADO = lo que vas sumando a mano en las semanas 1 y 2, a medida que el cuerpo da.
+     · Lo que levantás = base + agregado (el número naranja). Se guarda en "peso" como siempre.
+   Semanas 1 y 2: base + agregado (el agregado se arrastra al próximo día de ese ejercicio).
+   Semana 3: vuelve a la base, sin agregados. Semana 4: descarga al 50% de la base.
+   Ciclo siguiente = ESPEJO del anterior: misma base y mismos agregados del mismo día del ciclo
+   anterior (sin sumar otro 20%). Si cambiás la base a mano, esa base nueva pasa para adelante. */
 const CYCLE_ANCHOR = "2026-10-05"; // lunes
 // El plan de incremento llega hasta fin de diciembre: 3 ciclos completos (05/10, 02/11, 30/11), el último
 // termina con la descarga del 21 al 25/12. Después NO arranca otro ciclo: aparece el aviso para resetear
@@ -1970,7 +2075,7 @@ const CYCLE_END = "2026-12-25"; // viernes, fin de la última descarga
 const CYCLE_WARN_FROM = "2026-12-21"; // semana de la última descarga: aviso anticipado
 const PHASES = {
   0: { f:1.00, title:"Sin cambios", what:"peso de siempre", short:"igual" },
-  1: { f:1.20, title:"Fase 1", what:"subí +20%", short:"+20%" },
+  1: { f:1.00, title:"Fase 1", what:"base + agregado", short:"+ agregado" },
   2: { f:1.00, title:"Fase 2", what:"volvé a la base", short:"base" },
   3: { f:0.50, title:"Fase 3", what:"descarga al 50%", short:"50%" },
 };
@@ -1991,67 +2096,74 @@ function cycleInfo(ds){
 }
 function phaseFor(ds){ return cycleInfo(ds).phase; }
 function ceilKg(x){ return Math.ceil(Math.round(x*1000)/1000); } // el round evita que 10×1.2=12.0000001 suba a 13
-function baseWeightFor(exId, ds){
-  const ci = cycleInfo(ds);
-  if(ci.phase===0) return null;
-  const recs = [];
-  Object.keys(state.sessions).filter(d=>d<ci.cycleStart).forEach(d=>{
-    const en = (state.sessions[d].entries||[]).find(e=>e.exerciseId===exId);
-    if(!en || !Number(en.peso)) return;
-    const c = cycleInfo(d);
-    if(c.phase===3) return; // la descarga no cuenta
-    recs.push({ d, w:Number(en.peso), c });
-  });
-  if(!recs.length) return null;
-  recs.sort((x,y)=> x.d<y.d?1:-1);
-  const top = recs[0];
-  if(top.c.phase===1){
-    return Math.max(...recs.filter(r=>r.c.cycle===top.c.cycle && r.c.phase===1).map(r=>r.w));
+// ¿Este día usa base + agregado? (semanas 1 a 3 del ciclo; la descarga usa el 50% directo)
+function usesBase(ds){ const p=phaseFor(ds); return p===1 || p===2; }
+// Base y agregado de un registro guardado. Los registros viejos (sin "base") de la semana 1 del primer
+// ciclo se cargaron con el +20% automático: se separan en base (peso de antes del ciclo) + agregado.
+function entryBE(en, ds){
+  const w = Number(en.peso)||0;
+  if(en.base!==undefined && en.base!=="" && en.base!==null) return { base:Number(en.base)||0, extra:Number(en.extra)||0 };
+  if(phaseFor(ds)===1){
+    const b = baseBefore(en.exerciseId, cycleInfo(ds).cycleStart);
+    if(b && w>=b) return { base:b, extra:w-b };
   }
-  return top.w;
+  return { base:w, extra:0 };
 }
-// Peso sugerido para un día sin guardar:
-//  · Fase 1 (+20%): si ya cargaste ese ejercicio en esta misma fase (ej: la 1ª semana), se RESPETA tu
-//    último peso cargado (lo que modificaste a mano pasa a la semana siguiente). Si no, base +20%.
-//  · Fase 2 (base) y Fase 3 (descarga): manda el esquema (base / 50% de la base), aunque hayas
-//    modificado el peso antes — es lo pedido: "entra dentro del esquema de mantención y descarga".
-//  · Ejercicio nuevo sin base de un ciclo anterior: se usa tu último peso (sin contar descargas)
-//    y en la descarga el 50% de ese peso.
-function lastNonDeloadWeight(exId, ds){
+// Última base conocida de ese ejercicio antes de la fecha (la descarga no cuenta).
+function baseBefore(exId, ds){
+  if(!exId) return null;
   const dates = Object.keys(state.sessions).filter(d=>d<ds).sort();
   for(let i=dates.length-1;i>=0;i--){
-    if(cycleInfo(dates[i]).phase===3) continue;
-    const en = (state.sessions[dates[i]].entries||[]).find(e=>e.exerciseId===exId);
-    if(en && Number(en.peso)) return Number(en.peso);
+    const d = dates[i];
+    if(cycleInfo(d).phase===3) continue;
+    const en = (state.sessions[d].entries||[]).find(e=>e.exerciseId===exId);
+    if(!en || !Number(en.peso)) continue;
+    return entryBE(en, d).base || null;
   }
   return null;
 }
-function suggestedWeight(exId, ds){
-  const ci = cycleInfo(ds), ph = ci.phase;
-  if(ph===1){
-    const inPhase = Object.keys(state.sessions).filter(d=>d>=ci.phaseStart && d<ds).sort();
-    for(let i=inPhase.length-1;i>=0;i--){
-      const en = (state.sessions[inPhase[i]].entries||[]).find(e=>e.exerciseId===exId);
-      if(en && Number(en.peso)) return String(en.peso);
+function baseWeightFor(exId, ds){ return phaseFor(ds)===0 ? null : baseBefore(exId, ds); }
+// Agregado sugerido (solo semanas 1 y 2): el último que usaste en esta fase; si todavía no hiciste
+// ese ejercicio en la fase, el ESPEJO del ciclo anterior (mismo punto del mes pasado); si no, 0.
+function suggestedExtra(exId, ds){
+  const ci = cycleInfo(ds);
+  if(ci.phase!==1 || !exId) return 0;
+  const pick = (from, to)=>{
+    const dates = Object.keys(state.sessions).filter(d=>d>=from && d<to && cycleInfo(d).phase===1).sort();
+    for(let i=dates.length-1;i>=0;i--){
+      const en = (state.sessions[dates[i]].entries||[]).find(e=>e.exerciseId===exId);
+      if(en && Number(en.peso)) return entryBE(en, dates[i]).extra;
     }
-  }
-  if(ph>0){
-    const b = baseWeightFor(exId, ds);
-    if(b) return String(ceilKg(b*PHASES[ph].f));
-    const lw = lastNonDeloadWeight(exId, ds);
-    if(lw) return String(ph===3 ? ceilKg(lw*0.5) : lw);
-  }
-  const last = lastSessionFor(exId, ds);
-  return last ? last.peso : "";
+    return null;
+  };
+  const here = pick(ci.phaseStart, ds);
+  if(here!==null) return here;
+  if(ci.cycle>0){ const m = pick(addDays(ci.phaseStart,-28), addDays(ds,-27)); if(m!==null) return m; }
+  return 0;
 }
+// Peso sugerido para un día sin guardar -> {peso, base?, extra?}
+function suggestedBE(exId, ds){
+  const ph = phaseFor(ds);
+  const last = lastSessionFor(exId, ds);
+  const lastW = last && Number(last.peso) ? Number(last.peso) : null;
+  if(ph===0 || !exId) return { peso: last ? last.peso : "" };
+  const b = baseBefore(exId, ds) || lastW;
+  if(!b) return ph===3 ? { peso:"" } : { peso:"", base:"", extra:0 };
+  if(ph===3) return { peso:String(ceilKg(b*0.5)) };
+  const extra = ph===1 ? suggestedExtra(exId, ds) : 0;
+  return { peso:String(b+extra), base:String(b), extra };
+}
+function suggestedWeight(exId, ds){ return suggestedBE(exId, ds).peso; }
+// Kilos totales de un registro: base + agregado.
+function applyBE(en){ if(en.base!==undefined){ en.extra = Number(en.extra)||0; en.peso = Number(en.base) ? String(Number(en.base)+en.extra) : ""; } }
 function fmtShort(ds){ return ds.slice(8,10)+"/"+ds.slice(5,7); }
 function prefillEntry(exId, dateStr, planSeries, planReps){
   const last = lastSessionFor(exId, dateStr);
-  return {
+  const sw = exId ? suggestedBE(exId, dateStr) : (usesBase(dateStr) ? { peso:"", base:"", extra:0 } : { peso:"" });
+  return Object.assign({
     series: planSeries!=null ? planSeries : (last ? last.series : 3),
     reps: planReps!=null ? planReps : (last ? last.reps : 10),
-    peso: exId ? suggestedWeight(exId, dateStr) : ""
-  };
+  }, sw);
 }
 
 let dayDraft = null; // {dateStr, entries, notes} — the day currently shown/edited on la pestaña Hoy
@@ -2066,7 +2178,8 @@ function syncDayDraftFromDom(){
   if(!root) return;
   root.querySelectorAll('[data-role="series"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(en) en.series = sel.value; });
   root.querySelectorAll('[data-role="reps"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(en) en.reps = sel.value; });
-  root.querySelectorAll('[data-role="peso"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(en) en.peso = sel.value; });
+  root.querySelectorAll('[data-role="peso"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(!en) return; if(en.base!==undefined){ en.base = sel.value; applyBE(en); } else en.peso = sel.value; });
+  root.querySelectorAll('[data-role="extra"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(!en) return; en.extra = Number(sel.value)||0; applyBE(en); });
   root.querySelectorAll('[data-role="set-reps"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; const st=en&&en.detalle&&en.detalle[Number(sel.dataset.si)]; if(st) st.reps = sel.value; });
   root.querySelectorAll('[data-role="set-peso"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; const st=en&&en.detalle&&en.detalle[Number(sel.dataset.si)]; if(st) st.peso = sel.value; });
 }
@@ -2102,6 +2215,12 @@ function buildDayEditState(dateStr){
         return { exerciseId: en.exerciseId, series: en.sets.length||3, reps: (en.sets[0]&&en.sets[0].reps)||10, peso: maxW };
       }
       return en;
+    });
+    // semanas 1 a 3: separar base + agregado para mostrarlos (no cambia nada guardado hasta que guardes)
+    if(usesBase(dateStr)) entries.forEach(en=>{
+      if(!en.exerciseId || en.base!==undefined) return;
+      if(Number(en.peso)){ const be = entryBE(en, dateStr); en.base = String(be.base); en.extra = be.extra; }
+      else { en.base = ""; en.extra = 0; }
     });
   }else{
     const planned = state.weekPlan[dow] || [];
@@ -2225,8 +2344,9 @@ function renderCalendario(){
     const planItems = state.weekPlan[c.dow] || [];
     const session = state.sessions[c.dateStr];
     const hasData = !!(session && session.entries && session.entries.length);
-    const logged = hasData && c.dateStr < t;           // "Registrado" recién cuando el día ya pasó
-    const inProgress = hasData && c.dateStr === t;     // hoy: en curso
+    const done = hasData && dayClosed(c.dateStr);
+    const logged = hasData && (c.dateStr < t || done);  // pasado, o hoy ya cerrado / con todas las series hechas
+    const inProgress = hasData && c.dateStr === t && !done;
     const mark = hasData ? null : dayMark(c.dateStr);   // si entrenaste ese día, cuenta normal
     const hol = FERIADOS_2026[c.dateStr] && !mark ? (FERIADOS_2026[c.dateStr]) : null;
     const missed = !hasData && !mark && planItems.length && c.dateStr < t;
@@ -2417,6 +2537,13 @@ function nf(n, dec){ return Number(n||0).toLocaleString("es-AR",{maximumFraction
 function mondayOf(ds){ const d=dsToDate(ds); const k=(d.getDay()+6)%7; d.setDate(d.getDate()-k); return todayStr(d); }
 function dayKg(ds){ const s=state.sessions[ds]; return s ? volumeFor(s.entries) : 0; }
 function dayMin(ds){ return (timerMsFor(ds)||0)/60000; }
+// Día cerrado: tocaste "Finalizar" en el cronómetro, o hiciste todas las series de todos los ejercicios.
+function dayClosed(ds){
+  const s = state.sessions[ds]; if(!s) return false;
+  if(s.cerrado) return true;
+  const ens = (s.entries||[]).filter(e=>e.exerciseId);
+  return ens.length>0 && ens.every(e=> Array.isArray(e.detalle) && e.detalle.length>0 && e.detalle.every(z=>z.ok));
+}
 function dayTrained(ds){ const s=state.sessions[ds]; return !!(s && (s.entries||[]).some(e=>Number(e.peso)||Number(e.series))); }
 function fmtMin(m){ m=Math.round(m||0); if(m<60) return m+" min"; return Math.floor(m/60)+" h "+String(m%60).padStart(2,"0")+" min"; }
 function weekLabel(mon){
@@ -2739,7 +2866,7 @@ function render(){
   else { dot.className="storage-dot local"; txt.textContent="Conectando…"; }
 
   document.querySelectorAll(".view").forEach(v=> v.classList.toggle("active", v.dataset.view===state.view));
-  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"]};
+  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], guardar:["Guardar","Cómo subir una actualización de la app, paso a paso"]};
   document.getElementById("view-title").textContent = titles[state.view][0];
   document.getElementById("view-sub").textContent = titles[state.view][1];
   const _fd = new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
@@ -2751,7 +2878,36 @@ function render(){
   else if(state.view==="semana") renderSemana();
   else if(state.view==="ejercicios") renderEjercicios();
   else if(state.view==="progreso") renderProgreso();
+  else if(state.view==="guardar") renderGuardar();
 }
+/* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
+const GUIA_PASOS = [
+  { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
+  { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
+  { t:"Abrir GitHub", d:["Entrá a <b>github.com</b> → tu repositorio <b>entrenador</b>"] },
+  { t:"Subir", d:["<b>Add file</b> → <b>Upload files</b>","Arrastrá <b>TODO lo de adentro</b> de la carpeta (no la carpeta)"] },
+  { t:"Confirmar", d:["Botón verde <b>Commit changes</b>"] },
+  { t:"Verificar", d:["Esperá <b>1–2 minutos</b>","Cerrá y abrí la app en el cel → listo ✓"] },
+];
+let guiaHechos = {};
+function renderGuardar(){
+  const el = document.getElementById("view-guardar"); if(!el) return;
+  const all = GUIA_PASOS.every((_,i)=>guiaHechos[i]);
+  el.innerHTML = `<div class="today-panel guia">
+    <div class="guia-root">📦 ACTUALIZAR LA APP</div>
+    <ol class="guia-tree">${GUIA_PASOS.map((p,i)=>`<li class="${guiaHechos[i]?"ok":""}">
+      <button type="button" class="guia-chk" data-guia="${i}" aria-pressed="${!!guiaHechos[i]}" aria-label="Paso ${i+1} hecho">${SET_CHECK}</button>
+      <div><div class="guia-t">${i+1}. ${p.t.toUpperCase()}</div><ul>${p.d.map(x=>`<li>${x}</li>`).join("")}</ul></div></li>`).join("")}</ol>
+    <div class="guia-foot">${all?"✅ ¡Actualización subida!":"Tildá cada paso a medida que lo hacés."} <button type="button" class="btn btn-sm" data-guia="reset">Empezar de nuevo</button></div>
+    <div class="rules-note" style="margin-top:12px;">🔒 Tus entrenamientos no se tocan: están en la nube (Firebase), separados de la app.</div>
+  </div>`;
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest("[data-guia]"); if(!b) return;
+  const k = b.dataset.guia;
+  if(k==="reset") guiaHechos = {}; else guiaHechos[k] = !guiaHechos[k];
+  renderGuardar();
+});
 
 /* ======================= MODALS ======================= */
 const overlay = document.getElementById("overlay");
@@ -2784,7 +2940,7 @@ function dayDetailHtml(dateStr){
   const head = `<div class="modal-head"><div><h2 style="text-transform:capitalize;">${fmtDateLong(dateStr)}</h2>${tms>=60000?`<div class="day-time">⏱ Tiempo de entreno: ${fmtDur(tms)}</div>`:""}`;
 
   if(!entries.length && planItems.length){
-    // Vista previa del día planificado: series×reps de la rutina + peso sugerido por el ciclo (+20% / base / 50%).
+    // Vista previa del día planificado: series×reps de la rutina + peso sugerido por el ciclo (base + agregado / base / 50%).
     const ph = phaseFor(dateStr), isFut = dateStr > todayStr();
     const phLbl = ph===0 ? (dateStr > CYCLE_END ? "Plan terminado · peso de siempre" : "Sin cambios · peso de siempre") : `${PHASES[ph].title} · ${PHASES[ph].what}`;
     let tSeries = 0;
@@ -2793,7 +2949,7 @@ function dayDetailHtml(dateStr){
       const pf = prefillEntry(it.exerciseId, dateStr, it.sets, it.reps);
       tSeries += Number(pf.series)||0;
       const b = ph>0 ? baseWeightFor(it.exerciseId, dateStr) : null;
-      const ref = b ? `${PHASES[ph].short} de ${b} kg` : (pf.peso ? "último peso" : "sin dato");
+      const ref = b ? (ph===1 ? `base ${b}${Number(pf.extra)?` + ${pf.extra} agregado`:""} kg` : ph===2 ? `base ${b} kg` : `50% de ${b} kg`) : (pf.peso ? "último peso" : "sin dato");
       // Cuánto cambia contra el último peso que cargaste de verdad en ese ejercicio
       const lastS = lastSessionFor(it.exerciseId, dateStr);
       let dHtml = '<span style="color:var(--ink-2)">—</span>';
@@ -2977,6 +3133,11 @@ function renderExerciseEditor(){
 }
 
 /* ---- Day editor (inline, embedded in the Hoy tab) ---- */
+function extraOptionsHtml(selected){
+  let out = '';
+  for(let i=0;i<=40;i++) out += `<option value="${i}" ${Number(selected||0)===i?"selected":""}>${i===0?"0":"+"+i}</option>`;
+  return out;
+}
 function pesoOptionsHtml(selected){
   let out = '<option value="">— kg —</option>';
   for(let i=1;i<=200;i++) out += `<option value="${i}" ${Number(selected)===i?"selected":""}>${i}</option>`;
@@ -3039,10 +3200,9 @@ function phaseHint(exId, dateStr){
   const ph = phaseFor(dateStr);
   if(ph===0) return dateStr > CYCLE_END ? "Plan terminado · resetear rutinas · " : "Sin cambios hasta el lun 05/10 · ";
   const b = baseWeightFor(exId, dateStr);
-  const sw = suggestedWeight(exId, dateStr);
-  if(b && sw && Number(sw)!==ceilKg(b*PHASES[ph].f)) return `F${ph} · respeta tu peso de la semana pasada: ${sw} kg (esquema: ${ceilKg(b*PHASES[ph].f)}) · `;
-  if(!b) return sw ? (ph===1 ? `F1 · ejercicio nuevo, respeta tu peso: ${sw} kg · ` : `F${ph} ${PHASES[ph].short} de tu último peso → ${sw} kg · `) : "";
-  return `F${ph} ${PHASES[ph].short} de ${b} kg → ${ceilKg(b*PHASES[ph].f)} kg · `;
+  if(ph===1) return b ? `Sem. 1-2 · base ${b} kg + lo que agregues · ` : "Sem. 1-2 · ejercicio nuevo: cargá tu base · ";
+  if(ph===2) return b ? `Sem. 3 · vuelve a la base ${b} kg, sin agregados · ` : "Sem. 3 · base, sin agregados · ";
+  return b ? `Sem. 4 · descarga: 50% de ${b} → ${ceilKg(b*0.5)} kg · ` : "Sem. 4 · descarga al 50% · ";
 }
 function dayEditorBody(d){
   const rows = d.entries.map((en,ei)=>{
@@ -3056,7 +3216,7 @@ function dayEditorBody(d){
           <button type="button" class="btn btn-icon btn-sm" data-action="manual-ex-cancel" title="Cancelar">${ICON.close}</button>
         </div>`
       : `<select data-role="ejercicio" data-ei="${ei}">${exerciseOptionsHtml(en.exerciseId)}</select>`;
-    return `<div class="day-ex-card ${en.exerciseId?exCardState(en):""}" data-card-ei="${ei}">
+    return `<div class="day-ex-card ${en.exerciseId?exCardState(en):""} ${(en.base!==undefined && phaseFor(d.dateStr)===1)?"has-agr":""}" data-card-ei="${ei}">
       <div class="day-ex-head">
         <div class="day-ex-thumb" ${ex?`data-action="open-exercise" data-id="${ex.id}" title="Ver cómo se hace"`:""}>${exThumb(ex)}</div>
         <div class="day-ex-name-wrap"><div class="day-ex-name">${ex ? ex.n : "—"}</div>${en.exerciseId?exNoteLine(en.exerciseId):""}</div>
@@ -3067,7 +3227,8 @@ function dayEditorBody(d){
         <div class="day-field wide"><label>Ejercicio</label>${ejercicioField}</div>
         <div class="day-field"><label>Series</label><select data-role="series" data-ei="${ei}">${numberOptionsHtml(10, en.series)}</select></div>
         <div class="day-field"><label>Repeticiones</label><select data-role="reps" data-ei="${ei}">${numberOptionsHtml(30, en.reps)}</select></div>
-        <div class="day-field"><label>Kilos</label><select data-role="peso" data-ei="${ei}">${pesoOptionsHtml(en.peso)}</select></div>
+        <div class="day-field"><label>${en.base!==undefined?"Kilos (base)":"Kilos"}</label><select data-role="peso" data-ei="${ei}">${pesoOptionsHtml(en.base!==undefined?en.base:en.peso)}</select></div>
+        ${(en.base!==undefined && phaseFor(d.dateStr)===1)?`<div class="day-field agr-field"><label>Agregado</label><div class="agr-row"><select data-role="extra" data-ei="${ei}">${extraOptionsHtml(en.extra)}</select>${Number(en.peso)?`<span class="lift-total" title="Lo que levantás: base + agregado">${en.peso}<small>kg</small></span>`:""}</div></div>`:""}
       </div>
       ${en.exerciseId?setsBlockHtml(en, ei):""}
       <div class="day-ex-foot">
@@ -3114,8 +3275,10 @@ function wireDayEditorEvents(){
       }
       const en = dayDraft.entries[ei];
       en.exerciseId = e.target.value;
-      const sw = suggestedWeight(en.exerciseId, dayDraft.dateStr);
-      if(sw) en.peso = sw;
+      // ejercicio nuevo en esta fila: arranca limpio (sin las series tildadas del anterior) y con su peso
+      delete en.detalle; delete en.empezado; delete en.detenido; delete en.abierto; delete en.base; delete en.extra;
+      Object.assign(en, suggestedBE(en.exerciseId, dayDraft.dateStr));
+      if(usesBase(dayDraft.dateStr) && en.base===undefined && phaseFor(dayDraft.dateStr)!==3){ en.base = en.peso||""; en.extra = 0; }
       dayDraftDirty = true;
       redrawDayEditor();
     });
@@ -3199,6 +3362,7 @@ document.body.addEventListener("click", async (e)=>{
   if(action==="timer-stop"){ await timerStop(); return; }
   if(action==="timer-reset"){ await timerReset(el); return; }
   if(action==="alarm-settings"){ openAlarmModal(); return; }
+  if(action==="rest-pick"){ restSound = el.dataset.sound; try{ localStorage.setItem("entrenador-rest-sound", restSound); }catch(e){} try{ playAlarmSound(restSound); }catch(e){} openAlarmModal(); return; }
   if(action==="alarm-pick"){ alarmSound = el.dataset.sound; try{ localStorage.setItem("bitacora-alarm-sound", alarmSound); }catch(e){} playBeep(); openAlarmModal(); return; }
   if(action==="media-open"){ openMediaModal(); return; }
   if(action==="media-play"){ mediaPicked(el); return; }
@@ -3657,7 +3821,7 @@ document.body.addEventListener("click", async e=>{
 /* ======================= SERIES UNA POR UNA + DESCANSO + NOTAS POR MÁQUINA =======================
    · Cada ejercicio muestra sus series (S1, S2, S3…). Al tildar una, arranca sola la cuenta del descanso.
    · Cada serie puede tener sus propias repeticiones y kilos; al guardar, el peso del ejercicio es el mayor
-     de las series (así las reglas del ciclo +20% / base / 50% siguen funcionando igual).
+     de las series (así las reglas del ciclo base + agregado / base / 50% siguen funcionando igual).
    · Notas por ejercicio (no por día): ajuste del asiento, agarre, qué máquina. Se ven siempre arriba. */
 const NOTE_ICON = '<svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h9l3.5 3.5v13.5H6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 11h6M9 14.5h6M9 18h3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
 const SET_CHECK = '<svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -3673,6 +3837,8 @@ function normalizeEntrySets(en){
   ensureDetalle(en);
   const ws = en.detalle.map(st=>Number(st.peso)||0).filter(Boolean);
   if(ws.length) en.peso = String(Math.max(...ws));
+  // si cambiaste los kilos de una serie, el agregado se recalcula solo (lo levantado − la base)
+  if(en.base!==undefined && Number(en.base) && Number(en.peso)) en.extra = Math.max(0, Number(en.peso)-Number(en.base));
 }
 function setsBlockHtml(en, ei){
   const det = ensureDetalle(en);
@@ -3698,12 +3864,15 @@ function refreshNoteButtons(){
 }
 // Cambiar Series / Repeticiones / Kilos de arriba: ajusta las series que todavía no hiciste.
 document.addEventListener("change", e=>{
-  const sel = e.target.closest && e.target.closest('#day-editor [data-role="series"], #day-editor [data-role="reps"], #day-editor [data-role="peso"]');
+  const sel = e.target.closest && e.target.closest('#day-editor [data-role="series"], #day-editor [data-role="reps"], #day-editor [data-role="peso"], #day-editor [data-role="extra"]');
   if(!sel || !dayDraft) return;
   syncDayDraftFromDom();
   const en = dayDraft.entries[Number(sel.dataset.ei)]; if(!en) return;
   ensureDetalle(en);
-  en.detalle.forEach(st=>{ if(!st.ok){ st.reps = String(en.reps||""); st.peso = String(en.peso||""); } });
+  // Cambia las series que faltan; si ya estaban todas hechas, estás corrigiendo el registro: cambian todas
+  // (antes, al guardar, el peso volvía al de las series tildadas y parecía que no te dejaba cambiarlo).
+  const todas = en.detalle.every(st=>st.ok);
+  en.detalle.forEach(st=>{ if(todas || !st.ok){ st.reps = String(en.reps||""); st.peso = String(en.peso||""); } });
   dayDraftDirty = true;
   redrawDayEditor(); refreshNoteButtons();
 });
@@ -3809,22 +3978,24 @@ document.addEventListener("click", e=>{
 });
 
 /* ---- Temporizador de descanso ---- */
-const Rest = { secs: 45, endAt: 0, tick: null };   // descanso entre series: 45 segundos
-try{ const v = Number(localStorage.getItem("entrenador-descanso-45")); if(v>=15 && v<=600) Rest.secs = v; }catch(_){}
+const REST_SECS = 45;                              // descanso entre series: SIEMPRE 45 segundos
+const Rest = { secs: REST_SECS, endAt: 0, tick: null };
+try{ localStorage.removeItem("entrenador-descanso-45"); }catch(_){}
 function restFmt(ms){ const t=Math.max(0,Math.ceil(ms/1000)); return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); }
 function restBar(){
   let b = document.getElementById("rest-bar");
   if(!b){ b=document.createElement("div"); b.id="rest-bar"; b.className="rest-bar"; b.setAttribute("role","timer"); document.body.appendChild(b);
     b.addEventListener("click", ev=>{ const a = ev.target.closest("[data-rest]"); if(!a) return; const k=a.dataset.rest;
       if(k==="skip") restStop();
-      else { const d = k==="plus"?15:-15; Rest.secs = Math.min(600, Math.max(15, Rest.secs+d)); try{ localStorage.setItem("entrenador-descanso-45", String(Rest.secs)); }catch(_){}
+      else { const d = k==="plus"?15:-15;   // ±15 solo para este descanso; el próximo vuelve a 45 s
         Rest.endAt = Math.max(Date.now()+1000, Rest.endAt + d*1000); restRender(); if(!Rest.tick) Rest.tick=setInterval(restRender,250); } });
   }
   return b;
 }
 function restStart(){
   try{ ensureAudio(); }catch(_){}
-  Rest.endAt = Date.now() + Rest.secs*1000;
+  Rest.secs = REST_SECS;
+  Rest.endAt = Date.now() + REST_SECS*1000;
   const b = restBar(); b.hidden = false; b.classList.remove("blink");
   clearInterval(Rest.tick); Rest.tick = setInterval(restRender, 250); restRender();
 }
@@ -3844,7 +4015,8 @@ function restRender(){
   if(left <= 0){
     clearInterval(Rest.tick); Rest.tick = null;
     b.hidden = true; b.classList.remove("blink");                      // a los 45 s se apaga
-    try{ restBells(); }catch(_){}                                       // campanadas fuertes al terminar el descanso
+    try{ playAlarmSound(restSound); }catch(_){}                         // sonido elegido al terminar el descanso
+    try{ undim(); }catch(_){}                                           // se ilumina para ver el próximo paso
     try{ if(navigator.vibrate) navigator.vibrate([400,150,400,150,800]); }catch(_){}
     return;
   }
@@ -3852,7 +4024,8 @@ function restRender(){
   b.innerHTML = `<div><div class="rl">Descanso · ${Rest.secs}s</div><div class="rt">${restFmt(left)}</div></div>
     <button type="button" data-rest="minus" aria-label="Restar 15 segundos">−15</button>
     <button type="button" data-rest="plus" aria-label="Sumar 15 segundos">+15</button>
-    <button type="button" data-rest="skip">Saltar</button>`;
+    <button type="button" data-rest="skip">Saltar</button>
+    <button type="button" data-action="alarm-settings" title="Elegir sonido" aria-label="Elegir sonido del descanso">🔔</button>`;
 }
 
 /* ---- Notas por ejercicio (ajuste de la máquina) ---- */
@@ -4049,6 +4222,44 @@ if(window.__STANDALONE__){
     }, 5000);
   }, 1500);
 }
+
+/* ---- Solapas arriba: el logo y el estado de guardado pasan del menú lateral a la barra de solapas ---- */
+(function moveToTabs(){
+  const tabs = document.getElementById("toptabs"); if(!tabs) return;
+  const brand = document.querySelector(".sidebar .brand"); if(brand) tabs.insertBefore(brand, tabs.firstChild);
+  const pill = document.getElementById("storage-pill"); if(pill) tabs.appendChild(pill);
+  const who = document.querySelector(".who-line"); if(who){ who.style.cssText="display:flex;gap:8px;align-items:center;font-size:.72rem;color:var(--ink-2);margin-left:12px;flex:none;"; tabs.appendChild(who); }
+})();
+
+/* ---- Pantalla siempre prendida mientras entrenás + se oscurece sola ----
+   Solo con el cronómetro andando (botón "Iniciar"): la pantalla NO se apaga
+   (Wake Lock). Si no la tocás por 25 s se oscurece (capa negra), y con un toque vuelve.
+   Si vos bloqueás el celular con el botón, se apaga normal. */
+const DIM_AFTER_MS = 25000;
+let lastTouch = Date.now();
+// Solo mientras corre el cronómetro (desde "Iniciar" hasta "Finalizar").
+function entrenandoAhora(){ return !!runningTimerDate(); }
+function dimLayer(){
+  let d = document.getElementById("dim-layer");
+  if(!d){
+    d = document.createElement("div"); d.id = "dim-layer"; d.textContent = "Tocá para volver";
+    const wake = ev=>{ ev.preventDefault(); ev.stopPropagation(); undim(); };
+    d.addEventListener("pointerdown", wake); d.addEventListener("click", wake);
+    document.body.appendChild(d);
+  }
+  return d;
+}
+function undim(){ lastTouch = Date.now(); const d=document.getElementById("dim-layer"); if(d) d.classList.remove("on"); }
+document.addEventListener("pointerdown", ()=>{ lastTouch = Date.now(); }, true);
+document.addEventListener("keydown", ()=>{ lastTouch = Date.now(); }, true);
+setInterval(()=>{
+  const on = entrenandoAhora();
+  if(on){ if(document.visibilityState==="visible") requestWakeLock(); }
+  else { if(wakeLock && !runningTimerDate()) releaseWakeLock(); }
+  const d = dimLayer();
+  if(on && Date.now()-lastTouch > DIM_AFTER_MS){ if(!d.classList.contains("on")) d.classList.add("on"); }
+  else if(!on && d.classList.contains("on")) d.classList.remove("on");
+}, 1000);
 
 /* ======================= INIT ======================= */
 initStorage();
