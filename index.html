@@ -1434,9 +1434,17 @@ async function saveWeekPlan(wp){
   if(db){ await db.doc("meta/weekplan").set(wp); }
   else{ localSave(); render(); }
 }
+async function deleteSession(dateStr){
+  delete state.sessions[dateStr];
+  if(state.futureSessions) delete state.futureSessions[dateStr];
+  if(db){ await db.doc("sessions/"+dateStr).delete(); }
+  else{ localSave(); render(); }
+}
+let autoTimer = null;   // si el cronómetro lo arrancó "Empezar" (y no vos), para poder deshacerlo si era solo para mirar
 async function saveSession(dateStr, data){
   const prev = state.sessions[dateStr];
   if(data.cerrado===undefined && prev && prev.cerrado) data = Object.assign({}, data, { cerrado:true });
+  if(data.registrado===undefined && prev && prev.registrado) data = Object.assign({}, data, { registrado:true });
   state.sessions[dateStr] = data;
   if(db){ await db.doc("sessions/"+dateStr).set(data); }
   else{ localSave(); render(); }
@@ -1688,8 +1696,15 @@ async function timerReset(el){
   if(el && !armConfirm(el, "¿Poner en 0? Tocá de nuevo")) return;
   releaseWakeLock(); stopKeepAlive();
   await saveTimer(d, { date:d, totalMs:0, runningSince:null });
-  lastBeepQuarter = 0;
-  toast("Cronómetro en cero");
+  lastBeepQuarter = 0; autoTimer = null;
+  // Si ese día no hiciste ninguna serie, se borra el "arranque": el día vuelve a quedar como no entrenado.
+  const ses = state.sessions[d];
+  if(ses && !sessionHasWork(ses)){
+    try{ await deleteSession(d); }catch(_){}
+    if(dayDraft && dayDraft.dateStr===d){ dayDraft = null; dayDraftDirty = false; }
+    try{ restStop(); }catch(_){}
+    toast("Cronómetro en cero · el día quedó sin empezar");
+  } else toast("Cronómetro en cero");
   if(state.view==="hoy" || state.view==="calendario") render();
 }
 
@@ -2257,7 +2272,7 @@ function renderHoy(){
   for(let i=6;i>=0;i--){
     const d = new Date(); d.setDate(d.getDate()-i);
     const ds = todayStr(d);
-    const has = !!(state.sessions[ds] && state.sessions[ds].entries && state.sessions[ds].entries.length);
+    const has = sessionHasWork(state.sessions[ds]);
     streak += `<button class="streak-dot ${has?"done":""} ${ds===t?"today":""} ${ds===viewDate?"viewing":""}" data-action="goto-day" data-date="${ds}" title="${fmtDateLong(ds)}">${d.getDate()}</button>`;
   }
 
@@ -2269,7 +2284,7 @@ function renderHoy(){
   let sessionsThisWeek=0, sessionsThisMonth=0;
   Object.keys(state.sessions).forEach(ds=>{
     const s = state.sessions[ds];
-    if(!s.entries || !s.entries.length) return;
+    if(!sessionHasWork(s)) return;
     const [y,m,d] = ds.split("-").map(Number);
     const dt = new Date(y,m-1,d);
     if(dt >= new Date(weekStart.getFullYear(),weekStart.getMonth(),weekStart.getDate())) sessionsThisWeek++;
@@ -2343,7 +2358,7 @@ function renderCalendario(){
     if(c.other){ grid += `<div class="cal-cell other"><div class="cal-daynum">${c.d}</div></div>`; return; }
     const planItems = state.weekPlan[c.dow] || [];
     const session = state.sessions[c.dateStr];
-    const hasData = !!(session && session.entries && session.entries.length);
+    const hasData = sessionHasWork(session);
     const done = hasData && dayClosed(c.dateStr);
     const logged = hasData && (c.dateStr < t || done);  // pasado, o hoy ya cerrado / con todas las series hechas
     const inProgress = hasData && c.dateStr === t && !done;
@@ -2373,7 +2388,7 @@ function renderCalendario(){
     week.forEach(c=>{
       timeMs += timerMsFor(c.dateStr);
       const s = state.sessions[c.dateStr];
-      if(s && s.entries && s.entries.length && c.dateStr <= t){
+      if(sessionHasWork(s) && c.dateStr <= t){
         sessions++;
         exCount += s.entries.length;
         s.entries.forEach(en=>{ seriesCount += Number(en.series)||0; });
@@ -2537,6 +2552,13 @@ function nf(n, dec){ return Number(n||0).toLocaleString("es-AR",{maximumFraction
 function mondayOf(ds){ const d=dsToDate(ds); const k=(d.getDay()+6)%7; d.setDate(d.getDate()-k); return todayStr(d); }
 function dayKg(ds){ const s=state.sessions[ds]; return s ? volumeFor(s.entries) : 0; }
 function dayMin(ds){ return (timerMsFor(ds)||0)/60000; }
+// ¿Ese día se entrenó de verdad? Cuenta si tildaste al menos una serie, si tocaste "Guardar registro"
+// o "Finalizar", o si es un registro viejo (sin series una por una). Abrir un ejercicio para mirarlo NO cuenta.
+function sessionHasWork(s){
+  if(!s || !Array.isArray(s.entries) || !s.entries.length) return false;
+  if(s.registrado || s.cerrado) return true;
+  return s.entries.some(e=> e.exerciseId && (Array.isArray(e.detalle) ? e.detalle.some(z=>z.ok) : (Number(e.peso)||Number(e.series))));
+}
 // Día cerrado: tocaste "Finalizar" en el cronómetro, o hiciste todas las series de todos los ejercicios.
 function dayClosed(ds){
   const s = state.sessions[ds]; if(!s) return false;
@@ -2544,7 +2566,7 @@ function dayClosed(ds){
   const ens = (s.entries||[]).filter(e=>e.exerciseId);
   return ens.length>0 && ens.every(e=> Array.isArray(e.detalle) && e.detalle.length>0 && e.detalle.every(z=>z.ok));
 }
-function dayTrained(ds){ const s=state.sessions[ds]; return !!(s && (s.entries||[]).some(e=>Number(e.peso)||Number(e.series))); }
+function dayTrained(ds){ return sessionHasWork(state.sessions[ds]); }
 function fmtMin(m){ m=Math.round(m||0); if(m<60) return m+" min"; return Math.floor(m/60)+" h "+String(m%60).padStart(2,"0")+" min"; }
 function weekLabel(mon){
   const a=dsToDate(mon), b=dsToDate(addDays(mon,4));
@@ -2710,7 +2732,7 @@ function resumenProgreso(){
   const monthStartStr = todayStr(new Date(now.getFullYear(), now.getMonth(), 1));
   let week=0, month=0;
   Object.keys(state.sessions).forEach(ds=>{
-    const s = state.sessions[ds]; if(!s.entries || !s.entries.length) return;
+    const s = state.sessions[ds]; if(!sessionHasWork(s)) return;
     const [y,m,d] = ds.split("-").map(Number), dt = new Date(y,m-1,d);
     if(dt >= ws && dt <= now) week++;
     if(y===now.getFullYear() && (m-1)===now.getMonth()) month++;
@@ -3503,13 +3525,13 @@ document.body.addEventListener("click", async (e)=>{
     syncDayDraftFromDom();
     dayDraft.entries = dayDraft.entries.filter(en=>en.exerciseId);
     dayDraft.entries.forEach(normalizeEntrySets);
-    await saveSession(dayDraft.dateStr, { date: dayDraft.dateStr, entries: dayDraft.entries, notes: dayDraft.notes });
+    await saveSession(dayDraft.dateStr, { date: dayDraft.dateStr, entries: dayDraft.entries, notes: dayDraft.notes, registrado:true });
     dayDraftDirty = false;
     // Lo que cambiaste en ejercicios (agregados, quitados, reemplazados, orden, series y reps) pasa a la
     // planificación de ese día de la semana, así la semana siguiente aparece igual. Solo si es el registro
     // más reciente de ese día de la semana: corregir un día viejo no pisa la rutina actual.
     const dowSaved = dowKeyFromDate(dsToDate(dayDraft.dateStr));
-    const newerSameDow = Object.keys(state.sessions).some(d=> d>dayDraft.dateStr && dowKeyFromDate(dsToDate(d))===dowSaved && (state.sessions[d].entries||[]).length);
+    const newerSameDow = Object.keys(state.sessions).some(d=> d>dayDraft.dateStr && dowKeyFromDate(dsToDate(d))===dowSaved && sessionHasWork(state.sessions[d]));
     let planMsg = "";
     if(!newerSameDow && dayDraft.entries.length){
       const newPlan = dayDraft.entries.map(en=>({ exerciseId:en.exerciseId, sets:Number(en.series)||3, reps:Number(en.reps)||10 }));
@@ -3886,6 +3908,7 @@ document.addEventListener("click", async e=>{
   ensureDetalle(en);
   const st = en.detalle[si]; if(!st) return;
   st.ok = !st.ok;
+  if(st.ok) autoTimer = null;
   dayDraftDirty = true;
   redrawDayEditor(); refreshNoteButtons();
   if(st.ok){
@@ -3952,7 +3975,20 @@ document.addEventListener("click", async e=>{
   ensureDetalle(en);
   let starting = false;
   if(exDone(en)){ en.abierto = !exOpen(en); }                       // terminado: ver / ocultar
-  else if(exActive(en)){ en.detenido = true; en.abierto = false; restStop(); toast("Ejercicio parado"); }   // en curso: parar
+  else if(exActive(en) && !en.detalle.some(z=>z.ok)){
+    // lo abriste solo para mirar (ninguna serie hecha): vuelve a quedar como si nunca lo hubieras tocado
+    delete en.empezado; delete en.detenido; en.abierto = false; restStop();
+    const nadaHoy = !dayDraft.entries.some(x=> x.exerciseId && (x.empezado || ensureDetalle(x).some(z=>z.ok)));
+    if(nadaHoy && autoTimer && dayDraft.dateStr===todayStr()){
+      try{ releaseWakeLock(); stopKeepAlive(); await saveTimer(todayStr(), { date:todayStr(), totalMs:autoTimer.prevMs, runningSince:null }); }catch(_){}
+      autoTimer = null;
+    }
+    if(nadaHoy && state.sessions[dayDraft.dateStr] && !sessionHasWork(state.sessions[dayDraft.dateStr])){
+      try{ await deleteSession(dayDraft.dateStr); }catch(_){}
+      dayDraftDirty = false; redrawDayEditor(); refreshNoteButtons(); toast("Sin empezar"); return;
+    }
+  }
+  else if(exActive(en)){ en.detenido = true; en.abierto = false; restStop(); toast("Ejercicio parado · quedan series"); }   // en curso con series hechas: parar
   else {                                                             // sin empezar o parado: arrancar
     starting = true;
     dayDraft.entries.forEach((x,i)=>{ if(i!==ei && x.exerciseId){ if(exActive(x)) x.detenido = true; x.abierto = false; } });  // los demás se contraen
@@ -3963,7 +3999,7 @@ document.addEventListener("click", async e=>{
   if(starting){
     const card = document.querySelector(`[data-card-ei="${ei}"]`);
     if(card) card.scrollIntoView({ behavior:"smooth", block:"start" });
-    if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ try{ await timerStart(); }catch(_){} }
+    if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ autoTimer = { prevMs: timerMsFor(todayStr()) }; try{ await timerStart(); }catch(_){} }
   }
   await autosaveDay();
 });
@@ -4170,7 +4206,7 @@ function monthComplianceHtml(y, m){
     if(ds > t) break;
     const wd = dsToDate(ds).getDay(); if(wd<1 || wd>5) continue;
     const dow = dowKeyFromDate(dsToDate(ds));
-    const s = state.sessions[ds], has = !!(s && s.entries && s.entries.length);
+    const s = state.sessions[ds], has = sessionHasWork(s);
     if(has){ plan++; done++; continue; }
     if(!(state.weekPlan[dow]||[]).length) continue;
     if(dayMark(ds)){ marked++; continue; }
