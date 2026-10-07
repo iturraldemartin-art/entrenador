@@ -2970,7 +2970,7 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v12";
+const APP_VERSION = "v13";
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3738,7 +3738,9 @@ const APPS_SOCIAL = [
 // instalada, cae al sitio web. Dentro de claude.ai (PC) quedan los links web normales.
 // Chrome solo deja abrir apps por su "esquema" (whatsapp://, spotify:…), no la pantalla de inicio de la app.
 const APP_INTENT = {
-  whatsapp:  { host:"send", scheme:"whatsapp", pkg:"com.whatsapp" },               // abre WhatsApp en la lista de chats ("Enviar a…")
+  // WhatsApp rechaza "send" vacío ("No se pudo abrir el enlace de este chat"): con un texto invisible
+  // (espacio de ancho cero) lo acepta y abre la lista de chats para elegir a quién escribir.
+  whatsapp:  { host:"send?text=%E2%80%8B", scheme:"whatsapp", pkg:"com.whatsapp" },
   spotify:   { host:"open", scheme:"spotify", pkg:"com.spotify.music" },           // abre Spotify en Inicio
   youtube:   { host:"www.youtube.com", scheme:"vnd.youtube", pkg:"com.google.android.youtube" },
   facebook:  { host:"www.facebook.com", scheme:"https", pkg:"com.facebook.katana" },
@@ -3748,7 +3750,7 @@ if(IS_ANDROID && window.__STANDALONE__){
   [APPS, APPS_SOCIAL].forEach(list=> list.forEach(a=>{
     const it = APP_INTENT[a.id]; if(!it) return;
     const store = "https://play.google.com/store/apps/details?id="+it.pkg;
-    a.url = `intent://${it.host}/#Intent;scheme=${it.scheme};package=${it.pkg};S.browser_fallback_url=${encodeURIComponent(store)};end`;
+    a.url = `intent://${it.host}${it.host.includes("?")?"":"/"}#Intent;scheme=${it.scheme};package=${it.pkg};S.browser_fallback_url=${encodeURIComponent(store)};end`;
     a.tgt = "_self";
   }));
 }
