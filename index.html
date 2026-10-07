@@ -405,6 +405,9 @@
     .topbar h1{ font-size:1.3rem; }
     .timer-box{ order:3; flex:1 1 100%; gap:5px; padding:7px 8px; }
     .timer-box .btn-icon{ width:30px; padding:0; }
+    .timer-box{ gap:3px; }
+    .timer-box .timer-val{ font-size:1.2rem; }
+    .timer-box .btn-icon{ width:27px; }
     .timer-box .btn-sm:not(.btn-icon){ padding-left:9px; padding-right:9px; }
     .timer-main{ flex:1; }
     .cal-grid{ gap:4px; }
@@ -661,6 +664,19 @@
   #dim-layer.on{ display:flex; animation:dimIn 1.2s ease; }
   @keyframes dimIn{ from{ background:rgba(0,0,0,0); } to{ background:rgba(0,0,0,.78); } }
   .day-close-btn{ font-size:1.05rem; }
+  .ali-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:12px 0; }
+  .ali-box{ background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:10px; text-align:center; }
+  .ali-box label{ display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2); margin-bottom:6px; }
+  .ali-box input{ width:100%; text-align:center; font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.4rem; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:6px 4px; color:var(--ink); }
+  .ali-agua{ display:flex; align-items:center; justify-content:center; gap:8px; }
+  .ali-agua b{ font-family:"Rajdhani",sans-serif; font-size:1.5rem; min-width:28px; }
+  .ali-agua button{ width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:1.2rem; cursor:pointer; }
+  .ali-meal{ margin-top:10px; }
+  .ali-meal label{ font-weight:600; font-size:.88rem; }
+  .ali-meal textarea{ width:100%; min-height:46px; resize:vertical; font:inherit; font-size:.92rem; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); margin-top:4px; }
+  .ali-hist{ width:100%; border-collapse:collapse; font-size:.86rem; margin-top:8px; }
+  .ali-hist td, .ali-hist th{ padding:6px 4px; border-bottom:1px solid var(--line); text-align:left; }
+  @media (max-width:760px){ .ali-grid{ grid-template-columns:repeat(3,1fr); gap:6px; } .ali-box input{ font-size:1.15rem; } }
   .idea-new textarea{ width:100%; min-height:84px; resize:vertical; font:inherit; font-size:.95rem; padding:10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); }
   .idea-tools{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .idea-tools .btn{ min-height:44px; }
@@ -777,6 +793,7 @@
     <section class="view" data-view="semana"><div id="view-semana"></div></section>
     <section class="view" data-view="ejercicios"><div id="view-ejercicios"></div></section>
     <section class="view" data-view="progreso"><div id="view-progreso"></div></section>
+    <section class="view" data-view="alimentacion"><div id="view-alimentacion"></div></section>
     <section class="view" data-view="guardar"><div id="view-guardar"></div></section>
   </main>
 
@@ -1834,6 +1851,7 @@ const ICON = {
   calendario: '<svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   semana: '<svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="9.5" width="4" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="17.5" y="9.5" width="4" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><path d="M6.5 12h11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
   ejercicios: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5.5" r="2.3" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v7M8 11h8M9 20l3-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  alimentacion: '<svg viewBox="0 0 24 24" fill="none"><path d="M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16.5 21V3c-2 1.2-3 3.8-3 7 0 1.6.9 2.6 3 2.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   guardar: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   progreso: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3.5-4 3 2.5L18 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   close: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
@@ -1855,6 +1873,7 @@ const NAVS = [
   {id:"semana", label:"Semana"},
   {id:"ejercicios", label:"Ejercicios"},
   {id:"progreso", label:"Progreso"},
+  {id:"alimentacion", label:"Alimentación"},
   {id:"guardar", label:"Guardar ideas"},
 ];
 function renderNav(){
@@ -2935,7 +2954,7 @@ function render(){
   else { dot.className="storage-dot local"; txt.textContent="Conectando…"; }
 
   document.querySelectorAll(".view").forEach(v=> v.classList.toggle("active", v.dataset.view===state.view));
-  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
+  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], alimentacion:["Alimentación","Peso corporal, agua, proteína y comidas del día"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
   document.getElementById("view-title").textContent = titles[state.view][0];
   document.getElementById("view-sub").textContent = titles[state.view][1];
   const _fd = new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
@@ -2947,10 +2966,11 @@ function render(){
   else if(state.view==="semana") renderSemana();
   else if(state.view==="ejercicios") renderEjercicios();
   else if(state.view==="progreso") renderProgreso();
+  else if(state.view==="alimentacion") renderAlimentacion();
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v10";
+const APP_VERSION = "v11";
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3713,6 +3733,18 @@ const APPS_SOCIAL = [
   { id:"facebook", name:"Facebook", url:"https://www.facebook.com/", svg:'<svg viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" rx="5.5" fill="#1877F2"/><path d="M13.6 21v-7.2h2.4l.4-2.8h-2.8V9.2c0-.8.2-1.4 1.4-1.4h1.5V5.3c-.3 0-1.1-.1-2.2-.1-2.2 0-3.6 1.3-3.6 3.7v2.1H8.3v2.8h2.4V21h2.9z" fill="#fff"/></svg>' },
   { id:"instagram", name:"Instagram", url:"https://www.instagram.com/", svg:'<svg viewBox="0 0 24 24"><defs><linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset=".85" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="0" y="0" width="24" height="24" rx="5.5" fill="url(#igGrad)"/><rect x="6.5" y="6.5" width="11" height="11" rx="3.5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.3" cy="7.7" r="1" fill="#fff"/></svg>' },
 ];
+// En la app instalada (Android) se abre la APP de verdad con un "intent" (no el link web, que en WhatsApp
+// daba "No se pudo abrir el enlace de este chat" y en Spotify "Algo salió mal"). Si la app no está
+// instalada, cae al sitio web. Dentro de claude.ai (PC) quedan los links web normales.
+const APP_PKG = { whatsapp:"com.whatsapp", spotify:"com.spotify.music", youtube:"com.google.android.youtube", facebook:"com.facebook.katana", instagram:"com.instagram.android" };
+if(IS_ANDROID && window.__STANDALONE__){
+  [APPS, APPS_SOCIAL].forEach(list=> list.forEach(a=>{
+    const pkg = APP_PKG[a.id]; if(!pkg) return;
+    const web = a.id==="whatsapp" ? "https://web.whatsapp.com/" : a.url;
+    a.url = `intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkg};S.browser_fallback_url=${encodeURIComponent(web)};end`;
+    a.tgt = "_self";
+  }));
+}
 let mediaNow = null;
 try{ mediaNow = JSON.parse(localStorage.getItem("bitacora-media-now")||"null"); }catch(e){}
 function mediaBody(){
@@ -3727,7 +3759,7 @@ function mediaBody(){
     <div class="media-title">📻 Radio</div><div class="media-list">${RADIOS.map(r=>item(r,"radio")).join("")}</div>
     <div class="media-title">📺 TV en vivo</div><div class="media-list">${CANALES.map(c=>item(c,"tv")).join("")}</div>
     <div class="media-title media-apps-title">Apps</div>
-    <div class="media-apps">${APPS.map(a=>`<a class="media-app" href="${a.url}" target="_blank" rel="noopener">${a.svg}${a.name}</a>`).join("")}</div>`;
+    <div class="media-apps">${APPS.map(a=>`<a class="media-app" href="${a.url}" target="${a.tgt||"_blank"}" rel="noopener">${a.svg}${a.name}</a>`).join("")}</div>`;
 }
 function mediaTileRadio(){
   const now = mediaNow ? `${mediaNow.kind==="radio"?"📻":"📺"} ${mediaNow.name}` : "Elegí una emisora o canal";
@@ -3741,7 +3773,7 @@ function mediaTileRadio(){
     <div class="mt-vsep"></div>
     <div class="mt-col mt-apps">
       <div class="stat-label">Redes</div>
-      ${APPS_SOCIAL.map(a=>`<a href="${a.url}" target="_blank" rel="noopener" title="${a.name}" aria-label="${a.name}">${a.svg}</a>`).join("")}
+      ${APPS_SOCIAL.map(a=>`<a href="${a.url}" target="${a.tgt||"_blank"}" rel="noopener" title="${a.name}" aria-label="${a.name}">${a.svg}</a>`).join("")}
     </div></div>`;
 }
 // Iconos del cuadro Apps: cuadrados llenos del mismo tamaño que FM / TV / Facebook / Instagram
@@ -3753,7 +3785,7 @@ const APPS_TILE_SVG = {
 function mediaTileApps(){
   // Forma de V como el dibujo de Martin: Spotify arriba a la izquierda, WhatsApp arriba a la derecha, YouTube abajo al medio
   const a = id=> APPS.find(x=>x.id===id);
-  const link = id=>{ const x=a(id); return `<a class="mt-v-${id}" href="${x.url}" target="_blank" rel="noopener" title="${x.name}" aria-label="${x.name}">${APPS_TILE_SVG[id]}</a>`; };
+  const link = id=>{ const x=a(id); return `<a class="mt-v-${id}" href="${x.url}" target="${x.tgt||"_blank"}" rel="noopener" title="${x.name}" aria-label="${x.name}">${APPS_TILE_SVG[id]}</a>`; };
   return `<div class="stat media-tile mt-appsv">
     <div class="stat-label">Apps</div>
     <div class="mt-vgrid">${link("spotify")}${link("whatsapp")}${link("youtube")}</div></div>`;
@@ -4366,6 +4398,77 @@ setInterval(()=>{
   if(on && Date.now()-lastTouch > DIM_AFTER_MS){ if(!d.classList.contains("on")) d.classList.add("on"); }
   else if(!on && d.classList.contains("on")) d.classList.remove("on");
 }, 1000);
+
+/* ======================= ALIMENTACIÓN =======================
+   Un registro por día en "alimentacion/<fecha>": peso corporal, vasos de agua, proteína aproximada y
+   lo que comiste en cada comida. Se guarda solo al escribir (en la nube, como los entrenamientos). */
+const ALI_MEALS = [["desayuno","☕ Desayuno"],["almuerzo","🍽️ Almuerzo"],["merienda","🥪 Merienda"],["cena","🌙 Cena"],["colaciones","🍎 Colaciones / pre y post entreno"]];
+let aliData = {}, aliDate = null, aliSaveT = null;
+function aliDay(d){ return aliData[d] || { date:d }; }
+function renderAlimentacion(){
+  const el = document.getElementById("view-alimentacion"); if(!el) return;
+  const d = aliDate || todayStr(); const r = aliDay(d);
+  const esc = t=> String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const hist = Object.keys(aliData).filter(k=>k<=todayStr()).sort().reverse().slice(0,10);
+  el.innerHTML = `<div class="today-panel">
+    <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;">
+      <button class="btn btn-icon" data-ali="prev" aria-label="Día anterior">${ICON.arrowUp.replace('viewBox','style="transform:rotate(-90deg)" viewBox')}</button>
+      <h2 style="margin:0;text-transform:capitalize;font-size:1.15rem;">${d===todayStr()?"Hoy · ":""}${fmtDateLong(d)}</h2>
+      <button class="btn btn-icon" data-ali="next" aria-label="Día siguiente" ${d>=todayStr()?"disabled":""}>${ICON.arrowUp.replace('viewBox','style="transform:rotate(90deg)" viewBox')}</button>
+    </div>
+    <div class="ali-grid">
+      <div class="ali-box"><label>Peso corporal</label><input type="number" inputmode="decimal" step="0.1" data-alif="peso" value="${esc(r.peso)}" placeholder="kg"></div>
+      <div class="ali-box"><label>Agua (vasos)</label><div class="ali-agua"><button type="button" data-ali="agua-">−</button><b>${Number(r.agua)||0}</b><button type="button" data-ali="agua+">+</button></div></div>
+      <div class="ali-box"><label>Proteína (g)</label><input type="number" inputmode="numeric" step="5" data-alif="proteina" value="${esc(r.proteina)}" placeholder="g"></div>
+    </div>
+    ${ALI_MEALS.map(([k,l])=>`<div class="ali-meal"><label>${l}</label><textarea data-alif="${k}" placeholder="¿Qué comiste?">${esc(r[k])}</textarea></div>`).join("")}
+    <div class="ali-meal"><label>📝 Notas (cómo te sentiste, hambre, energía…)</label><textarea data-alif="notas">${esc(r.notas)}</textarea></div>
+    <p style="font-size:.78rem;color:var(--ink-2);margin:10px 0 0;" id="ali-status">Se guarda solo mientras escribís.</p>
+  </div>
+  ${hist.length?`<div class="today-panel"><h3 class="pg-h3" style="margin-top:0;">Últimos días</h3><table class="ali-hist"><tr><th>Día</th><th>Peso</th><th>Agua</th><th>Proteína</th></tr>
+    ${hist.map(k=>{ const x=aliData[k]; return `<tr><td><button class="pg-exlink" data-ali="go" data-d="${k}">${fmtShort(k)}</button></td><td>${x.peso?x.peso+" kg":"—"}</td><td>${x.agua?x.agua+" 🥛":"—"}</td><td>${x.proteina?x.proteina+" g":"—"}</td></tr>`; }).join("")}</table></div>`:""}`;
+}
+async function aliSave(d){
+  const r = Object.assign({}, aliDay(d), { date:d });
+  aliData[d] = r;
+  const st = document.getElementById("ali-status");
+  try{
+    if(db){ await db.doc("alimentacion/"+d).set(r); }
+    else { try{ localStorage.setItem("entrenador-alimentacion", JSON.stringify(aliData)); }catch(_){} }
+    if(st) st.textContent = "✓ Guardado";
+  }catch(_){ if(st) st.textContent = "No se pudo guardar (sin conexión): se reintenta al volver la señal"; }
+}
+document.addEventListener("input", e=>{
+  const f = e.target && e.target.dataset && e.target.dataset.alif; if(!f) return;
+  const d = aliDate || todayStr();
+  aliData[d] = Object.assign({}, aliDay(d), { [f]: e.target.value });
+  clearTimeout(aliSaveT); aliSaveT = setTimeout(()=>aliSave(d), 700);
+  const st = document.getElementById("ali-status"); if(st) st.textContent = "Guardando…";
+});
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest("[data-ali]"); if(!b) return;
+  const k = b.dataset.ali, d = aliDate || todayStr();
+  if(k==="prev"){ aliDate = addDays(d,-1); return renderAlimentacion(); }
+  if(k==="next"){ if(d<todayStr()){ aliDate = addDays(d,1); renderAlimentacion(); } return; }
+  if(k==="go"){ aliDate = b.dataset.d; return renderAlimentacion(); }
+  if(k==="agua+" || k==="agua-"){
+    const r = aliDay(d); const v = Math.max(0, (Number(r.agua)||0) + (k==="agua+"?1:-1));
+    aliData[d] = Object.assign({}, r, { agua:v }); aliSave(d); renderAlimentacion();
+  }
+});
+(function aliInit(){
+  try{ const raw = localStorage.getItem("entrenador-alimentacion"); if(raw) aliData = JSON.parse(raw)||{}; }catch(_){}
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(db){ clearInterval(w); db.collection("alimentacion").onSnapshot(snap=>{
+      const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); });
+      aliData = t;
+      const focused = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.alif;
+      if(state.view==="alimentacion" && !focused) renderAlimentacion();
+    }, ()=>{}); }
+    else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
+  }, 500);
+})();
 
 /* ======================= GUARDAR IDEAS =======================
    Anotás (escribiendo o DICTANDO, que pasa la voz a texto al instante) o grabás un audio.
