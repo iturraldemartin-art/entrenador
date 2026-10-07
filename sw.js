@@ -3,7 +3,7 @@
      Si no hay señal, abre la última versión guardada en el celular.
    - Íconos, fotos, videos y librerías: se guardan la primera vez y después abren al instante.
    - Los datos (Firebase) NO pasan por acá: Firestore tiene su propio guardado sin conexión. */
-const VERSION = "entrenador-v11";
+const VERSION = "entrenador-v12";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./lib/firebase-app-compat.js", "./lib/firebase-auth-compat.js", "./lib/firebase-firestore-compat.js",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./imgpack.js"];

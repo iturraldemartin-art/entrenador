@@ -2970,7 +2970,7 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v11";
+const APP_VERSION = "v12";
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3736,12 +3736,19 @@ const APPS_SOCIAL = [
 // En la app instalada (Android) se abre la APP de verdad con un "intent" (no el link web, que en WhatsApp
 // daba "No se pudo abrir el enlace de este chat" y en Spotify "Algo salió mal"). Si la app no está
 // instalada, cae al sitio web. Dentro de claude.ai (PC) quedan los links web normales.
-const APP_PKG = { whatsapp:"com.whatsapp", spotify:"com.spotify.music", youtube:"com.google.android.youtube", facebook:"com.facebook.katana", instagram:"com.instagram.android" };
+// Chrome solo deja abrir apps por su "esquema" (whatsapp://, spotify:…), no la pantalla de inicio de la app.
+const APP_INTENT = {
+  whatsapp:  { host:"send", scheme:"whatsapp", pkg:"com.whatsapp" },               // abre WhatsApp en la lista de chats ("Enviar a…")
+  spotify:   { host:"open", scheme:"spotify", pkg:"com.spotify.music" },           // abre Spotify en Inicio
+  youtube:   { host:"www.youtube.com", scheme:"vnd.youtube", pkg:"com.google.android.youtube" },
+  facebook:  { host:"www.facebook.com", scheme:"https", pkg:"com.facebook.katana" },
+  instagram: { host:"www.instagram.com", scheme:"https", pkg:"com.instagram.android" },
+};
 if(IS_ANDROID && window.__STANDALONE__){
   [APPS, APPS_SOCIAL].forEach(list=> list.forEach(a=>{
-    const pkg = APP_PKG[a.id]; if(!pkg) return;
-    const web = a.id==="whatsapp" ? "https://web.whatsapp.com/" : a.url;
-    a.url = `intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkg};S.browser_fallback_url=${encodeURIComponent(web)};end`;
+    const it = APP_INTENT[a.id]; if(!it) return;
+    const store = "https://play.google.com/store/apps/details?id="+it.pkg;
+    a.url = `intent://${it.host}/#Intent;scheme=${it.scheme};package=${it.pkg};S.browser_fallback_url=${encodeURIComponent(store)};end`;
     a.tgt = "_self";
   }));
 }
