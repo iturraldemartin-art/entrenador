@@ -677,6 +677,158 @@
   .ali-hist{ width:100%; border-collapse:collapse; font-size:.86rem; margin-top:8px; }
   .ali-hist td, .ali-hist th{ padding:6px 4px; border-bottom:1px solid var(--line); text-align:left; }
   @media (max-width:760px){ .ali-grid{ grid-template-columns:repeat(3,1fr); gap:6px; } .ali-box input{ font-size:1.15rem; } }
+  /* ---------- Alimentación: solapas internas, recetario, heladera, ayuno, compras, nutri ---------- */
+  .rx-tabs{ display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; margin:0 0 16px; padding-bottom:2px; }
+  .rx-tabs::-webkit-scrollbar{ display:none; }
+  .rx-tab{ flex:none; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); border-radius:20px; padding:8px 14px; font-weight:600; font-size:.86rem; cursor:pointer; white-space:nowrap; }
+  .rx-tab:hover{ border-color:var(--ink-2); color:var(--ink); }
+  .rx-tab.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .rx-filter{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .rx-filter input{ flex:1; min-width:200px; }
+  .rx-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:10px; margin-bottom:22px; }
+  .rx-tile{ position:relative; display:flex; flex-direction:column; gap:4px; align-items:flex-start; text-align:left; padding:14px 12px 12px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink); cursor:pointer; font:inherit; }
+  .rx-tile:hover{ border-color:var(--accent); }
+  .rx-tile.on{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; background:var(--accent-soft); }
+  .rx-tile b{ font-family:"Rajdhani",sans-serif; font-size:1.02rem; line-height:1.2; }
+  .rx-tile small{ color:var(--ink-2); font-size:.74rem; }
+  .rx-tile .rx-emoji{ font-size:1.7rem; }
+  .rx-tile-v{ position:absolute; top:10px; right:10px; font-size:.64rem; font-weight:700; background:#e62117; color:#fff; border-radius:8px; padding:1px 6px; }
+  .rx-card{ background:var(--surface); border:1.5px solid var(--accent-soft-2); border-radius:12px; padding:18px; margin-bottom:22px; }
+  .rx-card-head{ display:flex; gap:14px; align-items:flex-start; margin-bottom:12px; }
+  .rx-card-head .rx-emoji{ font-size:2.6rem; line-height:1; }
+  .rx-title{ font-size:1.5rem; margin:2px 0 4px; }
+  .rx-meta{ font-size:.85rem; color:var(--ink-2); display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
+  .rx-meta b{ color:var(--accent); }
+  .rx-meta select{ width:auto; padding:2px 4px; font-size:.82rem; }
+  .rx-arg{ display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .rx-arg span{ font-size:.72rem; background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:1px 8px; }
+  .rx-cols{ display:grid; grid-template-columns:1fr 1.3fr; gap:20px; }
+  .rx-cols h4{ font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); margin:0 0 6px; font-family:"IBM Plex Sans",sans-serif; }
+  .rx-ing{ list-style:none; margin:0 0 10px; padding:0; font-size:.9rem; }
+  .rx-ing li{ padding:5px 0 5px 22px; border-bottom:1px dashed var(--line); position:relative; }
+  .rx-ing li::before{ content:"•"; position:absolute; left:6px; color:var(--ink-2); }
+  .rx-ing li.has::before{ content:"✓"; color:var(--good); font-weight:700; left:4px; }
+  .rx-ing li.miss::before{ content:"✗"; color:var(--danger); font-weight:700; left:4px; }
+  .rx-ing li small{ color:var(--danger); font-weight:600; font-size:.7rem; }
+  .rx-steps{ margin:0 0 10px; padding-left:20px; font-size:.92rem; }
+  .rx-steps li{ margin-bottom:6px; }
+  .rx-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+  .rx-actions a{ text-decoration:none; }
+  .rx-yt{ border-color:#e62117; color:#e62117; }
+  .rx-chips{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:6px; border:1px solid var(--line); border-radius:8px; background:var(--surface); min-height:44px; }
+  .rx-chip{ display:inline-flex; align-items:center; gap:4px; background:var(--accent-soft); border:1px solid var(--accent-soft-2); border-radius:16px; padding:3px 4px 3px 10px; font-size:.84rem; font-weight:600; }
+  .rx-chip small{ color:var(--ink-2); font-weight:500; }
+  .rx-chip button{ border:none; background:none; cursor:pointer; color:var(--ink-2); padding:0 4px; font-size:.8rem; }
+  .rx-chip-in{ flex:1; min-width:160px; border:none !important; background:transparent !important; padding:4px !important; outline:none; }
+  .rx-opts{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0; }
+  .rx-opts label{ display:flex; flex-direction:column; gap:4px; margin:0; }
+  .rx-opts select{ width:auto; min-width:140px; }
+  .rx-armo-in{ display:flex; gap:10px; align-items:flex-start; }
+  .btn.off{ opacity:.45; pointer-events:none; }
+  .rx-ayuno .rx-ay-main{ display:flex; gap:22px; align-items:center; flex-wrap:wrap; }
+  .rx-ay-ring{ width:170px; height:170px; flex:none; }
+  .rx-ay-stages{ display:grid; grid-template-columns:repeat(6,1fr); gap:6px; margin-top:16px; }
+  .rx-ay-stages div{ background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:7px 8px; font-size:.74rem; color:var(--ink-2); display:flex; flex-direction:column; gap:2px; }
+  .rx-ay-stages div.on{ background:var(--accent-soft); border-color:var(--accent-soft-2); color:var(--ink); }
+  .rx-ay-stages b{ font-family:"IBM Plex Mono",monospace; }
+  .rx-buy{ list-style:none; margin:12px 0 0; padding:0; }
+  .rx-buy li{ display:flex; align-items:center; gap:8px; padding:6px 4px; border-bottom:1px solid var(--line); }
+  .rx-buy li label{ flex:1; display:flex; align-items:center; gap:8px; margin:0; text-transform:none; letter-spacing:0; font-size:.95rem; color:var(--ink); cursor:pointer; }
+  .rx-buy li input{ width:18px; height:18px; accent-color:var(--accent); }
+  .rx-buy li.ok span{ text-decoration:line-through; color:var(--ink-2); }
+  .rx-buy li small{ color:var(--ink-2); font-size:.72rem; }
+  .rx-chat{ max-height:380px; overflow:auto; display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+  .rx-msg{ max-width:85%; padding:9px 12px; border-radius:12px; font-size:.9rem; line-height:1.45; }
+  .rx-msg.user{ align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:4px; }
+  .rx-msg.assistant{ align-self:flex-start; background:var(--surface-2); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  #rx-cook{ position:fixed; inset:0; z-index:96; background:var(--paper); display:flex; justify-content:center; overflow:auto; }
+  .rx-cook-in{ width:100%; max-width:760px; padding:20px 18px 30px; display:flex; flex-direction:column; gap:16px; }
+  .rx-cook-top{ display:flex; align-items:center; gap:10px; } .rx-cook-top b{ flex:1; font-family:"Rajdhani",sans-serif; font-size:1.2rem; } .rx-cook-top span{ color:var(--ink-2); font-size:.85rem; }
+  .rx-cook-bar{ height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; } .rx-cook-bar div{ height:100%; background:var(--accent); transition:width .25s; }
+  .rx-cook-step{ font-size:clamp(1.4rem,4vw,2.1rem); line-height:1.35; font-weight:600; margin:10px 0; min-height:30vh; display:flex; align-items:center; }
+  .rx-cook-timer{ display:flex; gap:12px; align-items:center; } .rx-cook-timer .mono{ font-size:2.4rem; font-weight:600; color:var(--accent); }
+  .rx-cook-ing summary{ cursor:pointer; font-weight:600; } .rx-cook-ing ul{ font-size:.92rem; }
+  .rx-cook-nav{ display:flex; justify-content:space-between; gap:10px; margin-top:auto; } .rx-cook-nav .btn{ flex:1; padding:14px; font-size:1rem; }
+  @media (max-width:760px){
+    .rx-cols{ grid-template-columns:1fr; } .rx-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .rx-ay-stages{ grid-template-columns:repeat(3,1fr); } .rx-card{ padding:14px; } .rx-armo-in{ flex-direction:column; } .rx-armo-in > label{ align-self:flex-start !important; }
+  }
+  /* ---------- Alimentación estilo Healthify ---------- */
+  .af-dash{ display:grid; grid-template-columns:150px 1fr 220px; gap:18px; align-items:center; margin-top:14px; }
+  .af-ring{ width:150px; height:150px; display:block; }
+  .af-ring-big{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:30px; fill:var(--ink); }
+  .af-ring-sm{ font-size:10.5px; fill:var(--ink-2); font-family:"IBM Plex Sans",sans-serif; }
+  .af-bars{ display:flex; flex-direction:column; gap:10px; min-width:0; }
+  .af-bar-top{ display:flex; justify-content:space-between; font-size:.84rem; margin-bottom:4px; }
+  .af-bar-top span{ display:inline-flex; align-items:center; gap:6px; color:var(--ink-2); }
+  .af-bar-top i{ width:9px; height:9px; border-radius:3px; display:inline-block; }
+  .af-bar-top b{ font-family:"Rajdhani",sans-serif; font-size:1.05rem; } .af-bar-top small{ color:var(--ink-2); font-weight:600; font-size:.78rem; }
+  .af-bar-track{ height:8px; background:var(--surface-2); border-radius:6px; overflow:hidden; }
+  .af-bar-track > div{ height:100%; border-radius:6px; transition:width .3s; }
+  .af-side{ display:flex; flex-direction:column; gap:10px; }
+  .af-cfg{ margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+  .af-cfg-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
+  .af-calc summary{ cursor:pointer; font-weight:600; font-size:.88rem; padding:4px 0; }
+  .af-muted{ font-size:.8rem; color:var(--ink-2); }
+  .af-ways{ display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:14px; align-items:stretch; }
+  .af-photo{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; text-align:center; cursor:pointer; margin:0;
+    border:2px dashed var(--accent-soft-2); background:var(--accent-soft); border-radius:12px; padding:18px 12px; text-transform:none; letter-spacing:0; color:var(--ink); min-height:150px; transition:border-color .15s, background .15s; }
+  .af-photo:hover, .af-photo.over{ border-color:var(--accent); }
+  .af-photo.over{ background:var(--accent-soft-2); }
+  .af-photo.off{ opacity:.55; cursor:not-allowed; border-color:var(--line); background:var(--surface-2); }
+  .af-photo-ico{ font-size:2.2rem; line-height:1; }
+  .af-photo b{ font-family:"Rajdhani",sans-serif; font-size:1.15rem; }
+  .af-photo small{ font-size:.76rem; color:var(--ink-2); max-width:260px; }
+  .af-text, .af-search{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+  .af-text label, .af-search label{ margin:0; }
+  .af-text textarea{ flex:1; min-height:70px; }
+  .af-text .btn{ align-self:flex-start; }
+  .af-sug{ display:flex; flex-direction:column; gap:4px; max-height:190px; overflow:auto; }
+  .af-sug-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; text-align:left; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:var(--surface-2); cursor:pointer; color:var(--ink); font-size:.84rem; }
+  .af-sug-row:hover{ border-color:var(--accent); }
+  .af-sug-row small{ display:block; color:var(--ink-2); font-size:.7rem; }
+  .af-sug-row b{ white-space:nowrap; font-family:"IBM Plex Mono",monospace; font-size:.78rem; }
+  .af-chips{ display:flex; flex-wrap:wrap; gap:5px; }
+  .af-busy{ display:flex; align-items:center; gap:10px; margin-top:14px; padding:10px 12px; border-radius:8px; background:var(--surface-2); font-size:.88rem; }
+  .af-spin{ width:18px; height:18px; border-radius:50%; border:2.5px solid var(--accent-soft-2); border-top-color:var(--accent); animation:afspin .8s linear infinite; flex:none; }
+  @keyframes afspin{ to{ transform:rotate(360deg); } }
+  .af-err{ margin-top:12px; padding:9px 12px; border-radius:8px; background:var(--danger-soft); border:1px solid var(--danger); font-size:.86rem; }
+  .af-draft{ margin-top:16px; border:1.5px solid var(--accent); border-radius:12px; padding:14px; background:var(--surface); box-shadow:var(--shadow); }
+  .af-draft-head{ display:flex; gap:14px; align-items:flex-start; margin-bottom:12px; }
+  .af-draft-img{ width:96px; height:96px; object-fit:cover; border-radius:10px; flex:none; }
+  .af-draft-tot{ font-size:.9rem; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .af-draft-tot b{ font-family:"Rajdhani",sans-serif; font-size:1.25rem; color:var(--accent); }
+  .af-score{ font-size:.74rem; font-weight:700; padding:2px 8px; border-radius:10px; }
+  .af-score.sg{ background:var(--good-soft); color:var(--good); } .af-score.sm{ background:rgba(237,161,0,.18); color:var(--cat-4); } .af-score.sb{ background:var(--danger-soft); color:var(--danger); }
+  .af-tip{ font-size:.82rem; color:var(--ink-2); margin-top:4px; }
+  .af-rows{ display:flex; flex-direction:column; gap:6px; }
+  .af-row{ display:grid; grid-template-columns:minmax(0,3fr) 72px 72px 58px 58px 58px 34px; gap:6px; align-items:center; }
+  .af-row input{ padding:6px 7px; font-size:.86rem; min-width:0; }
+  .af-row-h{ font-size:.66rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); }
+  .af-low{ grid-column:1/-1; color:var(--cat-4); font-size:.72rem; margin-top:-3px; }
+  .af-fix{ display:flex; gap:8px; margin-top:12px; } .af-fix input{ flex:1; min-width:0; }
+  .af-draft-foot{ display:flex; align-items:center; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .af-meal{ padding:10px 0; border-bottom:1px solid var(--line); }
+  .af-meal:first-child{ padding-top:0; }
+  .af-meal-head{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; align-items:baseline; margin-bottom:6px; }
+  .af-meal-head b{ font-size:.95rem; } .af-meal-head span{ font-size:.78rem; color:var(--ink-2); font-family:"IBM Plex Mono",monospace; }
+  .af-item{ display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:8px; background:var(--surface-2); margin-bottom:5px; }
+  .af-thumb{ width:40px; height:40px; border-radius:8px; object-fit:cover; flex:none; }
+  .af-thumb-e{ display:flex; align-items:center; justify-content:center; background:var(--surface); font-size:1.1rem; }
+  .af-item-main{ flex:1; min-width:0; }
+  .af-item-n{ font-weight:600; font-size:.9rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .af-item-m{ font-size:.74rem; color:var(--ink-2); font-family:"IBM Plex Mono",monospace; }
+  .af-item-k{ font-family:"Rajdhani",sans-serif; font-size:1.1rem; white-space:nowrap; } .af-item-k small{ font-size:.7rem; color:var(--ink-2); }
+  .af-note{ min-height:34px !important; font-size:.84rem; padding:6px 9px; background:transparent; border-style:dashed; }
+  .af-week{ width:100%; max-width:560px; height:auto; display:block; margin-bottom:6px; }
+  .af-wk{ cursor:pointer; } .af-wk:hover rect:first-child{ opacity:1; }
+  .af-ax{ font-size:10px; fill:var(--ink-2); font-family:"IBM Plex Sans",sans-serif; }
+  @media (max-width:980px){ .af-ways{ grid-template-columns:1fr 1fr; } .af-photo{ grid-column:1/-1; } }
+  @media (max-width:760px){
+    .af-dash{ grid-template-columns:120px 1fr; gap:12px; } .af-ring{ width:120px; height:120px; } .af-side{ grid-column:1/-1; flex-direction:row; } .af-side > *{ flex:1; }
+    .af-ways{ grid-template-columns:1fr; } .af-photo{ min-height:120px; }
+    .af-row{ grid-template-columns:repeat(3,minmax(0,1fr)); } .af-row > input:first-child{ grid-column:1/-1; } .af-row-h{ display:none; }
+  }
   .idea-new textarea{ width:100%; min-height:84px; resize:vertical; font:inherit; font-size:.95rem; padding:10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); }
   .idea-tools{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .idea-tools .btn{ min-height:44px; }
@@ -2954,7 +3106,7 @@ function render(){
   else { dot.className="storage-dot local"; txt.textContent="Conectando…"; }
 
   document.querySelectorAll(".view").forEach(v=> v.classList.toggle("active", v.dataset.view===state.view));
-  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], alimentacion:["Alimentación","Peso corporal, agua, proteína y comidas del día"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
+  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], alimentacion:["Alimentación","Registro con foto · recetario argentino · heladera · ayuno · compras · nutri IA"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
   document.getElementById("view-title").textContent = titles[state.view][0];
   document.getElementById("view-sub").textContent = titles[state.view][1];
   const _fd = new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
@@ -4408,35 +4560,330 @@ setInterval(()=>{
   else if(!on && d.classList.contains("on")) d.classList.remove("on");
 }, 1000);
 
-/* ======================= ALIMENTACIÓN =======================
-   Un registro por día en "alimentacion/<fecha>": peso corporal, vasos de agua, proteína aproximada y
-   lo que comiste en cada comida. Se guarda solo al escribir (en la nube, como los entrenamientos). */
+/* ======================= ALIMENTACIÓN (estilo Healthify) =======================
+   Un registro por día en "alimentacion/<fecha>": peso corporal, vasos de agua, notas y la lista de
+   ALIMENTOS de cada comida (nombre, gramos, kcal, proteína, carbohidratos, grasas).
+   Formas de cargar un alimento:
+     📷 Foto del plato  → Claude mira la foto y estima alimentos, porciones y macros (se puede corregir).
+     ✍️ Describirlo     → "2 empanadas de carne y una coca chica" → misma estimación.
+     🔎 Buscar          → base propia de alimentos argentinos + los que ya cargaste (funciona sin IA).
+   Todo pasa primero por una tarjeta de REVISIÓN: ajustás gramos (los macros se recalculan), borrás o
+   corregís, y recién ahí se agrega a la comida.
+   Objetivos diarios (kcal y macros) en "alimentacion_cfg/objetivos", con calculadora (Mifflin-St Jeor). */
 const ALI_MEALS = [["desayuno","☕ Desayuno"],["almuerzo","🍽️ Almuerzo"],["merienda","🥪 Merienda"],["cena","🌙 Cena"],["colaciones","🍎 Colaciones / pre y post entreno"]];
+// Base propia · valores aproximados por 100 g: [nombre, kcal, proteína, carbos, grasas, porción típica (g), nombre de la porción]
+const ALI_FOODS = [
+ ["Pechuga de pollo a la plancha",165,31,0,3.6,150,"porción"],["Pollo al horno con piel",215,25,0,12.5,200,"presa"],
+ ["Milanesa de carne al horno",230,22,13,10,150,"unidad"],["Milanesa de carne frita",290,20,14,17,150,"unidad"],
+ ["Milanesa de pollo al horno",210,24,12,7,150,"unidad"],["Bife de chorizo",250,26,0,16,250,"bife"],
+ ["Asado de tira",320,24,0,25,250,"porción"],["Vacío",290,25,0,21,250,"porción"],["Chorizo",330,15,2,29,80,"unidad"],
+ ["Morcilla",380,14,13,30,80,"unidad"],["Carne picada magra cocida",215,27,0,12,150,"porción"],["Lomo",180,28,0,7,200,"porción"],
+ ["Hamburguesa casera",250,20,4,17,120,"unidad"],["Atún al natural",116,26,0,1,120,"lata escurrida"],
+ ["Merluza al horno",90,19,0,1.3,180,"filet"],["Salmón",208,20,0,13,150,"porción"],
+ ["Huevo",143,12.6,0.7,9.5,55,"unidad"],["Clara de huevo",52,11,0.7,0.2,33,"unidad"],
+ ["Arroz blanco cocido",130,2.7,28,0.3,180,"plato"],["Arroz integral cocido",112,2.6,23,0.9,180,"plato"],
+ ["Fideos cocidos",158,5.8,31,0.9,200,"plato"],["Ñoquis de papa",130,3,27,0.5,250,"plato"],
+ ["Ravioles de ricota",200,8,27,6,250,"plato"],["Papa hervida",87,1.9,20,0.1,200,"porción"],
+ ["Puré de papas",105,2,15,4,200,"porción"],["Papas fritas",312,3.4,41,15,150,"porción"],
+ ["Batata al horno",90,2,21,0.2,200,"porción"],["Polenta cocida",70,1.6,15,0.3,250,"plato"],
+ ["Avena",380,13,60,7,40,"½ taza"],["Pan francés",280,9,57,1.5,60,"mignon"],["Pan integral",250,10,43,4,30,"rebanada"],
+ ["Galletitas de agua",420,10,72,10,25,"4 unidades"],["Medialuna de manteca",410,7,46,22,45,"unidad"],
+ ["Factura con dulce de leche",380,6,52,17,60,"unidad"],["Tostadas con queso untable",250,9,35,8,80,"2 tostadas"],
+ ["Empanada de carne al horno",290,11,28,15,90,"unidad"],["Empanada de jamón y queso",300,12,28,16,85,"unidad"],
+ ["Pizza muzzarella",270,11,32,11,120,"porción"],["Tarta de verdura",230,8,20,13,180,"porción"],
+ ["Sándwich de miga jamón y queso",260,10,28,12,40,"unidad"],["Choripán",300,12,28,16,220,"unidad"],
+ ["Lentejas cocidas",116,9,20,0.4,200,"plato"],["Garbanzos cocidos",164,9,27,2.6,150,"porción"],
+ ["Ensalada mixta (lechuga, tomate, cebolla)",20,1,4,0.2,200,"plato"],["Verduras salteadas",60,2,8,2.5,200,"porción"],
+ ["Calabaza al horno",40,1,9,0.1,200,"porción"],["Palta",160,2,9,15,70,"½ unidad"],
+ ["Banana",89,1.1,23,0.3,120,"unidad"],["Manzana",52,0.3,14,0.2,180,"unidad"],["Naranja",47,0.9,12,0.1,180,"unidad"],
+ ["Mandarina",53,0.8,13,0.3,100,"unidad"],["Frutillas",32,0.7,7.7,0.3,150,"taza"],
+ ["Leche descremada",35,3.4,5,0.1,250,"vaso"],["Leche entera",62,3.1,4.7,3.3,250,"vaso"],
+ ["Yogur descremado",45,4.5,6,0.1,190,"pote"],["Yogur griego natural",97,9,4,5,170,"pote"],
+ ["Queso cremoso",300,20,2,24,30,"porción"],["Queso untable light",150,12,4,9,30,"2 cucharadas"],
+ ["Ricota",170,11,4,12,60,"porción"],["Jamón cocido",120,18,2,4.5,30,"2 fetas"],
+ ["Dulce de leche",315,7,55,7,20,"cucharada"],["Mermelada",250,0.4,62,0,20,"cucharada"],
+ ["Azúcar",400,0,100,0,5,"cucharadita"],["Aceite de oliva",884,0,0,100,10,"cucharada"],
+ ["Manteca de maní",590,25,20,50,16,"cucharada"],["Nueces",654,15,14,65,30,"puñado"],["Almendras",580,21,22,50,30,"puñado"],
+ ["Proteína whey (polvo)",380,78,8,5,30,"scoop"],["Barrita de cereal",380,6,70,9,25,"unidad"],
+ ["Mate amargo",2,0.1,0.3,0,500,"termo"],["Café con leche",40,2,4,1.6,250,"taza"],
+ ["Gaseosa común",42,0,10.6,0,500,"botella chica"],["Gaseosa sin azúcar",1,0,0,0,500,"botella chica"],
+ ["Jugo de naranja exprimido",45,0.7,10,0.2,250,"vaso"],["Cerveza",43,0.5,3.6,0,473,"lata"],["Vino tinto",85,0.1,2.6,0,150,"copa"],
+ ["Helado de crema",210,3.5,25,11,150,"cucurucho"],["Alfajor de chocolate",450,5,60,21,50,"unidad"],
+];
 let aliData = {}, aliDate = null, aliSaveT = null;
+const ALI_CFG_DEF = { kcal:2200, p:150, c:230, f:70, agua:8, sexo:"h", edad:52, altura:"", peso:"", act:"1.55", meta:"mant" };
+let aliCfg = Object.assign({}, ALI_CFG_DEF);
+const aliUI = { draft:null, busy:false, err:"", file:null, q:"", cfgOpen:false, abort:null };
+let aliSample, aliImgOk = false;
 function aliDay(d){ return aliData[d] || { date:d }; }
-function renderAlimentacion(){
-  const el = document.getElementById("view-alimentacion"); if(!el) return;
-  const d = aliDate || todayStr(); const r = aliDay(d);
-  const esc = t=> String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function aliEsc(t){ return String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function aliN(v){ const n = Number(v); return isFinite(n) ? n : 0; }
+function aliR(v){ return Math.round(aliN(v)); }
+function aliTot(items){ return (items||[]).reduce((t,x)=>({ kcal:t.kcal+aliN(x.kcal), p:t.p+aliN(x.p), c:t.c+aliN(x.c), f:t.f+aliN(x.f) }), {kcal:0,p:0,c:0,f:0}); }
+function aliMealNow(){ const h = new Date().getHours()+new Date().getMinutes()/60;
+  return h<11?"desayuno":h<15.5?"almuerzo":h<19.5?"merienda":h<23.5?"cena":"colaciones"; }
+function aliUid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+async function aliGetSample(){
+  if(aliSample!==undefined) return aliSample;
+  try{ aliSample = window.claude && window.claude.use ? await window.claude.use("sample") : null; }catch(_){ aliSample = null; }
+  if(aliSample){ try{ const l = await aliSample.limits(); aliImgOk = !!(l && l.images); }catch(_){ aliImgOk = false; } }
+  return aliSample;
+}
+// "Frecuentes": lo que ya cargaste, con sus valores por gramo, para volver a sumarlo en un toque.
+function aliFrecuentes(){
+  const m = {};
+  Object.values(aliData).forEach(r=> (r.items||[]).forEach(x=>{
+    if(!x.n || !aliN(x.g)) return; const k = x.n.toLowerCase();
+    if(!m[k]) m[k] = { n:x.n, g:aliN(x.g), kcal:aliN(x.kcal), p:aliN(x.p), c:aliN(x.c), f:aliN(x.f), veces:0, last:"" };
+    m[k].veces++; if((r.date||"") >= m[k].last){ Object.assign(m[k], { g:aliN(x.g), kcal:aliN(x.kcal), p:aliN(x.p), c:aliN(x.c), f:aliN(x.f), last:r.date||"" }); }
+  }));
+  return Object.values(m).sort((a,b)=>b.veces-a.veces || (b.last>a.last?1:-1));
+}
+function aliSearch(q){
+  q = (q||"").trim().toLowerCase(); if(q.length<2) return [];
+  const norm = s=> s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  const nq = norm(q), out = [];
+  aliFrecuentes().forEach(x=>{ if(norm(x.n).includes(nq)) out.push({ tipo:"Tus comidas", n:x.n, g:x.g, kcal:x.kcal, p:x.p, c:x.c, f:x.f }); });
+  ALI_FOODS.forEach(([n,k,p,c,f,g,por])=>{ if(norm(n).includes(nq) && !out.some(o=>o.n.toLowerCase()===n.toLowerCase())){
+    const r = g/100; out.push({ tipo:"Base", n, g, por, kcal:k*r, p:p*r, c:c*r, f:f*r }); } });
+  return out.slice(0,8);
+}
+function aliDraftItem(o){ const g = aliN(o.g)||100;
+  return { id:aliUid(), n:o.n||"Alimento", g:Math.round(g), kcal:aliR(o.kcal), p:+aliN(o.p).toFixed(1), c:+aliN(o.c).toFixed(1), f:+aliN(o.f).toFixed(1),
+    conf:o.conf, b:{ g, kcal:aliN(o.kcal), p:aliN(o.p), c:aliN(o.c), f:aliN(o.f) } }; }
+function aliScale(it, g){ g = Math.max(0, aliN(g)); const r = it.b.g ? g/it.b.g : 1;
+  Object.assign(it, { g:Math.round(g), kcal:aliR(it.b.kcal*r), p:+(it.b.p*r).toFixed(1), c:+(it.b.c*r).toFixed(1), f:+(it.b.f*r).toFixed(1) }); }
+
+/* ---------- Dibujos: anillo de calorías, barras de macros, semana ---------- */
+function aliRing(val, goal){
+  const R = 52, L = 2*Math.PI*R, pct = goal ? val/goal : 0, over = pct>1.05;
+  const dash = Math.min(1,pct)*L, rest = Math.max(0, goal-val);
+  return `<svg class="af-ring" viewBox="0 0 130 130" role="img" aria-label="${aliR(val)} de ${aliR(goal)} kcal">
+    <circle cx="65" cy="65" r="${R}" fill="none" stroke="var(--surface-2)" stroke-width="12"/>
+    ${dash>0?`<circle cx="65" cy="65" r="${R}" fill="none" stroke="${over?"var(--danger)":"var(--accent)"}" stroke-width="12" stroke-linecap="round"
+      stroke-dasharray="${dash} ${L}" transform="rotate(-90 65 65)"/>`:""}
+    <text x="65" y="60" text-anchor="middle" class="af-ring-big">${aliR(val)}</text>
+    <text x="65" y="78" text-anchor="middle" class="af-ring-sm">de ${aliR(goal)} kcal</text>
+    <text x="65" y="94" text-anchor="middle" class="af-ring-sm" style="fill:${over?"var(--danger)":"var(--good)"}">${over?"+"+aliR(val-goal)+" de más":"quedan "+aliR(rest)}</text></svg>`;
+}
+function aliBar(lbl, val, goal, color){
+  const pct = goal ? Math.min(100, val/goal*100) : 0;
+  return `<div class="af-bar"><div class="af-bar-top"><span><i style="background:${color}"></i>${lbl}</span><b>${aliR(val)}<small> / ${aliR(goal)} g</small></b></div>
+    <div class="af-bar-track"><div style="width:${pct}%;background:${color}"></div></div></div>`;
+}
+function aliWeek(d){
+  const days = []; for(let i=6;i>=0;i--){ const k = addDays(d,-i); days.push([k, aliTot(aliDay(k).items).kcal]); }
+  const goal = aliN(aliCfg.kcal)||2000, max = Math.max(goal*1.15, ...days.map(x=>x[1])), W=320, H=120, bw=30, gap=(W-7*bw)/6;
+  const y = v=> H-18 - (v/max)*(H-30);
+  const DOW = ["D","L","M","M","J","V","S"];
+  return `<svg class="af-week" viewBox="0 0 ${W} ${H}" role="img" aria-label="Calorías de los últimos 7 días">
+    ${days.map(([k,v],i)=>{ const x = i*(bw+gap), h = Math.max(v?2:0, H-18-y(v)); const over = v>goal*1.05;
+      return `<g class="af-wk" data-ali="go" data-d="${k}"><title>${fmtShort(k)} · ${aliR(v)} kcal</title>
+        <rect x="${x}" y="${y(v)}" width="${bw}" height="${h}" rx="4" fill="${v?(over?"var(--danger)":"var(--accent)"):"var(--surface-2)"}" opacity="${k===d?1:.7}"/>
+        <rect x="${x}" y="0" width="${bw}" height="${H}" fill="transparent"/>
+        <text x="${x+bw/2}" y="${H-4}" text-anchor="middle" class="af-ax" ${k===d?'style="font-weight:700;fill:var(--ink)"':""}>${DOW[dsToDate(k).getDay()]}</text></g>`; }).join("")}
+    <line x1="0" x2="${W}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--ink-2)" stroke-dasharray="4 4" stroke-width="1"/>
+    <text x="${W}" y="${y(goal)-4}" text-anchor="end" class="af-ax">objetivo</text></svg>`;
+}
+
+/* ---------- Pantalla ---------- */
+function aliRenderRegistro(el){
+  const d = aliDate || todayStr(); const r = aliDay(d); const esc = aliEsc;
+  const items = r.items || [], tot = aliTot(items), cfg = aliCfg;
   const hist = Object.keys(aliData).filter(k=>k<=todayStr()).sort().reverse().slice(0,10);
+  const aiOn = window.aiOn ? window.aiOn() : !!aliSample; const imgOn = window.aiImgOn ? window.aiImgOn() : aliImgOk;
+  const sug = aliSearch(aliUI.q);
+  const frec = aliUI.q ? [] : aliFrecuentes().slice(0,8);
+  const draft = aliUI.draft;
   el.innerHTML = `<div class="today-panel">
     <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;">
       <button class="btn btn-icon" data-ali="prev" aria-label="Día anterior">${ICON.arrowUp.replace('viewBox','style="transform:rotate(-90deg)" viewBox')}</button>
       <h2 style="margin:0;text-transform:capitalize;font-size:1.15rem;">${d===todayStr()?"Hoy · ":""}${fmtDateLong(d)}</h2>
       <button class="btn btn-icon" data-ali="next" aria-label="Día siguiente" ${d>=todayStr()?"disabled":""}>${ICON.arrowUp.replace('viewBox','style="transform:rotate(90deg)" viewBox')}</button>
     </div>
-    <div class="ali-grid">
-      <div class="ali-box"><label>Peso corporal</label><input type="number" inputmode="decimal" step="0.1" data-alif="peso" value="${esc(r.peso)}" placeholder="kg"></div>
-      <div class="ali-box"><label>Agua (vasos)</label><div class="ali-agua"><button type="button" data-ali="agua-">−</button><b>${Number(r.agua)||0}</b><button type="button" data-ali="agua+">+</button></div></div>
-      <div class="ali-box"><label>Proteína (g)</label><input type="number" inputmode="numeric" step="5" data-alif="proteina" value="${esc(r.proteina)}" placeholder="g"></div>
+    <div class="af-dash">
+      <div class="af-ringbox">${aliRing(tot.kcal, aliN(cfg.kcal))}</div>
+      <div class="af-bars">
+        ${aliBar("Proteína", tot.p, aliN(cfg.p), "var(--cat-1)")}
+        ${aliBar("Carbohidratos", tot.c, aliN(cfg.c), "var(--cat-4)")}
+        ${aliBar("Grasas", tot.f, aliN(cfg.f), "var(--cat-5)")}
+        <button class="btn btn-sm btn-ghost" data-ali="cfg" style="align-self:flex-start;margin-top:2px;">🎯 ${aliUI.cfgOpen?"Cerrar objetivos":"Objetivos del día"}</button>
+      </div>
+      <div class="af-side">
+        <div class="ali-box"><label>Peso corporal</label><input type="number" inputmode="decimal" step="0.1" data-alif="peso" value="${esc(r.peso)}" placeholder="kg"></div>
+        <div class="ali-box"><label>Agua · ${Number(r.agua)||0}/${aliN(cfg.agua)||8} vasos</label><div class="ali-agua"><button type="button" data-ali="agua-" aria-label="Un vaso menos">−</button><b>${Number(r.agua)||0}</b><button type="button" data-ali="agua+" aria-label="Un vaso más">+</button></div></div>
+      </div>
     </div>
-    ${ALI_MEALS.map(([k,l])=>`<div class="ali-meal"><label>${l}</label><textarea data-alif="${k}" placeholder="¿Qué comiste?">${esc(r[k])}</textarea></div>`).join("")}
-    <div class="ali-meal"><label>📝 Notas (cómo te sentiste, hambre, energía…)</label><textarea data-alif="notas">${esc(r.notas)}</textarea></div>
-    <p style="font-size:.78rem;color:var(--ink-2);margin:10px 0 0;" id="ali-status">Se guarda solo mientras escribís.</p>
+    ${aliUI.cfgOpen ? aliCfgPanel() : ""}
   </div>
-  ${hist.length?`<div class="today-panel"><h3 class="pg-h3" style="margin-top:0;">Últimos días</h3><table class="ali-hist"><tr><th>Día</th><th>Peso</th><th>Agua</th><th>Proteína</th></tr>
-    ${hist.map(k=>{ const x=aliData[k]; return `<tr><td><button class="pg-exlink" data-ali="go" data-d="${k}">${fmtShort(k)}</button></td><td>${x.peso?x.peso+" kg":"—"}</td><td>${x.agua?x.agua+" 🥛":"—"}</td><td>${x.proteina?x.proteina+" g":"—"}</td></tr>`; }).join("")}</table></div>`:""}`;
+
+  <div class="today-panel af-add">
+    <h3 class="pg-h3" style="margin-top:0;">Agregar comida</h3>
+    <div class="af-ways">
+      <label class="af-photo ${aiOn&&imgOn?"":"off"}" id="af-drop" tabindex="0">
+        <input type="file" accept="image/*" capture="environment" id="af-file" hidden ${aiOn&&imgOn?"":"disabled"}>
+        <span class="af-photo-ico">📷</span>
+        <b>Sacale una foto al plato</b>
+        <small>${aiOn&&imgOn?"o arrastrá / pegá (Ctrl+V) una foto acá · Claude estima calorías y macros":aiOn?"Esta vista no puede mandar fotos: usá la descripción":"La IA no está disponible en esta vista"}</small>
+      </label>
+      <div class="af-text">
+        <label for="af-desc">✍️ O contalo con tus palabras</label>
+        <textarea id="af-desc" placeholder="Ej: 2 empanadas de carne, una ensalada y una coca chica" ${aiOn?"":"disabled"}></textarea>
+        <button class="btn btn-primary btn-sm" data-ali="ai-text" ${aiOn&&!aliUI.busy?"":"disabled"}>Calcular con IA</button>
+      </div>
+      <div class="af-search">
+        <label for="af-q">🔎 Buscar alimento</label>
+        <input type="text" id="af-q" placeholder="milanesa, banana, arroz…" value="${esc(aliUI.q)}" autocomplete="off">
+        <div class="af-sug">
+          ${sug.map((s,i)=>`<button class="af-sug-row" data-ali="sug" data-i="${i}"><span>${esc(s.n)}<small>${s.tipo} · ${aliR(s.g)} g${s.por?" ("+esc(s.por)+")":""}</small></span><b>${aliR(s.kcal)} kcal</b></button>`).join("")}
+          ${aliUI.q.trim().length>=2 && !sug.length ? `<div class="af-muted">Sin resultados. Probá describirlo con IA o <button class="pg-exlink" data-ali="manual">cargalo a mano</button>.</div>`:""}
+          ${frec.length ? `<div class="af-muted" style="margin-top:4px;">Frecuentes</div><div class="af-chips">${frec.map((x,i)=>`<button class="chip filter-chip" data-ali="frec" data-i="${i}">${esc(x.n)} · ${aliR(x.kcal)}</button>`).join("")}</div>`:""}
+          ${!aliUI.q && !frec.length ? `<div class="af-muted">Escribí 2 letras. <button class="pg-exlink" data-ali="manual">Cargar a mano</button></div>`:""}
+        </div>
+      </div>
+    </div>
+    ${aliUI.busy ? `<div class="af-busy"><span class="af-spin"></span><span id="af-busy-txt">${aliUI.file?"Mirando la foto…":"Calculando…"}</span><button class="btn btn-sm btn-ghost" data-ali="cancel">Cancelar</button></div>`:""}
+    ${aliUI.err ? `<div class="af-err">${esc(aliUI.err)}</div>`:""}
+    ${draft ? aliDraftCard(draft) : ""}
+  </div>
+
+  <div class="today-panel">
+    ${ALI_MEALS.map(([k,l])=>{ const its = items.filter(x=>x.meal===k), t = aliTot(its);
+      return `<div class="af-meal">
+        <div class="af-meal-head"><b>${l}</b><span>${its.length?aliR(t.kcal)+" kcal · P "+aliR(t.p)+" · C "+aliR(t.c)+" · G "+aliR(t.f):""}</span></div>
+        ${its.map(x=>`<div class="af-item">
+          ${x.thumb?`<img src="${esc(x.thumb)}" alt="" class="af-thumb">`:`<span class="af-thumb af-thumb-e">${x.src==="foto"?"📷":x.src==="texto"?"✍️":"🍴"}</span>`}
+          <div class="af-item-main"><div class="af-item-n">${esc(x.n)}</div><div class="af-item-m">${aliR(x.g)} g · P ${aliR(x.p)} · C ${aliR(x.c)} · G ${aliR(x.f)}</div></div>
+          <b class="af-item-k">${aliR(x.kcal)}<small> kcal</small></b>
+          <button class="btn btn-icon btn-ghost btn-sm" data-ali="del" data-id="${esc(x.id)}" aria-label="Quitar ${esc(x.n)}">✕</button>
+        </div>`).join("")}
+        <textarea class="af-note" data-alif="${k}" placeholder="Nota (opcional)" rows="1">${esc(r[k])}</textarea>
+      </div>`; }).join("")}
+    <div class="ali-meal"><label>📝 Notas del día (cómo te sentiste, hambre, energía…)</label><textarea data-alif="notas">${esc(r.notas)}</textarea></div>
+    <p style="font-size:.78rem;color:var(--ink-2);margin:10px 0 0;" id="ali-status">Se guarda solo.</p>
+  </div>
+
+  <div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">Últimos 7 días <small>(tocá una barra para ir a ese día)</small></h3>
+    ${aliWeek(d)}
+    ${hist.length?`<table class="ali-hist"><tr><th>Día</th><th>Kcal</th><th>Proteína</th><th>Peso</th><th>Agua</th></tr>
+    ${hist.map(k=>{ const x=aliData[k], t=aliTot(x.items); const prot = (x.items&&x.items.length)?aliR(t.p):aliN(x.proteina);
+      return `<tr><td><button class="pg-exlink" data-ali="go" data-d="${k}">${fmtShort(k)}</button></td><td>${t.kcal?aliR(t.kcal):"—"}</td><td>${prot?prot+" g":"—"}</td><td>${x.peso?x.peso+" kg":"—"}</td><td>${x.agua?x.agua+" 🥛":"—"}</td></tr>`; }).join("")}</table>`:""}
+  </div>`;
+  aliWire();
 }
+function aliDraftCard(dr){
+  const t = aliTot(dr.items);
+  return `<div class="af-draft">
+    <div class="af-draft-head">
+      ${dr.thumb?`<img src="${aliEsc(dr.thumb)}" alt="" class="af-draft-img">`:""}
+      <div style="flex:1;min-width:0;">
+        <div class="pg-kicker">${dr.src==="foto"?"Estimado de la foto":dr.src==="texto"?"Estimado de tu descripción":"Revisá y agregá"}</div>
+        <h3 style="margin:2px 0;">${aliEsc(dr.titulo||"Tu comida")}</h3>
+        <div class="af-draft-tot"><b>${aliR(t.kcal)} kcal</b> · P ${aliR(t.p)} g · C ${aliR(t.c)} g · G ${aliR(t.f)} g
+          ${dr.salud?`<span class="af-score s${dr.salud>=7?"g":dr.salud>=4?"m":"b"}" title="Qué tan saludable es, del 1 al 10">💚 ${aliR(dr.salud)}/10</span>`:""}</div>
+        ${dr.nota?`<div class="af-tip">💡 ${aliEsc(dr.nota)}</div>`:""}
+      </div>
+    </div>
+    <div class="af-rows">
+      <div class="af-row af-row-h"><span>Alimento</span><span>Gramos</span><span>Kcal</span><span>P</span><span>C</span><span>G</span><span></span></div>
+      ${dr.items.map((x,i)=>`<div class="af-row">
+        <input type="text" value="${aliEsc(x.n)}" data-alid="${i}:n" aria-label="Alimento">
+        <input type="number" inputmode="numeric" value="${aliR(x.g)}" data-alid="${i}:g" aria-label="Gramos" title="Cambiá los gramos y se recalcula todo">
+        <input type="number" inputmode="numeric" value="${aliR(x.kcal)}" data-alid="${i}:kcal" aria-label="Kcal">
+        <input type="number" inputmode="decimal" value="${x.p}" data-alid="${i}:p" aria-label="Proteína">
+        <input type="number" inputmode="decimal" value="${x.c}" data-alid="${i}:c" aria-label="Carbohidratos">
+        <input type="number" inputmode="decimal" value="${x.f}" data-alid="${i}:f" aria-label="Grasas">
+        <button class="btn btn-icon btn-ghost btn-sm" data-ali="drow" data-i="${i}" aria-label="Quitar">✕</button>
+        ${x.conf!=null && x.conf<0.6?`<small class="af-low">poco seguro: revisá</small>`:""}
+      </div>`).join("")}
+      ${!dr.items.length?`<div class="af-muted">No quedó ningún alimento.</div>`:""}
+      <button class="btn btn-sm btn-ghost" data-ali="drow+" style="margin-top:4px;">＋ Agregar fila</button>
+    </div>
+    ${aiOn() && dr.src!=="manual" ? `<div class="af-fix"><input type="text" id="af-fix" placeholder="¿Algo mal? Ej: era arroz integral y el plato era más chico"><button class="btn btn-sm" data-ali="fix" ${aliUI.busy?"disabled":""}>Corregir con IA</button></div>`:""}
+    <div class="af-draft-foot">
+      <label style="margin:0;display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink);">Agregar a
+        <select id="af-meal" style="width:auto;">${ALI_MEALS.map(([k,l])=>`<option value="${k}" ${k===(dr.meal||aliMealNow())?"selected":""}>${l}</option>`).join("")}</select></label>
+      <span style="flex:1"></span>
+      <button class="btn btn-sm btn-ghost" data-ali="discard">Descartar</button>
+      <button class="btn btn-sm btn-primary" data-ali="commit" ${dr.items.length?"":"disabled"}>✓ Agregar</button>
+    </div>
+  </div>`;
+}
+function aliCfgPanel(){
+  const c = aliCfg, esc = aliEsc;
+  return `<div class="af-cfg">
+    <div class="af-cfg-grid">
+      <div class="field"><label>Calorías (kcal)</label><input type="number" data-alic="kcal" value="${esc(c.kcal)}"></div>
+      <div class="field"><label>Proteína (g)</label><input type="number" data-alic="p" value="${esc(c.p)}"></div>
+      <div class="field"><label>Carbohidratos (g)</label><input type="number" data-alic="c" value="${esc(c.c)}"></div>
+      <div class="field"><label>Grasas (g)</label><input type="number" data-alic="f" value="${esc(c.f)}"></div>
+      <div class="field"><label>Agua (vasos)</label><input type="number" data-alic="agua" value="${esc(c.agua)}"></div>
+    </div>
+    <details class="af-calc"><summary>Calcular mis objetivos</summary>
+      <div class="af-cfg-grid" style="margin-top:10px;">
+        <div class="field"><label>Sexo</label><select data-alic="sexo"><option value="h" ${c.sexo==="h"?"selected":""}>Hombre</option><option value="m" ${c.sexo==="m"?"selected":""}>Mujer</option></select></div>
+        <div class="field"><label>Edad</label><input type="number" data-alic="edad" value="${esc(c.edad)}"></div>
+        <div class="field"><label>Altura (cm)</label><input type="number" data-alic="altura" value="${esc(c.altura)}"></div>
+        <div class="field"><label>Peso (kg)</label><input type="number" step="0.1" data-alic="peso" value="${esc(c.peso||aliUltimoPeso()||"")}"></div>
+        <div class="field"><label>Actividad</label><select data-alic="act">
+          ${[["1.2","Sedentario"],["1.375","Entreno 1-3 días"],["1.55","Entreno 3-5 días"],["1.725","Entreno 6-7 días"]].map(([v,l])=>`<option value="${v}" ${String(c.act)===v?"selected":""}>${l}</option>`).join("")}</select></div>
+        <div class="field"><label>Meta</label><select data-alic="meta">
+          ${[["perder","Bajar grasa"],["mant","Mantener"],["ganar","Ganar músculo"]].map(([v,l])=>`<option value="${v}" ${c.meta===v?"selected":""}>${l}</option>`).join("")}</select></div>
+      </div>
+      <button class="btn btn-sm btn-primary" data-ali="calc">Calcular y usar</button>
+      <p class="af-muted" style="margin:6px 0 0;">Fórmula Mifflin-St Jeor. Proteína 1,8-2 g por kilo, grasas 25% de las calorías y el resto carbohidratos. Es una guía, no reemplaza a un nutricionista.</p>
+    </details>
+  </div>`;
+}
+function aliUltimoPeso(){ const k = Object.keys(aliData).filter(x=>aliData[x].peso).sort().pop(); return k ? aliData[k].peso : ""; }
+
+/* ---------- IA: foto o texto → lista de alimentos ---------- */
+async function aliAnalyze({file, texto, correccion}){
+  await aliGetSample();
+  if(!aiOn()){ aliUI.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
+  if(aliUI.abort) aliUI.abort.abort();
+  const ac = new AbortController(); aliUI.abort = ac;
+  aliUI.busy = true; aliUI.err = ""; aliUI.file = file || null;
+  const prev = aliUI.draft;
+  let thumb = prev && prev.thumb || null;
+  if(file && !correccion){ try{ thumb = await aliThumb(file); }catch(_){ thumb = null; } }
+  renderAlimentacion();
+  const prompt = `Sos nutricionista deportivo en Argentina. ${file?"Te paso una FOTO de una comida.":""}${texto?` El usuario la describe así: "${texto}".`:""}
+Identificá cada alimento ${file?"visible en la foto":"mencionado"} (separá lo que se pueda: ej. milanesa / puré / ensalada), estimá la porción en gramos (o ml para bebidas) y calculá los valores nutricionales de ESA porción.
+Tené en cuenta comidas y porciones típicas argentinas (milanesa, empanadas, asado, facturas, mate, guisos, etc.) y el tamaño del plato o cubiertos para estimar cantidades. Si dudás, elegí lo más probable y bajá "conf". Contá el aceite o aderezo visible.
+${correccion?`Estimación anterior: ${JSON.stringify((prev&&prev.items||[]).map(x=>({n:x.n,g:x.g,kcal:x.kcal,p:x.p,c:x.c,f:x.f})))}
+CORRECCIÓN del usuario: "${correccion}". Rehacé la estimación aplicando la corrección.
+`:""}Respondé SOLO un objeto JSON, sin texto extra:
+{"titulo":"nombre corto del plato","items":[{"n":"alimento","g":gramos,"kcal":kcal,"p":proteína_g,"c":carbohidratos_g,"f":grasas_g,"conf":0_a_1}],"salud":1_a_10,"nota":"consejo breve (máx. 18 palabras, voseo) para alguien que entrena en el gimnasio"}
+Si no hay comida: {"titulo":"","items":[],"nota":"No veo comida en la foto"}.`;
+  try{
+    const opts = { signal: ac.signal, onText: ()=>{ const t = document.getElementById("af-busy-txt"); if(t) t.textContent = "Calculando porciones y macros…"; } };
+    if(file) opts.images = [file];
+    const res = await aiJSON(prompt, opts);
+    if(ac.signal.aborted) return;
+    const its = (res && Array.isArray(res.items) ? res.items : []).map(aliDraftItem);
+    aliUI.draft = { src: file||(prev&&prev.src==="foto"&&correccion) ? "foto" : "texto", thumb, titulo: res&&res.titulo || "", nota: res&&res.nota || "",
+      salud: res&&res.salud, items: its, meal: prev&&prev.meal || aliMealNow(), texto, file: file || (prev&&prev.file) || null };
+    if(!its.length) aliUI.err = (res&&res.nota) || "No encontré alimentos. Probá otra foto o describilo.";
+    const desc = document.getElementById("af-desc"); if(desc && texto) desc.value = "";
+  }catch(e){
+    aliUI.err = aiErrMsg(e);
+  }finally{
+    if(aliUI.abort===ac){ aliUI.busy = false; aliUI.abort = null; }
+    renderAlimentacion();
+  }
+}
+// Miniatura chiquita (≈5 KB) para ver en la lista qué comiste; la foto original no se guarda.
+async function aliThumb(file){
+  const bmp = await createImageBitmap(file);
+  const S = 112, k = S/Math.max(bmp.width,bmp.height);
+  const cv = document.createElement("canvas"); cv.width = Math.round(bmp.width*k); cv.height = Math.round(bmp.height*k);
+  cv.getContext("2d").drawImage(bmp,0,0,cv.width,cv.height); bmp.close && bmp.close();
+  return cv.toDataURL("image/jpeg",0.6);
+}
+
+/* ---------- Guardado ---------- */
 async function aliSave(d){
   const r = Object.assign({}, aliDay(d), { date:d });
   aliData[d] = r;
@@ -4447,12 +4894,63 @@ async function aliSave(d){
     if(st) st.textContent = "✓ Guardado";
   }catch(_){ if(st) st.textContent = "No se pudo guardar (sin conexión): se reintenta al volver la señal"; }
 }
+async function aliSaveCfg(){
+  try{
+    if(db) await db.doc("alimentacion_cfg/objetivos").set(aliCfg);
+    else localStorage.setItem("entrenador-ali-cfg", JSON.stringify(aliCfg));
+  }catch(_){}
+}
+
+/* ---------- Eventos ---------- */
+function aliWire(){
+  const fi = document.getElementById("af-file");
+  if(fi) fi.onchange = ()=>{ const f = fi.files && fi.files[0]; if(f) aliAnalyze({ file:f, texto:(document.getElementById("af-desc")||{}).value||"" }); fi.value = ""; };
+  const dz = document.getElementById("af-drop");
+  if(dz && aiImgOn()){
+    dz.ondragover = e=>{ e.preventDefault(); dz.classList.add("over"); };
+    dz.ondragleave = ()=> dz.classList.remove("over");
+    dz.ondrop = e=>{ e.preventDefault(); dz.classList.remove("over"); const f = [...(e.dataTransfer.files||[])].find(x=>/^image\//.test(x.type)); if(f) aliAnalyze({ file:f }); };
+    dz.onkeydown = e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fi && fi.click(); } };
+  }
+  const q = document.getElementById("af-q");
+  if(q) q.oninput = ()=>{ const pos = q.selectionStart; aliUI.q = q.value; renderAlimentacion();
+    const q2 = document.getElementById("af-q"); if(q2){ q2.focus(); try{ q2.setSelectionRange(pos,pos); }catch(_){} } };
+  const fx = document.getElementById("af-fix");
+  if(fx) fx.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); aliFix(); } };
+  const ms = document.getElementById("af-meal");
+  if(ms) ms.onchange = ()=>{ if(aliUI.draft) aliUI.draft.meal = ms.value; };
+}
+function aliFix(){
+  const fx = document.getElementById("af-fix"); const v = fx && fx.value.trim(); if(!v || !aliUI.draft) return;
+  aliAnalyze({ file: aliUI.draft.file || null, texto: aliUI.draft.texto || "", correccion: v });
+}
+document.addEventListener("paste", e=>{
+  if(state.view!=="alimentacion" || RX.sub!=="registro" || !aiImgOn()) return;
+  const f = [...((e.clipboardData&&e.clipboardData.files)||[])].find(x=>/^image\//.test(x.type));
+  if(f){ e.preventDefault(); aliAnalyze({ file:f }); }
+});
 document.addEventListener("input", e=>{
   const f = e.target && e.target.dataset && e.target.dataset.alif; if(!f) return;
   const d = aliDate || todayStr();
   aliData[d] = Object.assign({}, aliDay(d), { [f]: e.target.value });
   clearTimeout(aliSaveT); aliSaveT = setTimeout(()=>aliSave(d), 700);
   const st = document.getElementById("ali-status"); if(st) st.textContent = "Guardando…";
+});
+document.addEventListener("change", e=>{
+  const ds = e.target && e.target.dataset; if(!ds) return;
+  if(ds.alid && aliUI.draft){
+    const [i,k] = ds.alid.split(":"); const it = aliUI.draft.items[+i]; if(!it) return;
+    if(k==="n") it.n = e.target.value;
+    else if(k==="g") aliScale(it, e.target.value);
+    else { it[k] = k==="kcal" ? aliR(e.target.value) : +aliN(e.target.value).toFixed(1);
+      // si corregís un valor a mano, esa pasa a ser la base para escalar con los gramos
+      it.b = { g:aliN(it.g)||1, kcal:aliN(it.kcal), p:aliN(it.p), c:aliN(it.c), f:aliN(it.f) }; }
+    renderAlimentacion();
+  }
+  if(ds.alic){
+    aliCfg[ds.alic] = e.target.type==="number" ? aliN(e.target.value) : e.target.value;
+    aliSaveCfg(); if(["kcal","p","c","f","agua"].includes(ds.alic)) renderAlimentacion();
+  }
 });
 document.addEventListener("click", e=>{
   const b = e.target.closest && e.target.closest("[data-ali]"); if(!b) return;
@@ -4462,19 +4960,694 @@ document.addEventListener("click", e=>{
   if(k==="go"){ aliDate = b.dataset.d; return renderAlimentacion(); }
   if(k==="agua+" || k==="agua-"){
     const r = aliDay(d); const v = Math.max(0, (Number(r.agua)||0) + (k==="agua+"?1:-1));
-    aliData[d] = Object.assign({}, r, { agua:v }); aliSave(d); renderAlimentacion();
+    aliData[d] = Object.assign({}, r, { agua:v }); aliSave(d); return renderAlimentacion();
+  }
+  if(k==="cfg"){ aliUI.cfgOpen = !aliUI.cfgOpen; return renderAlimentacion(); }
+  if(k==="calc"){
+    const c = aliCfg, kg = aliN(c.peso||aliUltimoPeso()), cm = aliN(c.altura), ed = aliN(c.edad);
+    if(!kg || !cm || !ed){ toast("Completá edad, altura y peso"); return; }
+    const bmr = 10*kg + 6.25*cm - 5*ed + (c.sexo==="m"?-161:5);
+    const kcal = Math.round(bmr*aliN(c.act||1.55)*(c.meta==="perder"?0.85:c.meta==="ganar"?1.1:1)/10)*10;
+    const p = Math.round(kg*(c.meta==="perder"?2:1.8)), f = Math.round(kcal*0.25/9), cc = Math.max(0, Math.round((kcal-p*4-f*9)/4));
+    Object.assign(aliCfg, { kcal, p, f, c:cc, peso:kg }); aliSaveCfg(); toast(`Objetivo: ${kcal} kcal · P ${p} · C ${cc} · G ${f}`);
+    return renderAlimentacion();
+  }
+  if(k==="ai-text"){ const t = (document.getElementById("af-desc")||{}).value||""; if(!t.trim()){ toast("Escribí qué comiste"); return; } return aliAnalyze({ texto:t.trim() }); }
+  if(k==="cancel"){ if(aliUI.abort) aliUI.abort.abort(); aliUI.busy = false; return renderAlimentacion(); }
+  if(k==="fix") return aliFix();
+  if(k==="sug" || k==="frec"){
+    const s = k==="sug" ? aliSearch(aliUI.q)[+b.dataset.i] : aliFrecuentes()[+b.dataset.i]; if(!s) return;
+    const it = aliDraftItem(s);
+    if(aliUI.draft && aliUI.draft.src==="manual") aliUI.draft.items.push(it);
+    else if(aliUI.draft) aliUI.draft.items.push(it);
+    else aliUI.draft = { src:"manual", titulo:"", items:[it], meal:aliMealNow() };
+    aliUI.q = ""; aliUI.err = ""; return renderAlimentacion();
+  }
+  if(k==="manual" || k==="drow+"){
+    const it = aliDraftItem({ n: k==="manual" ? (aliUI.q.trim()||"Alimento") : "", g:100, kcal:0 });
+    if(aliUI.draft) aliUI.draft.items.push(it); else aliUI.draft = { src:"manual", titulo:"", items:[it], meal:aliMealNow() };
+    aliUI.q = ""; return renderAlimentacion();
+  }
+  if(k==="drow"){ if(aliUI.draft){ aliUI.draft.items.splice(+b.dataset.i,1); } return renderAlimentacion(); }
+  if(k==="discard"){ aliUI.draft = null; aliUI.err = ""; return renderAlimentacion(); }
+  if(k==="commit"){
+    const dr = aliUI.draft; if(!dr) return;
+    const meal = (document.getElementById("af-meal")||{}).value || dr.meal || aliMealNow();
+    const r = aliDay(d), add = dr.items.filter(x=>x.n||x.kcal).map(x=>{
+      const o = { id:aliUid(), meal, n:(x.n||"Alimento").trim(), g:aliR(x.g), kcal:aliR(x.kcal), p:+aliN(x.p).toFixed(1), c:+aliN(x.c).toFixed(1), f:+aliN(x.f).toFixed(1), src:dr.src, t:Date.now() };
+      if(dr.thumb) o.thumb = dr.thumb; return o; });
+    aliData[d] = Object.assign({}, r, { items:(r.items||[]).concat(add) });
+    aliUI.draft = null; aliUI.err = ""; aliSave(d);
+    toast(`✓ ${aliR(aliTot(add).kcal)} kcal agregadas`); return renderAlimentacion();
+  }
+  if(k==="del"){
+    const r = aliDay(d); aliData[d] = Object.assign({}, r, { items:(r.items||[]).filter(x=>x.id!==b.dataset.id) });
+    aliSave(d); return renderAlimentacion();
   }
 });
 (function aliInit(){
   try{ const raw = localStorage.getItem("entrenador-alimentacion"); if(raw) aliData = JSON.parse(raw)||{}; }catch(_){}
+  try{ const raw = localStorage.getItem("entrenador-ali-cfg"); if(raw) aliCfg = Object.assign({}, ALI_CFG_DEF, JSON.parse(raw)); }catch(_){}
+  aliGetSample().then(()=>{ if(state.view==="alimentacion") renderAlimentacion(); });
   let tries = 0;
   const w = setInterval(()=>{ tries++;
-    if(db){ clearInterval(w); db.collection("alimentacion").onSnapshot(snap=>{
-      const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); });
-      aliData = t;
-      const focused = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.alif;
-      if(state.view==="alimentacion" && !focused) renderAlimentacion();
-    }, ()=>{}); }
+    if(db){ clearInterval(w);
+      const busyField = ()=> rxBusyFocus();
+      db.collection("alimentacion").onSnapshot(snap=>{
+        const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); });
+        aliData = t;
+        if(state.view==="alimentacion" && !busyField() && (RX.sub==="registro" || RX.sub==="nutri")) renderAlimentacion();
+      }, ()=>{});
+      db.doc("alimentacion_cfg/objetivos").onSnapshot(s=>{
+        const v = s && (typeof s.data==="function" ? s.data() : s); if(v && typeof v==="object") aliCfg = Object.assign({}, ALI_CFG_DEF, v);
+        if(state.view==="alimentacion" && !busyField()) renderAlimentacion();
+      }, ()=>{});
+    }
+    else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
+  }, 500);
+})();
+
+/* ======================= RECETARIO ARGENTINO =======================
+   Recetas hechas con productos que se consumen en Argentina (dulce de leche, almidón de mandioca,
+   queso Por Salut, membrillo, Chocolinas, grasa vacuna, provoleta, maíz pisado…).
+   Ingredientes: "cantidad|unidad|ingrediente" (cantidad vacía = a gusto). Macros: por porción, aprox.
+   v = video de YouTube VERIFICADO (existe y se puede ver: comprobado el 07/10/2026). */
+const REC_DB = [
+ {id:"chipa",n:"Chipá",tipo:"salado",reg:"Litoral / Chaco",e:"🧀",min:40,porc:8,mac:[480,12,55,23],
+  arg:["almidón de mandioca","queso Por Salut"],
+  ing:["500|g|almidón de mandioca","250|g|queso Por Salut o cremoso, rallado grueso","100|g|queso duro rallado (tipo reggianito)","2|u|huevos","100|g|manteca blanda","150|ml|leche","1|cdita|sal"],
+  pasos:["Mezclá el almidón con la sal.","Sumá la manteca blanda y los huevos, integrá con la mano.","Agregá los dos quesos.","Incorporá la leche de a poco hasta una masa suave que no se pegue.","Armá bolitas de 3 cm y ponelas en placa enmantecada.","Horno a 200 °C 15-20 minutos, hasta que doren abajo."],
+  fit:"Usá queso magro y la mitad de manteca: baja casi 100 kcal por porción.",
+  v:{id:"FNGDishTqA4",t:"CÓMO HACER CHIPA (receta con trucos)",ch:"Paulina Cocina",len:"11:15"}},
+ {id:"chipaguazu",n:"Chipa guazú",tipo:"salado",reg:"Chaco / Corrientes",e:"🌽",min:60,porc:6,mac:[350,15,30,19],
+  arg:["queso Por Salut"],
+  ing:["4|taza|granos de choclo (frescos o de lata)","1|u|cebolla","3|u|huevos","200|ml|leche","250|g|queso Por Salut o fresco en cubos","50|g|manteca","1|cdita|sal"],
+  pasos:["Rehogá la cebolla picada en la manteca.","Procesá el choclo con la leche y los huevos (que quede con textura).","Mezclá con la cebolla y el queso, salá.","Volcá en fuente enmantecada.","Horno a 180 °C unos 45 minutos, hasta dorado y firme."],
+  fit:"Con queso magro y 2 claras extra queda más proteico.",
+  v:{id:"vwKbcGoIFNo",t:"PASTEL DE CHOCLO delicioso Chipa Guazú FACIL",ch:"miel house",len:"4:00"}},
+ {id:"sopapy",n:"Sopa paraguaya",tipo:"salado",reg:"Chaco / Formosa",e:"🥘",min:60,porc:8,mac:[420,16,42,20],
+  arg:["harina de maíz","queso Por Salut","grasa vacuna"],
+  ing:["500|g|harina de maíz amarilla","2|u|cebollas","400|g|queso fresco o Por Salut","4|u|huevos","400|ml|leche","100|g|grasa vacuna o manteca","1|cdita|sal"],
+  pasos:["Rehogá la cebolla en la grasa hasta transparente.","Batí los huevos con la leche y la sal.","Agregá la harina de maíz, la cebolla y el queso desmenuzado: tiene que quedar como bizcochuelo espeso.","Volcá en fuente aceitada.","Horno a 200 °C 40-45 minutos, hasta dorar arriba."],
+  fit:"Cambiá la grasa por 3 cucharadas de aceite y usá queso magro.",
+  v:{id:"Vfj0J9oxCkM",t:"Sopa Paraguaya - La mejor receta que vas a encontrar",ch:"En el Horno Con Peta",len:"10:29"}},
+ {id:"empanadas",n:"Empanadas de carne cortada a cuchillo",tipo:"salado",reg:"Norte / todo el país",e:"🥟",min:90,porc:6,mac:[560,30,48,27],
+  arg:["tapas criollas","grasa vacuna","pimentón","comino"],
+  ing:["12|u|tapas para empanadas de horno","500|g|carne (tapa de nalga o matambre) cortada a cuchillo","2|u|cebollas","1|u|morrón rojo","3|u|cebollas de verdeo","2|u|huevos duros","50|g|grasa vacuna (o 3 cdas de aceite)","1|cdita|comino","1|cda|pimentón dulce","|a gusto|ají molido y sal"],
+  pasos:["Cortá la carne en cubitos chicos.","Rehogá cebolla y morrón en la grasa.","Sumá la carne solo hasta que pierda el color; condimentá con comino, pimentón, ají y sal.","Apagá, agregá el verdeo y enfriá el relleno en la heladera (tiene que estar frío).","Rellená con un trocito de huevo duro y hacé el repulgue.","Horno fuerte, 220 °C, 15-18 minutos."],
+  fit:"2 empanadas es una porción: acompañá con ensalada en vez de sumar una tercera.",
+  v:{id:"TQI3rQ3IpQE",t:"ASÍ hago ahora las EMPANADAS de Carne Cortada a Cuchillo",ch:"Paulina Cocina",len:"12:11"}},
+ {id:"locro",n:"Locro criollo",tipo:"salado",reg:"Norte / todo el país",e:"🍲",min:180,porc:8,mac:[620,32,60,28],
+  arg:["maíz blanco partido","chorizo colorado","pimentón"],
+  ing:["500|g|maíz blanco partido (en remojo desde la noche)","250|g|porotos alubia (en remojo)","500|g|zapallo anco","400|g|falda u osobuco","250|g|panceta","2|u|chorizos colorados","2|u|cebollas","1|cda|pimentón dulce","1|cdita|comino","|a gusto|sal","3|cda|aceite + ají molido + verdeo (salsa picante)"],
+  pasos:["Herví el maíz y los porotos 1 hora.","Sumá la falda, la panceta y los chorizos en trozos.","Agregá el zapallo en cubos y la cebolla.","Cocción lenta 1 hora y media a 2 horas, revolviendo, hasta que quede cremoso.","Salsa: calentá aceite con pimentón, ají y verdeo; servila arriba."],
+  fit:"Sacá la panceta y usá carne magra: sigue siendo locro y baja bastante la grasa.",
+  v:{id:"ZBlLDfIbmbw",t:"Receta de LOCRO en 6 pasos",ch:"Paulina Cocina",len:"13:09"}},
+ {id:"humita",n:"Humita en olla",tipo:"salado",reg:"Noroeste",e:"🌽",min:50,porc:4,mac:[380,14,48,16],
+  arg:["queso cremoso","pimentón"],
+  ing:["6|u|choclos rallados","1|u|cebolla","1|u|morrón rojo","1|cda|pimentón dulce","200|ml|leche","150|g|queso cremoso","30|g|manteca","1|cda|azúcar","|a gusto|sal y albahaca"],
+  pasos:["Rallá los choclos.","Rehogá cebolla y morrón en la manteca con el pimentón.","Sumá el choclo y la leche; cociná 20-25 minutos revolviendo.","Ajustá sal y azúcar.","Al final, queso en cubos y albahaca."],
+  fit:"Con leche descremada y queso magro queda liviana y sigue cremosa.",
+  v:{id:"EJvD-g1LuCY",t:"Cómo Hacer Humita Argentina Tradicional | Receta Fácil",ch:"Tenedor Libre",len:"6:02"}},
+ {id:"napolitana",n:"Milanesa napolitana",tipo:"salado",reg:"Buenos Aires / todo el país",e:"🍖",min:40,porc:4,mac:[650,52,35,32],
+  arg:["milanesa de nalga","muzzarella"],
+  ing:["600|g|nalga en milanesas (4 unidades)","2|u|huevos","200|g|pan rallado","1|u|diente de ajo + perejil picado","4|cda|salsa de tomate","4|u|fetas de jamón cocido","250|g|muzzarella","|a gusto|orégano y sal"],
+  pasos:["Batí los huevos con ajo, perejil y sal.","Pasá la carne por huevo y después por pan rallado, apretando.","Horno a 200 °C 15 minutos, dando vuelta a mitad (o fritas).","Cubrí con salsa, jamón y muzzarella.","Gratiná 5 minutos y terminá con orégano."],
+  fit:"Al horno y con muzzarella light: más de 40 g de proteína por porción.",
+  v:{id:"R3Ehc1fz9Ug",t:"MILANESA NAPOLITANA CON PAPAS FRITAS",ch:"La Chancha y los 20",len:"11:30"}},
+ {id:"provoleta",n:"Provoleta con chimichurri",tipo:"salado",reg:"Todo el país (parrilla)",e:"🔥",min:20,porc:2,mac:[480,28,3,40],
+  arg:["provoleta","chimichurri"],
+  ing:["250|g|provoleta (queso provolone hilado)","1|cdita|orégano","3|cda|perejil picado","1|u|diente de ajo picado","½|cdita|ají molido","4|cda|aceite","2|cda|vinagre","|a gusto|sal"],
+  pasos:["Chimichurri: mezclá perejil, ajo, orégano, ají, sal, aceite y vinagre; dejalo reposar.","Secá la provoleta y espolvoreá orégano.","Parrilla o sartén de hierro bien caliente: 3-4 minutos por lado hasta hacer costra.","Serví enseguida con el chimichurri."],
+  fit:"Media provoleta por persona como entrada; mucha proteína pero también mucha grasa.",
+  v:{id:"fYafRJbeUDM",t:"Provoleta Argentina: La receta perfecta",ch:"Locos X el Asado",len:"21:38"}},
+ {id:"matambre",n:"Matambre a la pizza",tipo:"salado",reg:"Todo el país",e:"🍕",min:120,porc:4,mac:[700,55,8,48],
+  arg:["matambre vacuno"],
+  ing:["1|u|matambre vacuno (≈1,2 kg)","1|l|leche","200|ml|salsa de tomate","250|g|muzzarella","|a gusto|orégano, aceitunas y sal"],
+  pasos:["Herví el matambre en la leche 1 hora, hasta que esté tierno.","Pasalo a la parrilla u horno del lado de la grasa para dorar.","Dalo vuelta y cubrí con salsa, muzzarella y orégano.","Gratiná hasta que se derrita."],
+  fit:"Desgrasá bien el matambre antes de hervir.",
+  v:{id:"Li0G0qhBVn4",t:"¡Preparando el mejor matambre a la pizza!",ch:"Food Network Latinoamérica",len:"8:55"}},
+ {id:"gramajo",n:"Revuelto gramajo",tipo:"salado",reg:"Buenos Aires",e:"🍳",min:30,porc:2,mac:[620,26,45,38],
+  arg:["papas paja","jamón cocido"],
+  ing:["300|g|papas cortadas paja","4|u|huevos","100|g|jamón cocido en tiritas","1|u|cebolla","½|taza|arvejas","|a gusto|aceite y sal"],
+  pasos:["Freí las papas paja y escurrilas.","Rehogá la cebolla y sumá el jamón.","Batí los huevos, volcalos y revolvé a fuego bajo hasta que estén cremosos.","Agregá las papas y las arvejas al final."],
+  fit:"Papas al horno en vez de fritas y 2 claras extra.",
+  v:{id:"hloFV5P7yMQ",t:"Así me queda el revuelto gramajo bien cremoso",ch:"Paulina Cocina",len:"8:50"}},
+ {id:"pastelpapa",n:"Pastel de papa",tipo:"salado",reg:"Todo el país",e:"🥔",min:75,porc:6,mac:[520,28,45,25],
+  arg:["comino","pimentón"],
+  ing:["1,2|kg|papas","600|g|carne picada","2|u|cebollas","1|u|morrón","2|u|huevos duros","50|g|manteca","100|ml|leche","|a gusto|aceitunas, comino, pimentón y sal","1|cda|azúcar (para dorar arriba)"],
+  pasos:["Herví las papas y hacé puré con manteca y leche.","Relleno: rehogá cebolla y morrón, sumá la carne y condimentá.","En fuente: capa de puré, relleno con huevo y aceitunas, y puré arriba.","Espolvoreá azúcar.","Horno a 200 °C 25 minutos, hasta dorar."],
+  fit:"Carne picada especial magra y mitad papa / mitad calabaza en el puré.",
+  v:{id:"XtQsqkNgV9A",t:"PASTEL DE PAPAS receta de la abuela MUY FACIL",ch:"miel house",len:"4:20"}},
+ {id:"tortasfritas",n:"Tortas fritas",tipo:"salado",reg:"Todo el país (días de lluvia)",e:"🌧️",min:40,porc:6,mac:[360,6,42,18],
+  arg:["grasa vacuna","harina 0000"],
+  ing:["500|g|harina 0000","100|g|grasa vacuna derretida","250|ml|agua tibia","10|g|sal","|cantidad necesaria|grasa para freír"],
+  pasos:["Mezclá harina y sal, sumá la grasa derretida.","Agregá el agua de a poco y amasá.","Reposo tapada 20 minutos.","Estirá discos finos y hacé un agujerito al centro.","Freí en grasa caliente dorando de los dos lados. Ideales con mate."],
+  fit:"Es un gusto: 1-2 unidades y listo.",
+  v:{id:"td1f9sNSdYQ",t:"TORTAS FRITAS la receta mas facil",ch:"miel house",len:"2:42"}},
+
+ {id:"chocotorta",n:"Chocotorta",tipo:"dulce",reg:"Todo el país",e:"🍫",min:20,porc:10,mac:[430,7,55,20],
+  arg:["Chocolinas","dulce de leche","queso crema tipo Mendicrim"],
+  ing:["2|u|paquetes de Chocolinas (500 g)","400|g|dulce de leche repostero","300|g|queso crema (tipo Mendicrim)","300|ml|café o leche chocolatada para mojar","|a gusto|cacao para decorar"],
+  pasos:["Mezclá el dulce de leche con el queso crema.","Mojá las galletitas rápido en el café.","Armá capas: galletitas, crema, galletitas…","Terminá con crema y decorá.","Heladera mínimo 4 horas."],
+  fit:"Dulce de leche y queso crema light: baja cerca de un 30%.",
+  v:{id:"aadzlHL1lE8",t:"Como hacer una CHOCOTORTA facil y rapido",ch:"miel house",len:"4:24"}},
+ {id:"alfajores",n:"Alfajores de maicena",tipo:"dulce",reg:"Todo el país",e:"🥮",min:50,porc:20,mac:[230,2.5,32,10],
+  arg:["dulce de leche repostero","almidón de maíz"],
+  ing:["300|g|almidón de maíz","200|g|harina 0000","200|g|manteca","150|g|azúcar","3|u|yemas","1|cdita|polvo de hornear","1|cdita|esencia de vainilla","1|u|ralladura de limón","500|g|dulce de leche repostero","|a gusto|coco rallado"],
+  pasos:["Batí la manteca con el azúcar; sumá yemas, vainilla y ralladura.","Agregá los secos tamizados y uní sin amasar.","Estirá a 5 mm y cortá.","Horno a 170 °C 10 minutos, sin que doren.","Ya fríos, rellená con dulce de leche y pasá el borde por coco."],
+  fit:"1 alfajor = 1 porción. Ideal post entreno con un vaso de leche.",
+  v:{id:"mNz3bBBKAw8",t:"ALFAJORES DE MAIZENA en minutos DELICIOSOS",ch:"miel house",len:"4:30"}},
+ {id:"flan",n:"Flan casero con dulce de leche",tipo:"dulce",reg:"Todo el país",e:"🍮",min:60,porc:6,mac:[380,11,58,11],
+  arg:["dulce de leche"],
+  ing:["1|l|leche","6|u|huevos","200|g|azúcar","1|cdita|esencia de vainilla","150|g|azúcar (caramelo)","|a gusto|dulce de leche para servir"],
+  pasos:["Hacé caramelo en la budinera.","Batí huevos con azúcar sin espumar; sumá leche y vainilla.","Colá sobre la budinera.","Baño María a 160 °C 50-60 minutos, hasta que esté firme.","Enfriá, desmoldá y serví con dulce de leche."],
+  fit:"Con leche descremada y edulcorante apto horno: postre con 11 g de proteína.",
+  v:{id:"7xA3Nim3toc",t:"FLAN CASERO CLÁSICO - ¡Sale siempre bien!",ch:"Paulina Cocina",len:"8:04"}},
+ {id:"pastafrola",n:"Pastafrola de membrillo",tipo:"dulce",reg:"Todo el país",e:"🥧",min:60,porc:10,mac:[380,5,62,13],
+  arg:["dulce de membrillo"],
+  ing:["400|g|harina 0000 leudante","150|g|manteca","150|g|azúcar","2|u|huevos","1|u|ralladura de limón","1|cdita|esencia de vainilla","500|g|dulce de membrillo","50|ml|agua o vino dulce"],
+  pasos:["Arená la manteca con el azúcar; sumá huevos, ralladura y vainilla.","Agregá la harina y formá la masa; reposo 20 minutos.","Forrá la tartera.","Pisá el membrillo con el agua y rellená.","Hacé el enrejado y horneá a 180 °C 35 minutos."],
+  fit:"Mitad harina integral; porción fina.",
+  v:{id:"gWnFESqU41U",t:"Receta de Pasta Frola SUPER FACIL masa y relleno",ch:"miel house",len:"9:49"}},
+ {id:"rogel",n:"Torta Rogel",tipo:"dulce",reg:"Todo el país",e:"🎂",min:120,porc:12,mac:[480,8,78,14],
+  arg:["dulce de leche repostero"],
+  ing:["5|u|yemas","200|g|harina 0000","50|g|manteca","2|cda|agua o caña","1|kg|dulce de leche repostero","3|u|claras","200|g|azúcar (merengue)","60|ml|agua (almíbar)"],
+  pasos:["Masa: yemas, manteca, agua y harina; amasá bien.","Dividí en 8 discos finos, pinchalos y horneá a 200 °C 5-6 minutos.","Armá capas con dulce de leche.","Merengue italiano: almíbar a punto bolita sobre las claras batidas.","Cubrí y quemá el merengue."],
+  fit:"Es torta de cumpleaños: porción chica y a disfrutar.",
+  v:{id:"D7jAApxJBLs",t:"Torta ROGEL ✩ Que ricor!!!",ch:"Tan Dulce",len:"5:12"}},
+ {id:"panqueques",n:"Panqueques con dulce de leche",tipo:"dulce",reg:"Todo el país",e:"🥞",min:30,porc:5,mac:[420,12,58,15],
+  arg:["dulce de leche"],
+  ing:["250|g|harina 0000","500|ml|leche","3|u|huevos","30|g|manteca derretida","|pizca|sal","300|g|dulce de leche"],
+  pasos:["Licuá todo menos el dulce de leche; reposo 15 minutos.","Panquequera apenas untada, capa fina.","1 minuto por lado.","Rellená con dulce de leche y enrollá."],
+  fit:"Versión fit: avena + claras + banana, y una cucharada de dulce de leche.",
+  v:{id:"J45Af6F8l-8",t:"Cómo hacer PANQUEQUES y panqueques con dulce de leche",ch:"Paulina Cocina",len:"12:38"}},
+ {id:"balcarce",n:"Postre Balcarce",tipo:"dulce",reg:"Balcarce / todo el país",e:"🍰",min:60,porc:12,mac:[520,7,55,30],
+  arg:["dulce de leche","merenguitos"],
+  ing:["2|u|discos de bizcochuelo de vainilla","1|l|crema de leche","500|g|dulce de leche repostero","150|g|merenguitos","100|g|nueces o castañas","200|ml|almíbar liviano","|a gusto|coco rallado"],
+  pasos:["Almibarás el primer disco.","Capa de crema batida con dulce de leche, merenguitos y nueces.","Segundo disco almibarado.","Cubrí con crema y coco.","Heladera 4 horas."],
+  fit:"Postre de fiesta: porción fina.",
+  v:{id:"rseLyvNPUAA",t:"Como hacer postre Balcarce (Postre sin horno muy fácil)",ch:"Paulina Cocina",len:"8:37"}},
+ {id:"budinpan",n:"Budín de pan",tipo:"dulce",reg:"Todo el país",e:"🍞",min:75,porc:8,mac:[340,10,60,7],
+  arg:["dulce de leche"],
+  ing:["300|g|pan del día anterior","1|l|leche","4|u|huevos","200|g|azúcar","1|cdita|vainilla","150|g|azúcar (caramelo)","|opcional|pasas de uva"],
+  pasos:["Remojá el pan en la leche y procesalo.","Sumá huevos, azúcar y vainilla.","Caramelo en la budinera y volcá la mezcla.","Baño María a 170 °C 1 hora.","Frío, desmoldá; con dulce de leche."],
+  fit:"Aprovecha el pan viejo; con leche descremada baja la grasa.",
+  v:{id:"KcKe8z6ZjX0",t:"CÓMO HACER BUDÍN DE PAN: Receta fácil en 4 pasos!",ch:"Paulina Cocina",len:"10:09"}},
+ {id:"pastelitos",n:"Pastelitos criollos de membrillo",tipo:"dulce",reg:"Todo el país (25 de mayo)",e:"⭐",min:90,porc:12,mac:[420,4,55,21],
+  arg:["dulce de membrillo","grasa vacuna"],
+  ing:["500|g|harina 0000","50|g|grasa (masa)","250|ml|agua con sal","150|g|grasa o margarina (empaste)","400|g|dulce de membrillo o batata","|cantidad necesaria|grasa para freír","300|g|azúcar + 150 ml agua (almíbar)","|a gusto|granas"],
+  pasos:["Masa: harina, grasa y agua salada; reposo.","Estirá, untá con grasa blanda y plegá; repetí 3 veces (hojaldre criollo).","Cortá cuadrados, poné dulce y armá la estrella.","Freí en grasa no muy caliente.","Bañá en almíbar y granas."],
+  fit:"Fritos y con almíbar: de a uno.",
+  v:{id:"IcV3-DSPb6Q",t:"PASTELITOS SUPER CRUJIENTES de membrillo o batata",ch:"miel house",len:"14:17"}},
+ {id:"churros",n:"Churros rellenos de dulce de leche",tipo:"dulce",reg:"Costa atlántica / todo el país",e:"🥖",min:45,porc:7,mac:[450,6,60,21],
+  arg:["dulce de leche repostero"],
+  ing:["250|g|harina 0000","250|ml|agua","30|g|manteca","|pizca|sal","1|cda|azúcar","|cantidad necesaria|aceite para freír","300|g|dulce de leche repostero","|a gusto|azúcar para pasar"],
+  pasos:["Herví el agua con manteca, sal y azúcar.","Agregá la harina de golpe y revolvé hasta formar un bollo.","Manga con pico estrella y freí a 180 °C.","Pasalos por azúcar.","Rellená con dulce de leche."],
+  fit:"En freidora de aire salen bien con un rocío de aceite.",
+  v:{id:"NgHBBYaRSPk",t:"La fórmula secreta de los churros rellenos en Cocineros Argentinos",ch:"Televisión Pública",len:"16:04"}},
+ {id:"tortitas",n:"Tortitas negras",tipo:"dulce",reg:"Buenos Aires / todo el país",e:"🟤",min:50,porc:12,mac:[260,5,44,8],
+  arg:["azúcar negra","grasa"],
+  ing:["500|g|harina 0000","25|g|levadura fresca","100|g|grasa o manteca","250|ml|leche tibia","50|g|azúcar","1|cdita|sal","200|g|azúcar negra + 2 cdas de agua (cubierta)"],
+  pasos:["Disolvé la levadura en la leche con el azúcar.","Sumá harina, sal y grasa; amasá.","Levado 40 minutos.","Bollitos aplastados y cubiertos con el azúcar negra húmeda.","Horno a 200 °C 15 minutos."],
+  fit:"Con mate amargo, una o dos.",
+  v:{id:"7ncnU4zwWdE",t:"Como hacer Tortitas negras",ch:"Matias Chavero",len:"7:36"}},
+ {id:"mazamorra",n:"Mazamorra",tipo:"dulce",reg:"Noroeste / Cuyo",e:"🥣",min:120,porc:6,mac:[360,10,72,4],
+  arg:["maíz blanco pisado","dulce de leche"],
+  ing:["500|g|maíz blanco pisado (en remojo desde la noche)","2|l|agua","1|l|leche","150|g|azúcar","|pizca|bicarbonato","1|cdita|vainilla","|a gusto|dulce de leche o miel para servir"],
+  pasos:["Remojá el maíz toda la noche.","Hervilo en agua con una pizca de bicarbonato 1 hora y media, hasta tierno.","Sumá leche y azúcar; cociná 20-30 minutos hasta que espese.","Vainilla y a la mesa, fría o tibia, con dulce de leche o miel."],
+  fit:"Carbohidrato lento: buena antes de entrenar.",
+  v:{id:"OrcYq7K1rTM",t:"Como preparar Mazamorra Argentina Receta",ch:"Marisa Sanchez Perez",len:"3:39"}},
+];
+
+/* ======================= IA: Claude (PC) o Gemini (celular) =======================
+   En la versión de PC (claude.ai) la IA es Claude, que ya viene incluido: no hace falta clave.
+   Esa vista no deja conectarse a servicios de afuera, así que Gemini queda para la app del celular:
+   ahí se pega una clave gratuita de Google AI Studio en "Nutri IA → Motor de IA". */
+function aiGemKey(){ try{ return localStorage.getItem("entrenador-gemini-key")||""; }catch(_){ return ""; } }
+function aiGemModel(){ try{ return localStorage.getItem("entrenador-gemini-model")||"gemini-3.8-flash"; }catch(_){ return "gemini-3.8-flash"; } }
+function aiOn(){ return !!aliSample || !!aiGemKey(); }
+function aiImgOn(){ return aliSample ? aliImgOk : !!aiGemKey(); }
+function aiMotor(){ return aliSample ? "Claude" : aiGemKey() ? "Gemini" : ""; }
+async function aiB64(file){
+  const bmp = await createImageBitmap(file); const k = Math.min(1, 1280/Math.max(bmp.width,bmp.height));
+  const cv = document.createElement("canvas"); cv.width = Math.round(bmp.width*k); cv.height = Math.round(bmp.height*k);
+  cv.getContext("2d").drawImage(bmp,0,0,cv.width,cv.height); bmp.close && bmp.close();
+  return cv.toDataURL("image/jpeg",0.82).split(",")[1];
+}
+async function aiGemini(contents, json, signal){
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(aiGemModel())}:generateContent`, {
+    method:"POST", signal, headers:{ "Content-Type":"application/json", "x-goog-api-key":aiGemKey() },
+    body: JSON.stringify({ contents, generationConfig: json ? { responseMimeType:"application/json", temperature:0.4 } : { temperature:0.6 } }) });
+  if(!r.ok) throw { code: r.status===429 ? "rate_limited" : r.status===400||r.status===403 ? "bad_key" : "ai_error", message:"Gemini "+r.status };
+  const j = await r.json();
+  return ((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(p=>p.text||"").join("");
+}
+async function aiJSON(prompt, { images, signal, onText } = {}){
+  const s = await aliGetSample();
+  if(s){ const o = { signal, onText }; if(images && images.length) o.images = images; return s.json(prompt, o); }
+  if(!aiGemKey()) throw { code:"no_ai", message:"Sin IA configurada" };
+  const parts = [{ text:prompt }];
+  for(const f of (images||[])) parts.push({ inline_data:{ mime_type:"image/jpeg", data: await aiB64(f) } });
+  const t = await aiGemini([{ role:"user", parts }], true, signal);
+  return JSON.parse(t.replace(/^\s*```(?:json)?/,"").replace(/```\s*$/,""));
+}
+async function aiChat(turns, { signal, onText } = {}){
+  const s = await aliGetSample();
+  if(s){ const r = await s(turns, { signal, onText, cache:false }); return r.text; }
+  if(!aiGemKey()) throw { code:"no_ai", message:"Sin IA configurada" };
+  return aiGemini(turns.map(t=>({ role: t.role==="assistant" ? "model" : "user", parts:[{ text:t.content }] })), false, signal);
+}
+function aiErrMsg(e){
+  const c = e && e.code;
+  return c==="cancelled" ? "" : c==="not_granted" ? "Hace falta permitir que la app le consulte a la IA (aparece un aviso la primera vez)."
+    : c==="images_unavailable" ? "Esta vista no puede mandar fotos: escribí los ingredientes." : c==="image_rejected" ? "No pude leer esa imagen: probá con JPG o PNG."
+    : c==="rate_limited" ? "Muchas consultas seguidas: esperá un minuto." : c==="no_ai" ? "No hay IA configurada (en el celular: Nutri IA → Motor de IA → clave de Gemini)."
+    : c==="bad_key" ? "La clave de Gemini no funciona: revisala en Nutri IA → Motor de IA." : "No se pudo ("+((e&&e.message)||"error")+"). Probá de nuevo.";
+}
+
+/* ======================= ALIMENTACIÓN · SOLAPAS =======================
+   Registro (foto → calorías) · Recetario argentino · Mi heladera · Yo armo mi comida · Ayuno · Compras · Nutri IA */
+const RX_TABS = [["registro","📷 Registro"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
+const RX = { sub:"registro", filtro:"todos", q:"", open:null, porc:{}, shown:{}, busy:false, err:"", abort:null,
+  hel:{ ings:[], recetas:[], tipo:"cualquiera", min:"45", obj:"rendidora y sana", porc:"2" },
+  armo:{ ings:[], receta:null, deseo:"", tipo:"cualquiera", porc:"2" },
+  mias:{}, compras:{ items:[] }, ayuno:{ plan:16, start:null, hist:[] }, chat:[], cook:null, cookT:null, cookLeft:0 };
+try{ RX.sub = localStorage.getItem("entrenador-ali-sub") || "registro"; }catch(_){}
+function rxEsc(t){ return aliEsc(t); }
+function rxNorm(s){ return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function rxBusyFocus(){ const a = document.activeElement, v = document.getElementById("view-alimentacion");
+  return !!(a && v && v.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)); }
+
+function renderAlimentacion(){
+  const root = document.getElementById("view-alimentacion"); if(!root) return;
+  if(!root.querySelector("#rx-body")) root.innerHTML = `<div class="rx-tabs" role="tablist" aria-label="Secciones de alimentación"></div><div id="rx-body"></div>`;
+  root.querySelector(".rx-tabs").innerHTML = RX_TABS.map(([k,l])=>`<button role="tab" aria-selected="${RX.sub===k}" class="rx-tab ${RX.sub===k?"on":""}" data-rx="sub" data-k="${k}">${l}</button>`).join("");
+  const body = root.querySelector("#rx-body");
+  if(RX.sub==="registro") aliRenderRegistro(body);
+  else if(RX.sub==="recetario") rxRecetario(body);
+  else if(RX.sub==="heladera") rxHeladera(body);
+  else if(RX.sub==="armo") rxArmo(body);
+  else if(RX.sub==="ayuno") rxAyuno(body);
+  else if(RX.sub==="compras") rxCompras(body);
+  else if(RX.sub==="nutri") rxNutri(body);
+}
+
+/* ---------- Recetas: formato común (recetario o IA) ---------- */
+function rxParseIng(s){ if(typeof s!=="string") return s; const [cant,u,item] = s.split("|"); return { cant:cant||"", u:u||"", item:item||"" }; }
+function rxQty(c){ c = String(c||"").trim().replace(",",".").replace("½","0.5").replace("¼","0.25").replace("¾","0.75"); const n = parseFloat(c); return isFinite(n) ? n : null; }
+function rxFmtQty(n){ if(n==null) return ""; if(n>=10) return String(Math.round(n)); const r = Math.round(n*4)/4;
+  const w = Math.floor(r), f = r-w; const fr = f===0.5?"½":f===0.25?"¼":f===0.75?"¾":""; return (w?String(w):"")+(fr||(w?"":"0")); }
+function rxRecipe(r){ // normaliza
+  return { id:r.id||"", n:r.n||"Receta", tipo:r.tipo||"", reg:r.reg||"", e:r.e||(r.tipo==="dulce"?"🍰":"🍽️"), min:+r.min||0, porc:+r.porc||1,
+    mac: Array.isArray(r.mac) ? r.mac.map(Number) : [0,0,0,0], arg:r.arg||[], ing:(r.ing||[]).map(rxParseIng), pasos:r.pasos||[],
+    fit:r.fit||r.tip||"", v:r.v||null, rid:r.rid||"", yt:r.yt||"", src:r.src||(r.v?"recetario":"ia") };
+}
+function rxVideoFor(r){ // REGLA: solo se muestra un link directo si está verificado en el recetario
+  if(r.v) return r.v; const base = REC_DB.find(x=>x.id===r.rid); return base ? base.v : null;
+}
+function rxPantryHas(item){ const p = rxPantry(); if(!p.length) return null; const n = rxNorm(item);
+  return p.some(w=> w.split(/\s+/).filter(x=>x.length>3).some(x=> n.includes(x.replace(/s$/,"")))); }
+function rxPantry(){ return [...RX.hel.ings, ...RX.armo.ings].map(x=>rxNorm(x.n||x)); }
+
+function rxCard(r0, key, opts={}){
+  const r = rxRecipe(r0); RX.shown[key] = r;
+  const porc = RX.porc[key] || r.porc, k = porc/(r.porc||1);
+  const vid = rxVideoFor(r);
+  const yq = encodeURIComponent((r.yt || r.n) + " receta");
+  return `<article class="rx-card" data-key="${rxEsc(key)}">
+    <div class="rx-card-head">
+      <span class="rx-emoji" aria-hidden="true">${r.e}</span>
+      <div style="flex:1;min-width:0;">
+        <div class="pg-kicker">${r.tipo==="dulce"?"Dulce":r.tipo==="salado"?"Salado":"Receta"}${r.reg?" · "+rxEsc(r.reg):""}${r.src==="ia"?" · armada por IA":""}</div>
+        <h3 class="rx-title">${rxEsc(r.n)}</h3>
+        <div class="rx-meta">⏱ ${r.min||"?"} min · 🍽 <select data-rx="porc" data-k="${rxEsc(key)}" aria-label="Porciones">${[1,2,3,4,5,6,8,10,12,16,20].concat(r.porc).filter((v,i,a)=>a.indexOf(v)===i).sort((a,b)=>a-b).map(n=>`<option ${n===porc?"selected":""}>${n}</option>`).join("")}</select> porciones
+          · <b>${aliR(r.mac[0])} kcal</b>/porción · P ${aliR(r.mac[1])} · C ${aliR(r.mac[2])} · G ${aliR(r.mac[3])}</div>
+        ${r.arg.length?`<div class="rx-arg">${r.arg.map(a=>`<span>🇦🇷 ${rxEsc(a)}</span>`).join("")}</div>`:""}
+      </div>
+    </div>
+    <div class="rx-cols">
+      <div><h4>Ingredientes</h4><ul class="rx-ing">${r.ing.map(x=>{ const q = rxQty(x.cant); const has = x.tengo!=null ? x.tengo : rxPantryHas(x.item);
+        return `<li class="${has===true?"has":has===false?"miss":""}"><b>${q!=null?rxFmtQty(q*k):rxEsc(x.cant)} ${rxEsc(x.u)}</b> ${rxEsc(x.item)}${has===false?` <small>falta</small>`:""}</li>`; }).join("")}</ul>
+        <button class="btn btn-sm" data-rx="tocompras" data-k="${rxEsc(key)}">🛒 ${r.ing.some(x=>(x.tengo!=null?x.tengo:rxPantryHas(x.item))===false)?"Faltantes a la lista":"Ingredientes a la lista"}</button></div>
+      <div><h4>Preparación</h4><ol class="rx-steps">${r.pasos.map(p=>`<li>${rxEsc(p)}</li>`).join("")}</ol>
+        ${r.fit?`<div class="af-tip">💪 ${rxEsc(r.fit)}</div>`:""}</div>
+    </div>
+    <div class="rx-actions">
+      ${vid ? `<a class="btn btn-sm rx-yt" href="https://www.youtube.com/watch?v=${rxEsc(vid.id)}" target="_blank" rel="noopener">▶ Video verificado · ${rxEsc(vid.ch)} (${rxEsc(vid.len)})</a>`
+            : `<a class="btn btn-sm" href="https://www.youtube.com/results?search_query=${yq}" target="_blank" rel="noopener" title="Esta receta la armó la IA: no hay un video exacto verificado, así que abre la búsqueda en YouTube">🔎 Buscar video en YouTube</a>`}
+      <button class="btn btn-sm" data-rx="cook" data-k="${rxEsc(key)}">👨‍🍳 Modo cocina</button>
+      <button class="btn btn-sm" data-rx="log" data-k="${rxEsc(key)}">＋ Registrar 1 porción</button>
+      ${r.src==="ia" && !opts.saved ? `<button class="btn btn-sm" data-rx="save" data-k="${rxEsc(key)}">⭐ Guardar en mi recetario</button>`:""}
+      ${opts.saved ? `<button class="btn btn-sm btn-ghost btn-danger" data-rx="unsave" data-k="${rxEsc(key)}">Quitar de mis recetas</button>`:""}
+      ${aiOn() && r.src!=="ia" ? `<button class="btn btn-sm btn-ghost" data-rx="fitver" data-k="${rxEsc(key)}">✨ Versión fit con IA</button>`:""}
+    </div>
+  </article>`;
+}
+
+/* ---------- 📖 Recetario ---------- */
+function rxRecetario(el){
+  const q = rxNorm(RX.q), mias = Object.values(RX.mias).map(m=>Object.assign({}, m, { src:"ia" }));
+  let list = RX.filtro==="mias" ? mias : REC_DB.filter(r=> RX.filtro==="todos" || r.tipo===RX.filtro);
+  if(q) list = list.filter(r=> rxNorm(r.n+" "+(r.reg||"")+" "+(r.ing||[]).join(" ")+" "+(r.arg||[]).join(" ")).includes(q));
+  const open = RX.open && (REC_DB.find(r=>r.id===RX.open) || RX.mias[RX.open]);
+  el.innerHTML = `<div class="today-panel">
+    <div class="rx-filter">
+      <div class="pg-seg">${[["todos","Todas"],["salado","🧂 Saladas"],["dulce","🍯 Dulces"],["mias",`⭐ Mías (${mias.length})`]].map(([k,l])=>`<button class="${RX.filtro===k?"on":""}" data-rx="filtro" data-k="${k}">${l}</button>`).join("")}</div>
+      <input type="text" id="rx-q" placeholder="Buscar: dulce de leche, choclo, carne…" value="${rxEsc(RX.q)}" autocomplete="off">
+    </div>
+    <p class="af-muted" style="margin:8px 0 0;">Recetas con productos de acá: dulce de leche, almidón de mandioca, Por Salut, membrillo, Chocolinas, grasa vacuna, maíz pisado… Cada video fue verificado: existe y se puede ver.</p>
+  </div>
+  ${open ? rxCard(open, open.id, { saved: !!RX.mias[open.id] }) + `<button class="btn btn-sm btn-ghost" data-rx="close" style="margin:-10px 0 18px;">← Volver al recetario</button>` : ""}
+  <div class="rx-grid">${list.map(r=>{ const x = rxRecipe(r); return `<button class="rx-tile ${RX.open===r.id?"on":""}" data-rx="open" data-k="${rxEsc(r.id)}">
+      <span class="rx-emoji">${x.e}</span><b>${rxEsc(x.n)}</b>
+      <small>${x.tipo==="dulce"?"Dulce":"Salado"} · ${x.min} min · ${aliR(x.mac[0])} kcal</small>
+      ${x.v?`<span class="rx-tile-v">▶ video</span>`:""}</button>`; }).join("") || `<div class="empty">Nada por acá todavía.${RX.filtro==="mias"?" Guardá recetas desde Mi heladera o Yo armo mi comida.":""}</div>`}</div>`;
+  const qi = document.getElementById("rx-q");
+  if(qi) qi.oninput = ()=>{ const p = qi.selectionStart; RX.q = qi.value; rxRecetario(el); const q2 = document.getElementById("rx-q"); if(q2){ q2.focus(); try{ q2.setSelectionRange(p,p); }catch(_){} } };
+}
+
+/* ---------- Generador de recetas con IA (heladera y yo armo) ---------- */
+function rxRecPrompt({ ings, n, tipo, min, obj, porc, deseo, foto }){
+  return `Sos cocinero argentino y nutricionista deportivo. ${foto?"Te paso FOTO(S) de la heladera / alacena del usuario. Primero identificá los ingredientes que se ven (con cantidad aproximada).":""}
+${ings.length?`Ingredientes que tiene: ${ings.map(x=>x.n||x).join(", ")}.`:""}${deseo?`\nLo que quiere comer: "${deseo}".`:""}
+Armá ${n} receta(s) ${tipo==="cualquiera"?"(saladas o dulces)":tipo==="dulce"?"DULCES":"SALADAS"} usando PRINCIPALMENTE esos ingredientes. Podés sumar básicos de alacena (sal, aceite, especias, harina, azúcar); marcá "tengo": false en lo que no tenga.
+Cocina casera ARGENTINA: nombres y productos de acá (dulce de leche, queso cremoso, Por Salut, membrillo, almidón de mandioca, carne vacuna, zapallo anco, etc.). Medidas EXACTAS en g, ml, tazas o cucharadas, para ${porc} porción(es). Tiempo máximo: ${min} minutos. Objetivo: ${obj}.
+Pasos claros, cortos y numerables, en voseo, con tiempos y temperaturas.
+Si alguna receta es una de este recetario, poné su id en "rid": ${JSON.stringify(REC_DB.map(r=>[r.id,r.n]))}. Si no, "rid": "".
+NO inventes links ni URLs. En "yt" poné el texto para buscar un video de esa receta en YouTube.
+Respondé SOLO JSON:
+{${foto?`"ingredientes":[{"n":"huevos","cant":"6 u aprox"}],`:""}"recetas":[{"n":"nombre","tipo":"salado|dulce","e":"un emoji","min":número,"porc":${porc},"mac":[kcal,proteína_g,carbos_g,grasas_g POR PORCIÓN],"ing":[{"cant":"200","u":"g","item":"carne picada","tengo":true}],"pasos":["..."],"tip":"consejo corto para alguien que entrena","rid":"","yt":"..."}]}`;
+}
+async function rxGenerar(modo, files){
+  if(!aiOn()){ RX.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
+  if(RX.abort) RX.abort.abort(); const ac = new AbortController(); RX.abort = ac;
+  RX.busy = modo; RX.err = ""; renderAlimentacion();
+  const S = modo==="armo" ? RX.armo : RX.hel;
+  try{
+    const res = await aiJSON(rxRecPrompt({ ings:S.ings, n: modo==="armo"?1:3, tipo:S.tipo, min: S.min||"60", obj: S.obj || "rico, casero y con buena proteína",
+      porc:S.porc, deseo: S.deseo, foto: !!(files && files.length) }), { images: files, signal: ac.signal });
+    if(ac.signal.aborted) return;
+    if(res && Array.isArray(res.ingredientes) && res.ingredientes.length){
+      const have = new Set(S.ings.map(x=>rxNorm(x.n)));
+      res.ingredientes.forEach(x=>{ const n = (x.n||"").trim(); if(n && !have.has(rxNorm(n))){ S.ings.push({ n, cant:x.cant||"" }); have.add(rxNorm(n)); } });
+    }
+    const recs = (res && Array.isArray(res.recetas) ? res.recetas : []).map(r=>Object.assign(r, { src:"ia", id:"ia-"+aliUid() }));
+    if(modo==="armo") RX.armo.receta = recs[0] || null; else RX.hel.recetas = recs;
+    if(!recs.length) RX.err = "No pude armar recetas con eso. Sumá algún ingrediente más.";
+  }catch(e){ RX.err = aiErrMsg(e); }
+  finally{ if(RX.abort===ac){ RX.busy = false; RX.abort = null; } renderAlimentacion(); }
+}
+async function rxIdentificar(files){ // foto de productos → ingredientes (Yo armo)
+  if(!aiOn()){ RX.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
+  const ac = new AbortController(); RX.abort = ac; RX.busy = "foto"; RX.err = ""; renderAlimentacion();
+  try{
+    const res = await aiJSON(`Mirá la(s) foto(s): son productos o ingredientes de cocina de un usuario argentino. Listá cada ingrediente con su cantidad aproximada si se ve (paquete de 1 kg, 6 huevos, etc.). Respondé SOLO JSON: {"ingredientes":[{"n":"nombre del ingrediente","cant":"cantidad aprox o vacío"}]}`, { images:files, signal:ac.signal });
+    const have = new Set(RX.armo.ings.map(x=>rxNorm(x.n)));
+    (res && res.ingredientes || []).forEach(x=>{ const n = (x.n||"").trim(); if(n && !have.has(rxNorm(n))){ RX.armo.ings.push({ n, cant:x.cant||"" }); have.add(rxNorm(n)); } });
+    if(!(res && res.ingredientes && res.ingredientes.length)) RX.err = "No reconocí productos en la foto.";
+  }catch(e){ RX.err = aiErrMsg(e); }
+  finally{ if(RX.abort===ac){ RX.busy = false; RX.abort = null; } renderAlimentacion(); }
+}
+function rxChips(list, who){
+  return `<div class="rx-chips">${list.map((x,i)=>`<span class="rx-chip">${rxEsc(x.n)}${x.cant?` <small>${rxEsc(x.cant)}</small>`:""}<button data-rx="chipx" data-w="${who}" data-i="${i}" aria-label="Quitar ${rxEsc(x.n)}">✕</button></span>`).join("")}
+    <input type="text" class="rx-chip-in" data-w="${who}" placeholder="${list.length?"Agregar otro…":"Ej: 500 g carne picada, 6 huevos, zapallo…"}" aria-label="Agregar ingrediente"></div>`;
+}
+function rxOpts(S, who){
+  return `<div class="rx-opts">
+    <label>Tipo<select data-rxo="tipo" data-w="${who}">${[["cualquiera","Salado o dulce"],["salado","🧂 Salado"],["dulce","🍯 Dulce"]].map(([v,l])=>`<option value="${v}" ${S.tipo===v?"selected":""}>${l}</option>`).join("")}</select></label>
+    <label>Porciones<select data-rxo="porc" data-w="${who}">${["1","2","3","4","6"].map(v=>`<option ${S.porc===v?"selected":""}>${v}</option>`).join("")}</select></label>
+    ${who==="hel"?`<label>Tiempo<select data-rxo="min" data-w="hel">${[["20","20 min"],["45","45 min"],["90","Sin apuro"]].map(([v,l])=>`<option value="${v}" ${S.min===v?"selected":""}>${l}</option>`).join("")}</select></label>
+    <label>Objetivo<select data-rxo="obj" data-w="hel">${["rendidora y sana","alta en proteína (post entreno)","liviana (bajar grasa)","antojo / darse un gusto"].map(v=>`<option ${S.obj===v?"selected":""}>${v}</option>`).join("")}</select></label>`:""}
+  </div>`;
+}
+function rxBusyBox(){ return RX.busy ? `<div class="af-busy"><span class="af-spin"></span><span>${RX.busy==="foto"?"Mirando los productos…":RX.busy==="hel"?"Mirando la heladera y pensando qué cocinar…":"Armando tu receta…"}</span><button class="btn btn-sm btn-ghost" data-rx="cancel">Cancelar</button></div>` : ""; }
+
+/* ---------- 🧊 Mi heladera ---------- */
+function rxHeladera(el){
+  const S = RX.hel, img = aiImgOn();
+  el.innerHTML = `<div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">Sacale foto a la heladera y te armo una comida</h3>
+    <label class="af-photo ${img?"":"off"}" style="min-height:130px;">
+      <input type="file" accept="image/*" capture="environment" multiple id="rx-hel-file" hidden ${img?"":"disabled"}>
+      <span class="af-photo-ico">🧊</span><b>Foto de la heladera (y alacena)</b>
+      <small>${img?"Podés mandar varias: heladera, freezer, alacena. Detecta qué tenés y propone 3 comidas.":"La IA de fotos no está disponible en esta vista: escribí los ingredientes abajo."}</small>
+    </label>
+    <div style="margin-top:14px;"><label>Lo que tenés</label>${rxChips(S.ings,"hel")}</div>
+    ${rxOpts(S,"hel")}
+    <button class="btn btn-primary" data-rx="gen" data-k="hel" ${!RX.busy&&aiOn()?"":"disabled"}>🍳 Armame una comida</button>
+    ${rxBusyBox()}${RX.err?`<div class="af-err">${rxEsc(RX.err)}</div>`:""}
+  </div>
+  ${S.recetas.map((r,i)=>rxCard(r, "hel"+i)).join("")}`;
+  rxWireChips(el);
+  const f = document.getElementById("rx-hel-file");
+  if(f) f.onchange = ()=>{ const fs = [...(f.files||[])]; f.value=""; if(fs.length){ const max = (aliSample && aliImgOk) ? 4 : 4; rxGenerar("hel", fs.slice(0,max)); } };
+}
+
+/* ---------- 👨‍🍳 Yo armo mi comida ---------- */
+function rxArmo(el){
+  const S = RX.armo, img = aiImgOn();
+  el.innerHTML = `<div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">Cargá tus productos y te doy la receta con medidas y video</h3>
+    <div class="rx-armo-in">
+      <div style="flex:1;min-width:0;"><label>Tus productos (escribí y Enter)</label>${rxChips(S.ings,"armo")}</div>
+      <label class="btn ${img?"":"off"}" style="align-self:flex-end;margin:0;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink);">📷 Por foto
+        <input type="file" accept="image/*" capture="environment" multiple id="rx-armo-file" hidden ${img?"":"disabled"}></label>
+    </div>
+    <div class="field" style="margin-top:12px;"><label for="rx-deseo">¿Qué tenés ganas de comer? (opcional)</label>
+      <input type="text" id="rx-deseo" placeholder="Ej: algo dulce para la merienda, una cena rápida y proteica…" value="${rxEsc(S.deseo)}"></div>
+    ${rxOpts(S,"armo")}
+    <button class="btn btn-primary" data-rx="gen" data-k="armo" ${!RX.busy&&aiOn()?"":"disabled"}>📝 Dame la receta</button>
+    ${rxBusyBox()}${RX.err?`<div class="af-err">${rxEsc(RX.err)}</div>`:""}
+  </div>
+  ${S.receta ? rxCard(S.receta, "armo0") : ""}`;
+  rxWireChips(el);
+  const f = document.getElementById("rx-armo-file");
+  if(f) f.onchange = ()=>{ const fs = [...(f.files||[])]; f.value=""; if(fs.length) rxIdentificar(fs.slice(0,4)); };
+  const d = document.getElementById("rx-deseo"); if(d) d.oninput = ()=>{ S.deseo = d.value; };
+}
+function rxWireChips(el){
+  el.querySelectorAll(".rx-chip-in").forEach(inp=>{
+    inp.onkeydown = e=>{
+      if(e.key==="Enter" || e.key===","){ e.preventDefault(); const v = inp.value.trim().replace(/,$/,""); if(!v) return;
+        const S = inp.dataset.w==="armo" ? RX.armo : RX.hel;
+        v.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); renderAlimentacion();
+        const again = document.querySelector(`.rx-chip-in[data-w="${inp.dataset.w}"]`); if(again) again.focus(); }
+      else if(e.key==="Backspace" && !inp.value){ const S = inp.dataset.w==="armo" ? RX.armo : RX.hel; if(S.ings.length){ S.ings.pop(); renderAlimentacion(); const a = document.querySelector(`.rx-chip-in[data-w="${inp.dataset.w}"]`); if(a) a.focus(); } }
+    };
+    inp.onblur = ev=>{ const v = inp.value.trim(); if(!v) return; const S = inp.dataset.w==="armo" ? RX.armo : RX.hel;
+      v.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); inp.value="";
+      if(!(ev.relatedTarget && ev.relatedTarget.closest && ev.relatedTarget.closest("[data-rx]"))) setTimeout(renderAlimentacion,0); };
+  });
+}
+
+/* ---------- ⏳ Ayuno intermitente (lo central de Fastic) ---------- */
+const AY_STAGES = [[0,"🍽️ Digestión","El cuerpo usa lo último que comiste."],[4,"📉 Baja la insulina","Empieza a tirar de las reservas."],
+  [8,"🔋 Reservas en baja","El glucógeno del hígado va bajando."],[12,"🔥 Más grasa como energía","Aumenta el uso de grasa como combustible."],
+  [16,"✅ Objetivo 16:8 cumplido","Buen momento para cortar con una comida con proteína."],[18,"⚠️ Ayuno largo","Hidratate y evitá entrenar fuerte en ayunas largas."]];
+function rxAyuno(el){
+  const A = RX.ayuno, now = Date.now(), on = !!A.start, h = on ? (now-A.start)/3.6e6 : 0, plan = +A.plan||16;
+  const st = [...AY_STAGES].reverse().find(s=>h>=s[0]) || AY_STAGES[0];
+  const R = 64, L = 2*Math.PI*R, pct = Math.min(1, h/plan);
+  const hh = Math.floor(h), mm = Math.floor((h-hh)*60), fin = on ? new Date(A.start + plan*3.6e6) : null;
+  const hist = (A.hist||[]).slice(-7);
+  el.innerHTML = `<div class="today-panel rx-ayuno">
+    <div class="rx-ay-main">
+      <svg viewBox="0 0 160 160" class="rx-ay-ring" role="img" aria-label="${on?`${hh} horas ${mm} minutos de ayuno`:"Ayuno detenido"}">
+        <circle cx="80" cy="80" r="${R}" fill="none" stroke="var(--surface-2)" stroke-width="14"/>
+        ${pct>0?`<circle cx="80" cy="80" r="${R}" fill="none" stroke="${h>=plan?"var(--good)":"var(--accent)"}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${pct*L} ${L}" transform="rotate(-90 80 80)"/>`:""}
+        <text x="80" y="76" text-anchor="middle" class="af-ring-big">${on?`${hh}:${String(mm).padStart(2,"0")}`:"--:--"}</text>
+        <text x="80" y="96" text-anchor="middle" class="af-ring-sm">${on?`de ${plan} h`:"sin ayuno"}</text></svg>
+      <div style="flex:1;min-width:220px;">
+        <div class="pg-kicker">Ayuno intermitente</div>
+        <h2 style="margin:2px 0 6px;">${on?st[1]:"Listo para empezar"}</h2>
+        <p class="af-muted" style="margin:0 0 10px;">${on?`${st[2]} Termina ${fin.toLocaleString("es-AR",{weekday:"short",hour:"2-digit",minute:"2-digit"})}.`:"Elegí el plan y tocá Empezar después de tu última comida."}</p>
+        <div class="pg-seg" style="margin-bottom:10px;">${[12,14,16,18,20].map(p=>`<button class="${plan===p?"on":""}" data-rx="ayplan" data-k="${p}">${p}:${24-p}</button>`).join("")}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          ${on?`<button class="btn btn-primary" data-rx="ayfin">🍽️ Terminar ayuno</button>
+            <label style="margin:0;display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;">Empezó <input type="datetime-local" id="rx-ay-start" value="${rxLocalDT(A.start)}" style="width:auto;"></label>`
+            :`<button class="btn btn-primary" data-rx="ayini">▶ Empezar ayuno</button>`}
+        </div>
+      </div>
+    </div>
+    <div class="rx-ay-stages">${AY_STAGES.map(s=>`<div class="${on&&h>=s[0]?"on":""}"><b>${s[0]} h</b><span>${s[1]}</span></div>`).join("")}</div>
+    <p class="af-muted" style="margin:10px 0 0;">Las etapas son aproximadas y cambian de persona a persona. Si tomás medicación o tenés alguna condición de salud, consultalo con tu médico. Los días de entreno fuerte conviene no estirar el ayuno.</p>
+  </div>
+  ${hist.length?`<div class="today-panel"><h3 class="pg-h3" style="margin-top:0;">Últimos ayunos</h3><table class="ali-hist"><tr><th>Inicio</th><th>Duración</th><th>Plan</th><th></th></tr>
+    ${hist.map(x=>{ const d = (x.e-x.s)/3.6e6; return `<tr><td>${new Date(x.s).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</td><td>${Math.floor(d)} h ${Math.round((d%1)*60)} min</td><td>${x.plan}:${24-x.plan}</td><td>${d>=x.plan?"✅":"—"}</td></tr>`; }).join("")}</table></div>`:""}`;
+  const si = document.getElementById("rx-ay-start");
+  if(si) si.onchange = ()=>{ const t = new Date(si.value).getTime(); if(t && t<=Date.now()){ RX.ayuno = Object.assign({}, RX.ayuno, { start:t }); rxSaveCfg("ayuno"); renderAlimentacion(); } };
+}
+function rxLocalDT(ts){ const d = new Date(ts); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,16); }
+
+/* ---------- 🛒 Lista de compras ---------- */
+function rxCompras(el){
+  const its = RX.compras.items||[], pend = its.filter(x=>!x.ok);
+  const txt = "🛒 Lista de compras\n" + pend.map(x=>"• "+x.t).join("\n");
+  el.innerHTML = `<div class="today-panel">
+    <div class="rx-filter"><input type="text" id="rx-buy" placeholder="Agregar: yerba, dulce de leche, carne picada… (Enter)" autocomplete="off"></div>
+    <ul class="rx-buy">${its.map(x=>`<li class="${x.ok?"ok":""}"><label><input type="checkbox" data-rx="buyok" data-k="${rxEsc(x.id)}" ${x.ok?"checked":""}> <span>${rxEsc(x.t)}</span></label>${x.src?`<small>${rxEsc(x.src)}</small>`:""}<button class="btn btn-icon btn-ghost btn-sm" data-rx="buydel" data-k="${rxEsc(x.id)}" aria-label="Quitar">✕</button></li>`).join("") || `<li class="af-muted">La lista está vacía. Sumá cosas acá o desde una receta (🛒).</li>`}</ul>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+      <button class="btn btn-sm" data-rx="buycopy" ${pend.length?"":"disabled"}>📋 Copiar lista</button>
+      ${pend.length?`<a class="btn btn-sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">💬 Mandar por WhatsApp</a>`:""}
+      <button class="btn btn-sm btn-ghost" data-rx="buyclean" ${its.some(x=>x.ok)?"":"disabled"}>Sacar los tildados</button>
+    </div></div>`;
+  const b = document.getElementById("rx-buy");
+  if(b) b.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); const v = b.value.trim(); if(!v) return; rxAddCompras(v.split(/\s*[,;]\s*/).filter(Boolean), ""); const n = document.getElementById("rx-buy"); if(n) n.focus(); } };
+}
+function rxAddCompras(list, src){
+  const have = new Set((RX.compras.items||[]).filter(x=>!x.ok).map(x=>rxNorm(x.t)));
+  const add = list.filter(t=>t && !have.has(rxNorm(t))).map(t=>({ id:aliUid(), t, ok:false, src }));
+  RX.compras = { items:(RX.compras.items||[]).concat(add) }; rxSaveCfg("compras"); renderAlimentacion(); return add.length;
+}
+
+/* ---------- 💬 Nutri IA (como el NutriChatBot de Fastic, pero con TUS datos) ---------- */
+function rxNutri(el){
+  const motor = aiMotor();
+  el.innerHTML = `<div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">Preguntale a tu nutri · sabe lo que comiste hoy y tus objetivos</h3>
+    <div class="rx-chat" id="rx-chat">${RX.chat.map(t=>`<div class="rx-msg ${t.role}">${rxEsc(t.content).replace(/\n/g,"<br>")}</div>`).join("") || `<div class="af-muted">Probá con una de estas:</div>`}</div>
+    ${!RX.chat.length?`<div class="af-chips" style="margin:8px 0;">${["¿Cómo voy hoy con la proteína?","¿Qué ceno para cerrar bien el día?","Merienda post entreno con cosas de acá","¿Me conviene entrenar en ayunas?"].map(q=>`<button class="chip filter-chip" data-rx="ask" data-k="${rxEsc(q)}">${q}</button>`).join("")}</div>`:""}
+    <div class="af-fix"><input type="text" id="rx-ask" placeholder="${motor?"Escribí tu pregunta…":"Configurá la IA abajo para usar el chat"}" ${motor?"":"disabled"}><button class="btn btn-sm btn-primary" data-rx="ask" ${motor&&!RX.busy?"":"disabled"}>Enviar</button></div>
+    ${RX.chat.length?`<button class="btn btn-sm btn-ghost" data-rx="chatclear" style="margin-top:6px;">Nueva charla</button>`:""}
+    ${RX.err?`<div class="af-err">${rxEsc(RX.err)}</div>`:""}
+  </div>
+  <div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">Motor de IA</h3>
+    ${aliSample ? `<p style="margin:0;">✅ Usando <b>Claude</b> (incluido en esta versión de PC, sin clave).</p>
+      <p class="af-muted" style="margin:6px 0 0;">En la app del celular se usa <b>Gemini</b>: ahí aparece el lugar para pegar la clave gratuita de Google AI Studio.</p>`
+    : `<p class="af-muted" style="margin:0 0 8px;">Pegá tu clave gratuita de Gemini (aistudio.google.com → Get API key). Queda guardada solo en este dispositivo.</p>
+      <div class="af-fix"><input type="password" id="rx-gkey" placeholder="Clave de Gemini" value="${rxEsc(aiGemKey())}" autocomplete="off"><input type="text" id="rx-gmodel" value="${rxEsc(aiGemModel())}" style="max-width:180px;" aria-label="Modelo"><button class="btn btn-sm" data-rx="gsave">Guardar</button></div>`}
+  </div>`;
+  const a = document.getElementById("rx-ask"); if(a) a.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); rxAsk(a.value); } };
+  const c = document.getElementById("rx-chat"); if(c) c.scrollTop = c.scrollHeight;
+}
+async function rxAsk(q){
+  q = String(q||"").trim(); if(!q || RX.busy) return;
+  const d = todayStr(), r = aliDay(d), tot = aliTot(r.items), A = RX.ayuno;
+  const ctx = `Contexto del usuario (hoy ${d}): objetivo diario ${aliCfg.kcal} kcal, P ${aliCfg.p} g, C ${aliCfg.c} g, G ${aliCfg.f} g. Comió hasta ahora ${aliR(tot.kcal)} kcal, P ${aliR(tot.p)}, C ${aliR(tot.c)}, G ${aliR(tot.f)}.
+Comidas de hoy: ${(r.items||[]).map(x=>`${x.meal}: ${x.n} ${x.g} g`).join("; ")||"nada cargado"}. Agua: ${r.agua||0}/${aliCfg.agua} vasos. Peso: ${r.peso||aliUltimoPeso()||"?"} kg.
+Ayuno: ${A.start?`en curso hace ${((Date.now()-A.start)/3.6e6).toFixed(1)} h (plan ${A.plan}:${24-A.plan})`:"no"}. Entrena en el gimnasio. Vive en Argentina (Chaco): sugerí comidas y productos de acá.
+Respondé como nutricionista deportivo argentino, en voseo, corto (máx. 120 palabras), práctico, con números cuando sirva. Sin diagnósticos médicos.`;
+  RX.chat.push({ role:"user", content:q }); RX.chat.push({ role:"assistant", content:"…" }); RX.busy = "chat"; RX.err = ""; renderAlimentacion();
+  const turns = RX.chat.slice(0,-1).map((t,i)=> i===0 ? { role:"user", content: ctx+"\n\nPregunta: "+t.content } : t).slice(-10);
+  if(turns[0].role!=="user") turns.shift();
+  try{
+    const txt = await aiChat(turns, { onText: ({text})=>{ RX.chat[RX.chat.length-1].content = text; const m = document.querySelector("#rx-chat .rx-msg.assistant:last-child"); if(m) m.textContent = text; } });
+    RX.chat[RX.chat.length-1].content = txt || "…";
+  }catch(e){ RX.chat.pop(); RX.err = aiErrMsg(e); }
+  finally{ RX.busy = false; renderAlimentacion(); }
+}
+
+/* ---------- 👨‍🍳 Modo cocina: un paso por pantalla, timers automáticos, pantalla siempre encendida ---------- */
+function rxCookOpen(r){ RX.cook = { r, i:0 }; try{ if(typeof requestWakeLock==="function") requestWakeLock(); }catch(_){} rxCookRender(); }
+function rxStepMin(s){ const m = s.match(/(\d+)(?:\s*(?:-|a)\s*(\d+))?\s*min/i); if(m) return +(m[2]||m[1]);
+  const h = s.match(/(\d+)\s*hora/i); if(h) return +h[1]*60 + (/y media/i.test(s)?30:0); return 0; }
+function rxCookRender(){
+  let o = document.getElementById("rx-cook");
+  if(!RX.cook){ if(o) o.remove(); clearInterval(RX.cookT); return; }
+  if(!o){ o = document.createElement("div"); o.id = "rx-cook"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); document.body.appendChild(o); }
+  const { r, i } = RX.cook, s = r.pasos[i]||"", mins = rxStepMin(s), n = r.pasos.length;
+  const t = RX.cookLeft;
+  o.innerHTML = `<div class="rx-cook-in">
+    <div class="rx-cook-top"><b>${rxEsc(r.n)}</b><span>Paso ${i+1} de ${n}</span><button class="btn btn-sm" data-rx="cookx">✕ Salir</button></div>
+    <div class="rx-cook-bar"><div style="width:${(i+1)/n*100}%"></div></div>
+    <p class="rx-cook-step">${rxEsc(s)}</p>
+    ${mins?`<div class="rx-cook-timer">${t>0?`<span class="mono">${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}</span><button class="btn btn-sm" data-rx="cooktstop">Parar</button>`:`<button class="btn btn-primary" data-rx="cookt" data-k="${mins}">⏱ Timer ${mins} min</button>`}</div>`:""}
+    <details class="rx-cook-ing"><summary>Ver ingredientes</summary><ul>${r.ing.map(x=>`<li><b>${rxEsc(x.cant)} ${rxEsc(x.u)}</b> ${rxEsc(x.item)}</li>`).join("")}</ul></details>
+    <div class="rx-cook-nav"><button class="btn" data-rx="cookp" ${i?"":"disabled"}>← Anterior</button><button class="btn btn-primary" data-rx="cookn">${i<n-1?"Siguiente →":"✓ Terminé"}</button></div>
+  </div>`;
+}
+function rxBeep(){ try{ const a = new (window.AudioContext||window.webkitAudioContext)(); [0,0.35,0.7].forEach(d=>{ const g = a.createGain(), os = a.createOscillator(); os.frequency.value = 880; os.connect(g); g.connect(a.destination); g.gain.setValueAtTime(0.25, a.currentTime+d); g.gain.exponentialRampToValueAtTime(0.001, a.currentTime+d+0.3); os.start(a.currentTime+d); os.stop(a.currentTime+d+0.3); }); }catch(_){}
+  try{ navigator.vibrate && navigator.vibrate([300,150,300]); }catch(_){} }
+
+/* ---------- Guardado de ajustes (ayuno, compras) y recetas propias ---------- */
+async function rxSaveCfg(which){
+  const v = which==="ayuno" ? RX.ayuno : RX.compras;
+  try{ if(db) await db.doc("alimentacion_cfg/"+which).set(v); else localStorage.setItem("entrenador-ali-"+which, JSON.stringify(v)); }catch(_){}
+}
+async function rxSaveMia(r){
+  const id = r.id && !REC_DB.some(x=>x.id===r.id) ? r.id : "ia-"+aliUid();
+  const o = JSON.parse(JSON.stringify(Object.assign({}, r, { id, src:"ia", guardada:Date.now() })));
+  RX.mias = Object.assign({}, RX.mias, { [id]:o });
+  try{ if(db) await db.doc("recetas_mias/"+id).set(o); else localStorage.setItem("entrenador-recetas-mias", JSON.stringify(RX.mias)); }catch(_){}
+}
+async function rxDelMia(id){
+  const m = Object.assign({}, RX.mias); delete m[id]; RX.mias = m; if(RX.open===id) RX.open = null;
+  try{ if(db) await db.doc("recetas_mias/"+id).delete(); else localStorage.setItem("entrenador-recetas-mias", JSON.stringify(RX.mias)); }catch(_){}
+}
+
+/* ---------- Eventos ---------- */
+document.addEventListener("change", e=>{
+  const t = e.target, ds = t && t.dataset; if(!ds) return;
+  if(ds.rx==="porc"){ RX.porc[ds.k] = +t.value; renderAlimentacion(); }
+  if(ds.rxo){ const S = ds.w==="armo" ? RX.armo : RX.hel; S[ds.rxo] = t.value; }
+  if(ds.rx==="buyok"){ RX.compras = { items:(RX.compras.items||[]).map(x=> x.id===ds.k ? Object.assign({}, x, { ok:t.checked }) : x) }; rxSaveCfg("compras"); renderAlimentacion(); }
+});
+document.addEventListener("click", async e=>{
+  const b = e.target.closest && e.target.closest("[data-rx]"); if(!b || b.tagName==="SELECT" || b.type==="checkbox") return;
+  const a = b.dataset.rx, k = b.dataset.k;
+  if(a==="sub"){ RX.sub = k; RX.err = ""; try{ localStorage.setItem("entrenador-ali-sub", k); }catch(_){} return renderAlimentacion(); }
+  if(a==="filtro"){ RX.filtro = k; RX.open = null; return renderAlimentacion(); }
+  if(a==="open"){ RX.open = k; renderAlimentacion(); const c = document.querySelector(".rx-card"); if(c) c.scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+  if(a==="close"){ RX.open = null; return renderAlimentacion(); }
+  if(a==="cancel"){ if(RX.abort) RX.abort.abort(); RX.busy = false; return renderAlimentacion(); }
+  if(a==="gen"){ const S = k==="armo" ? RX.armo : RX.hel; const inp = document.querySelector(`.rx-chip-in[data-w="${k}"]`);
+    if(inp && inp.value.trim()){ inp.value.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); inp.value = ""; }
+    if(!S.ings.length && !(k==="armo" && S.deseo)){ toast("Cargá al menos un ingrediente"); return; }
+    return rxGenerar(k); }
+  if(a==="chipx"){ const S = b.dataset.w==="armo" ? RX.armo : RX.hel; S.ings.splice(+b.dataset.i,1); return renderAlimentacion(); }
+  const r = k && RX.shown[k];
+  if(a==="tocompras" && r){
+    const miss = r.ing.filter(x=>(x.tengo!=null ? x.tengo : rxPantryHas(x.item))===false);
+    const list = (miss.length ? miss : r.ing).filter(x=>x.item).map(x=>x.item.replace(/\s*\(.*?\)\s*/g," ").trim()).filter(t=>!/^(sal|agua( tibia)?|agua con sal)$/i.test(t));
+    const n = rxAddCompras(list, r.n); toast(n ? `🛒 ${n} a la lista de compras` : "Ya estaban en la lista"); return;
+  }
+  if(a==="cook" && r) return rxCookOpen(r);
+  if(a==="log" && r){
+    const d = todayStr(), day = aliDay(d), it = { id:aliUid(), meal:aliMealNow(), n:r.n, g:0, kcal:aliR(r.mac[0]), p:+aliN(r.mac[1]).toFixed(1), c:+aliN(r.mac[2]).toFixed(1), f:+aliN(r.mac[3]).toFixed(1), src:"receta", t:Date.now() };
+    aliData[d] = Object.assign({}, day, { items:(day.items||[]).concat([it]) }); aliSave(d);
+    toast(`✓ ${r.n}: ${aliR(r.mac[0])} kcal en ${ALI_MEALS.find(m=>m[0]===it.meal)[1]}`); return;
+  }
+  if(a==="save" && r){ await rxSaveMia(r); toast("⭐ Guardada en Recetario → Mías"); return renderAlimentacion(); }
+  if(a==="unsave" && r){ await rxDelMia(r.id); return renderAlimentacion(); }
+  if(a==="fitver" && r){
+    RX.armo.ings = r.ing.map(x=>({ n:x.item })); RX.armo.deseo = `Versión FIT (menos calorías, más proteína) de "${r.n}", manteniendo el sabor argentino`; RX.armo.tipo = r.tipo||"cualquiera";
+    RX.sub = "armo"; RX.armo.receta = null; return rxGenerar("armo");
+  }
+  if(a==="ayplan"){ RX.ayuno = Object.assign({}, RX.ayuno, { plan:+k }); rxSaveCfg("ayuno"); return renderAlimentacion(); }
+  if(a==="ayini"){ RX.ayuno = Object.assign({}, RX.ayuno, { start:Date.now() }); rxSaveCfg("ayuno"); return renderAlimentacion(); }
+  if(a==="ayfin"){ const A = RX.ayuno; RX.ayuno = Object.assign({}, A, { start:null, hist:(A.hist||[]).concat([{ s:A.start, e:Date.now(), plan:A.plan }]).slice(-30) }); rxSaveCfg("ayuno");
+    toast("¡Ayuno terminado! Cortalo con proteína y verdura."); return renderAlimentacion(); }
+  if(a==="buydel"){ RX.compras = { items:(RX.compras.items||[]).filter(x=>x.id!==k) }; rxSaveCfg("compras"); return renderAlimentacion(); }
+  if(a==="buyclean"){ RX.compras = { items:(RX.compras.items||[]).filter(x=>!x.ok) }; rxSaveCfg("compras"); return renderAlimentacion(); }
+  if(a==="buycopy"){ const txt = (RX.compras.items||[]).filter(x=>!x.ok).map(x=>"• "+x.t).join("\n");
+    try{ await navigator.clipboard.writeText(txt); toast("📋 Lista copiada"); }catch(_){ toast("No se pudo copiar"); } return; }
+  if(a==="ask"){ const v = k || (document.getElementById("rx-ask")||{}).value; return rxAsk(v); }
+  if(a==="chatclear"){ RX.chat = []; return renderAlimentacion(); }
+  if(a==="gsave"){ try{ localStorage.setItem("entrenador-gemini-key", (document.getElementById("rx-gkey")||{}).value.trim()); localStorage.setItem("entrenador-gemini-model", ((document.getElementById("rx-gmodel")||{}).value||"").trim()||"gemini-3.8-flash"); }catch(_){}
+    toast(aiGemKey()?"Clave guardada":"Clave borrada"); return renderAlimentacion(); }
+  if(a==="cookx"){ RX.cook = null; clearInterval(RX.cookT); RX.cookLeft = 0; return rxCookRender(); }
+  if(a==="cookp" && RX.cook){ RX.cook.i = Math.max(0, RX.cook.i-1); return rxCookRender(); }
+  if(a==="cookn" && RX.cook){ if(RX.cook.i < RX.cook.r.pasos.length-1){ RX.cook.i++; return rxCookRender(); } RX.cook = null; clearInterval(RX.cookT); RX.cookLeft = 0; toast("¡Buen provecho! 🍽️"); return rxCookRender(); }
+  if(a==="cookt"){ clearInterval(RX.cookT); RX.cookLeft = (+k)*60; rxCookRender();
+    RX.cookT = setInterval(()=>{ RX.cookLeft--; if(RX.cookLeft<=0){ clearInterval(RX.cookT); RX.cookLeft = 0; rxBeep(); toast("⏱ ¡Tiempo!"); } if(RX.cook) rxCookRender(); }, 1000); return; }
+  if(a==="cooktstop"){ clearInterval(RX.cookT); RX.cookLeft = 0; return rxCookRender(); }
+});
+document.addEventListener("keydown", e=>{ if(RX.cook && e.key==="Escape"){ RX.cook = null; clearInterval(RX.cookT); RX.cookLeft = 0; rxCookRender(); } });
+setInterval(()=>{ if(state.view==="alimentacion" && RX.sub==="ayuno" && RX.ayuno.start && !rxBusyFocus()) renderAlimentacion(); }, 30000);
+(function rxInit(){
+  try{ const a = localStorage.getItem("entrenador-ali-ayuno"); if(a) RX.ayuno = Object.assign(RX.ayuno, JSON.parse(a)); }catch(_){}
+  try{ const c = localStorage.getItem("entrenador-ali-compras"); if(c) RX.compras = JSON.parse(c)||{items:[]}; }catch(_){}
+  try{ const m = localStorage.getItem("entrenador-recetas-mias"); if(m) RX.mias = JSON.parse(m)||{}; }catch(_){}
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(db){ clearInterval(w);
+      const rer = ()=>{ if(state.view==="alimentacion" && !rxBusyFocus() && RX.sub!=="registro") renderAlimentacion(); };
+      db.doc("alimentacion_cfg/ayuno").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v) RX.ayuno = Object.assign({ plan:16, start:null, hist:[] }, v); rer(); }, ()=>{});
+      db.doc("alimentacion_cfg/compras").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v) RX.compras = { items:(v.items||[]).slice() }; rer(); }, ()=>{});
+      db.collection("recetas_mias").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); }); RX.mias = t; rer(); }, ()=>{});
+    }
     else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
   }, 500);
 })();
