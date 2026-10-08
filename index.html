@@ -781,6 +781,42 @@
   .mt-plan li.no{ color:var(--ink); }
   .mt-ia{ margin-top:12px; background:var(--surface-2); border:1px solid var(--accent-soft-2); border-radius:10px; padding:12px 14px; font-size:.9rem; line-height:1.5; }
   @media (max-width:760px){ .mt-grid, .mt-plan{ grid-template-columns:1fr; } }
+  /* ---------- Armar plato · plan de comidas ---------- */
+  .pl-start{ width:100%; display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; text-align:left; padding:14px 16px; margin-bottom:14px; border:2px solid var(--accent); border-radius:12px; background:var(--accent-soft); color:var(--ink); cursor:pointer; font:inherit; }
+  .pl-start span{ grid-row:1/3; font-size:2rem; } .pl-start b{ font-family:"Rajdhani",sans-serif; font-size:1.25rem; } .pl-start small{ color:var(--ink-2); font-size:.8rem; }
+  .pl-box{ border:1.5px solid var(--accent); border-radius:12px; padding:14px; margin-bottom:16px; background:var(--surface); box-shadow:var(--shadow); }
+  .pl-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  .pl-tot{ text-align:right; } .pl-tot b{ display:block; font-family:"Rajdhani",sans-serif; font-size:1.7rem; color:var(--accent); line-height:1; } .pl-tot span{ font-size:.78rem; color:var(--ink-2); font-family:"IBM Plex Mono",monospace; }
+  .pl-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .pl-sec{ background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px; min-width:0; }
+  .pl-sec.has{ border-color:var(--accent-soft-2); }
+  .pl-sec-head{ display:flex; justify-content:space-between; } .pl-sec-head span{ font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--accent); font-weight:600; }
+  .pl-it{ display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:6px 8px; }
+  .pl-it-n{ flex:1; min-width:0; font-weight:600; font-size:.86rem; } .pl-it-n small{ display:block; font-weight:500; color:var(--ink-2); font-size:.7rem; }
+  .pl-it-k{ font-family:"Rajdhani",sans-serif; font-size:1.05rem; min-width:34px; text-align:right; }
+  .pl-step{ display:flex; align-items:center; gap:4px; } .pl-step b{ min-width:26px; text-align:center; font-family:"IBM Plex Mono",monospace; }
+  .pl-step button{ width:28px; height:28px; border-radius:50%; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); cursor:pointer; font-size:1rem; line-height:1; }
+  .pl-add{ align-self:flex-start; }
+  .pl-pal{ display:flex; flex-direction:column; gap:8px; border-top:1px dashed var(--line); padding-top:8px; }
+  .pl-chips{ display:flex; flex-wrap:wrap; gap:5px; } .pl-chips .chip small{ font-weight:500; opacity:.75; margin-left:3px; }
+  .pl-chip-mio{ border-color:var(--accent-soft-2); }
+  .pl-egg-btn{ text-align:left; padding:8px 10px; border:1px dashed var(--accent); border-radius:8px; background:var(--accent-soft); color:var(--ink); cursor:pointer; font:inherit; font-size:.85rem; font-weight:600; }
+  .pl-egg{ background:var(--surface); border:1px solid var(--accent-soft-2); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; }
+  .pl-egg-row{ display:flex; flex-direction:column; gap:4px; } .pl-egg-row > span{ font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2); }
+  .pl-egg-foot{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:8px; } .pl-egg-foot span{ flex:1; font-size:.84rem; } .pl-egg-foot b{ color:var(--accent); font-family:"Rajdhani",sans-serif; font-size:1.15rem; }
+  .pl-otro{ display:flex; flex-direction:column; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:8px; }
+  .pl-otro-row{ display:flex; gap:6px; } .pl-otro-row input{ flex:1; min-width:0; }
+  .af-photo-btns{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; justify-content:center; } .af-photo-btns label{ margin:0; text-transform:none; letter-spacing:0; }
+  .af-photo-btns .btn:not(.btn-primary){ color:var(--ink); }
+  .af-que{ background:var(--accent-soft); border:1px solid var(--accent-soft-2); border-radius:10px; padding:10px 12px; margin-bottom:12px; display:flex; flex-direction:column; gap:8px; }
+  .pn-dia{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-top:12px; }
+  .pn-dia-h{ display:flex; justify-content:space-between; margin-bottom:6px; } .pn-dia-h b{ font-family:"Rajdhani",sans-serif; font-size:1.15rem; } .pn-dia-h span{ font-family:"IBM Plex Mono",monospace; color:var(--accent); font-weight:600; }
+  .pn-com{ background:var(--surface-2); border-radius:8px; padding:8px 10px; margin-top:8px; }
+  .pn-com-h{ display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; } .pn-com-h span{ font-size:.78rem; color:var(--ink-2); } .pn-com-h b{ flex:1; } .pn-com-h em{ font-style:normal; font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--accent); }
+  .pn-com ul{ list-style:none; margin:6px 0; padding:0; font-size:.86rem; } .pn-com li{ display:flex; justify-content:space-between; gap:8px; padding:3px 0; border-bottom:1px dashed var(--line); } .pn-com li b{ font-family:"IBM Plex Mono",monospace; font-size:.8rem; }
+  .pn-acc{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; } .pn-acc a{ text-decoration:none; }
+  input.pn-otro{ border:1px dashed var(--line) !important; border-radius:14px !important; padding:3px 9px !important; font-size:.78rem; background:transparent !important; color:var(--ink); width:140px !important; }
+  @media (max-width:760px){ .pl-grid{ grid-template-columns:1fr; } .pl-it{ flex-wrap:wrap; } .pl-it-n{ flex:1 1 100%; } .pl-it .pl-step{ margin-left:auto; } }
   /* ---------- Alimentación estilo Healthify ---------- */
   .af-dash{ display:grid; grid-template-columns:150px 1fr 220px; gap:18px; align-items:center; margin-top:14px; }
   .af-ring{ width:150px; height:150px; display:block; }
@@ -4682,6 +4718,7 @@ function aliSearch(q){
   const norm = s=> s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
   const nq = norm(q), out = [];
   aliFrecuentes().forEach(x=>{ if(norm(x.n).includes(nq)) out.push({ tipo:"Tus comidas", n:x.n, g:x.g, kcal:x.kcal, p:x.p, c:x.c, f:x.f }); });
+  fdTodos().forEach(x=>{ if(norm(x.n).includes(nq) && !out.some(o=>o.n.toLowerCase()===x.n.toLowerCase())) out.push({ tipo: x.mio ? "★ Mi base" : "Base", n:x.n, g:x.g, por:x.u, kcal:x.kcal, p:x.p, c:x.c, f:x.f }); });
   ALI_FOODS.forEach(([n,k,p,c,f,g,por])=>{ if(norm(n).includes(nq) && !out.some(o=>o.n.toLowerCase()===n.toLowerCase())){
     const r = g/100; out.push({ tipo:"Base", n, g, por, kcal:k*r, p:p*r, c:c*r, f:f*r }); } });
   return out.slice(0,8);
@@ -4758,13 +4795,18 @@ function aliRenderRegistro(el){
 
   <div class="today-panel af-add">
     <h3 class="pg-h3" style="margin-top:0;">Agregar comida</h3>
+    ${aliUI.plato ? "" : `<button class="pl-start" data-pl="nuevo"><span>🍽️</span><b>Armar mi plato</b><small>Principal + acompañamiento + bebida + postre, por unidades (rodajas, vasos, huevos…). Suma todo.</small></button>`}
+    ${aliUI.plato ? plRender() : ""}
     <div class="af-ways">
-      <label class="af-photo ${aiOn&&imgOn?"":"off"}" id="af-drop" tabindex="0">
-        <input type="file" accept="image/*" capture="environment" id="af-file" hidden ${aiOn&&imgOn?"":"disabled"}>
+      <div class="af-photo" id="af-drop" tabindex="0">
         <span class="af-photo-ico">📷</span>
-        <b>Sacale una foto al plato</b>
-        <small>${aiOn&&imgOn?"o arrastrá / pegá (Ctrl+V) una foto acá · Claude estima calorías y macros":aiOn?"Esta vista no puede mandar fotos: usá la descripción":"La IA no está disponible en esta vista"}</small>
-      </label>
+        <b>Foto de un plato, la heladera o alimentos</b>
+        <small>${aiOn&&imgOn?"La IA ve qué es y te pregunta qué hacer: registrarlo, una receta o un plan de comidas":"Primero cargá la clave de Gemini en 💬 Nutri IA → Motor de IA"}</small>
+        <div class="af-photo-btns">
+          <label class="btn btn-primary btn-sm">📷 Cámara<input type="file" accept="image/*" capture="environment" id="af-file" hidden></label>
+          <label class="btn btn-sm">🖼️ Galería<input type="file" accept="image/*" id="af-file2" hidden></label>
+        </div>
+      </div>
       <div class="af-text">
         <label for="af-desc">✍️ O contalo con tus palabras</label>
         <textarea id="af-desc" placeholder="Ej: 2 empanadas de carne, una ensalada y una coca chica" ${aiOn?"":"disabled"}></textarea>
@@ -4819,12 +4861,21 @@ function aliDraftCard(dr){
       <div style="flex:1;min-width:0;">
         <div class="pg-kicker">${dr.src==="foto"?"Estimado de la foto":dr.src==="texto"?"Estimado de tu descripción":"Revisá y agregá"}</div>
         <h3 style="margin:2px 0;">${aliEsc(dr.titulo||"Tu comida")}</h3>
-        <div class="af-draft-tot"><b>${aliR(t.kcal)} kcal</b> · P ${aliR(t.p)} g · C ${aliR(t.c)} g · G ${aliR(t.f)} g
+        <div class="af-draft-tot" ${dr.src==="foto" && dr.tipo && dr.tipo!=="plato" && !dr.verTabla ? 'hidden' : ''}><b>${aliR(t.kcal)} kcal</b> · P ${aliR(t.p)} g · C ${aliR(t.c)} g · G ${aliR(t.f)} g
           ${dr.salud?`<span class="af-score s${dr.salud>=7?"g":dr.salud>=4?"m":"b"}" title="Qué tan saludable es, del 1 al 10">💚 ${aliR(dr.salud)}/10</span>`:""}</div>
         ${dr.nota?`<div class="af-tip">💡 ${aliEsc(dr.nota)}</div>`:""}
       </div>
     </div>
-    <div class="af-rows">
+    ${dr.src==="foto" ? `<div class="af-que">
+      <b>${dr.tipo==="plato" ? "¿Qué querés hacer con este plato?" : dr.tipo==="heladera" ? "Veo una heladera / alacena. ¿Qué querés hacer?" : "Veo alimentos sueltos. ¿Qué querés hacer?"}</b>
+      <div class="pl-chips">
+        ${dr.tipo==="plato" ? `<span class="chip on">📝 Registrarlo (abajo)</span>` : ""}
+        <button class="chip filter-chip" data-ali="foto-receta">👨‍🍳 Receta con esto (+ video)</button>
+        <button class="chip filter-chip" data-ali="foto-plan">📅 Plan de comidas de varios días</button>
+        <button class="chip filter-chip" data-ali="foto-hel">🍳 3 ideas para cocinar ya</button>
+        ${dr.tipo!=="plato" && !dr.verTabla ? `<button class="chip filter-chip" data-ali="foto-tabla">📝 Registrarlo igual</button>` : ""}
+      </div></div>` : ""}
+    ${dr.src==="foto" && dr.tipo!=="plato" && !dr.verTabla ? "" : `<div class="af-rows">
       <div class="af-row af-row-h"><span>Alimento</span><span>Gramos</span><span>Kcal</span><span>P</span><span>C</span><span>G</span><span></span></div>
       ${dr.items.map((x,i)=>`<div class="af-row">
         <input type="text" value="${aliEsc(x.n)}" data-alid="${i}:n" aria-label="Alimento">
@@ -4838,7 +4889,7 @@ function aliDraftCard(dr){
       </div>`).join("")}
       ${!dr.items.length?`<div class="af-muted">No quedó ningún alimento.</div>`:""}
       <button class="btn btn-sm btn-ghost" data-ali="drow+" style="margin-top:4px;">＋ Agregar fila</button>
-    </div>
+    </div>`}
     ${aiOn() && dr.src!=="manual" ? `<div class="af-fix"><input type="text" id="af-fix" placeholder="¿Algo mal? Ej: era arroz integral y el plato era más chico"><button class="btn btn-sm" data-ali="fix" ${aliUI.busy?"disabled":""}>Corregir con IA</button></div>`:""}
     <div class="af-draft-foot">
       <label style="margin:0;display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink);">Agregar a
@@ -4858,6 +4909,7 @@ function aliCfgPanel(){
       <div class="field"><label>Carbohidratos (g)</label><input type="number" data-alic="c" value="${esc(c.c)}"></div>
       <div class="field"><label>Grasas (g)</label><input type="number" data-alic="f" value="${esc(c.f)}"></div>
       <div class="field"><label>Agua (vasos)</label><input type="number" data-alic="agua" value="${esc(c.agua)}"></div>
+      <div class="field"><label>Región</label><select data-pno="region">${Object.entries(REGIONES).map(([k,v])=>`<option value="${k}" ${regionAct()===k?"selected":""}>${v.n}</option>`).join("")}</select></div>
       <div class="field"><label>Peso objetivo (kg)</label><input type="number" step="0.5" data-alic="pesoObj" value="${esc(c.pesoObj)}" placeholder="ej: 95"></div>
     </div>
     <details class="af-calc"><summary>Calcular mis objetivos</summary>
@@ -4956,7 +5008,7 @@ Tené en cuenta comidas y porciones típicas argentinas (milanesa, empanadas, as
 ${correccion?`Estimación anterior: ${JSON.stringify((prev&&prev.items||[]).map(x=>({n:x.n,g:x.g,kcal:x.kcal,p:x.p,c:x.c,f:x.f})))}
 CORRECCIÓN del usuario: "${correccion}". Rehacé la estimación aplicando la corrección.
 `:""}Respondé SOLO un objeto JSON, sin texto extra:
-{"titulo":"nombre corto del plato","items":[{"n":"alimento","g":gramos,"kcal":kcal,"p":proteína_g,"c":carbohidratos_g,"f":grasas_g,"conf":0_a_1}],"salud":1_a_10,"nota":"consejo breve (máx. 18 palabras, voseo) para alguien que entrena en el gimnasio"}
+{"tipo":"plato (comida servida) | heladera (heladera/alacena) | alimentos (grupo de productos o ingredientes sin cocinar)","titulo":"nombre corto","items":[{"n":"alimento","g":gramos,"kcal":kcal,"p":proteína_g,"c":carbohidratos_g,"f":grasas_g,"conf":0_a_1}],"ingredientes":["si es heladera o alimentos: lista de ingredientes que se ven, con cantidad aproximada"],"salud":1_a_10,"nota":"consejo breve (máx. 18 palabras, voseo) para alguien que entrena en el gimnasio"}
 Si no hay comida: {"titulo":"","items":[],"nota":"No veo comida en la foto"}.`;
   try{
     const opts = { signal: ac.signal, onText: ()=>{ const t = document.getElementById("af-busy-txt"); if(t) t.textContent = "Calculando porciones y macros…"; } };
@@ -4965,8 +5017,10 @@ Si no hay comida: {"titulo":"","items":[],"nota":"No veo comida en la foto"}.`;
     if(ac.signal.aborted) return;
     const its = (res && Array.isArray(res.items) ? res.items : []).map(aliDraftItem);
     aliUI.draft = { src: file||(prev&&prev.src==="foto"&&correccion) ? "foto" : "texto", thumb, titulo: res&&res.titulo || "", nota: res&&res.nota || "",
+      tipo: (res && /heladera|alimentos/.test(res.tipo||"")) ? (/heladera/.test(res.tipo)?"heladera":"alimentos") : "plato",
+      ingredientes: (res && Array.isArray(res.ingredientes) ? res.ingredientes : []).map(String),
       salud: res&&res.salud, items: its, meal: prev&&prev.meal || aliMealNow(), texto, file: file || (prev&&prev.file) || null };
-    if(!its.length) aliUI.err = (res&&res.nota) || "No encontré alimentos. Probá otra foto o describilo.";
+    if(!its.length && !(aliUI.draft.ingredientes||[]).length) aliUI.err = (res&&res.nota) || "No encontré alimentos. Probá otra foto o describilo.";
     const desc = document.getElementById("af-desc"); if(desc && texto) desc.value = "";
   }catch(e){
     aliUI.err = aiErrMsg(e);
@@ -5005,7 +5059,9 @@ async function aliSaveCfg(){
 /* ---------- Eventos ---------- */
 function aliWire(){
   const fi = document.getElementById("af-file");
-  if(fi) fi.onchange = ()=>{ const f = fi.files && fi.files[0]; if(f) aliAnalyze({ file:f, texto:(document.getElementById("af-desc")||{}).value||"" }); fi.value = ""; };
+  [fi, document.getElementById("af-file2")].forEach(inp=>{ if(inp) inp.onchange = ()=>{ const f = inp.files && inp.files[0]; inp.value = "";
+    if(!f) return; if(!aiOn() || !aiImgOn()){ aliUI.err = "Para analizar fotos falta la clave de Gemini: andá a 💬 Nutri IA → Motor de IA, pegala y tocá Guardar."; return renderAlimentacion(); }
+    aliAnalyze({ file:f, texto:(document.getElementById("af-desc")||{}).value||"" }); }; });
   const dz = document.getElementById("af-drop");
   if(dz && aiImgOn()){
     dz.ondragover = e=>{ e.preventDefault(); dz.classList.add("over"); };
@@ -5055,7 +5111,7 @@ document.addEventListener("change", e=>{
     aliSaveCfg(); if(["kcal","p","c","f","agua","pesoObj"].includes(ds.alic)) renderAlimentacion();
   }
 });
-document.addEventListener("click", e=>{
+document.addEventListener("click", async e=>{
   const b = e.target.closest && e.target.closest("[data-ali]"); if(!b) return;
   const k = b.dataset.ali, d = aliDate || todayStr();
   if(k==="prev"){ aliDate = addDays(d,-1); return renderAlimentacion(); }
@@ -5095,10 +5151,24 @@ document.addEventListener("click", e=>{
     if(aliUI.draft) aliUI.draft.items.push(it); else aliUI.draft = { src:"manual", titulo:"", items:[it], meal:aliMealNow() };
     aliUI.q = ""; return renderAlimentacion();
   }
+  if(k==="foto-tabla"){ if(aliUI.draft) aliUI.draft.verTabla = true; return renderAlimentacion(); }
+  if(k==="foto-receta" || k==="foto-plan" || k==="foto-hel"){
+    const dr = aliUI.draft; if(!dr) return;
+    const ings = ((dr.ingredientes||[]).length ? dr.ingredientes : dr.items.map(x=>x.n)).map(n=>({ n:String(n) }));
+    if(k==="foto-receta"){ RX.armo.ings = ings; RX.armo.receta = null; RX.armo.deseo = dr.tipo==="plato" ? `La receta de "${dr.titulo}" paso a paso` : ""; RX.sub = "armo"; aliUI.draft = null; return rxGenerar("armo"); }
+    if(k==="foto-hel"){ RX.hel.ings = ings; RX.hel.recetas = []; RX.sub = "heladera"; aliUI.draft = null; return rxGenerar("hel"); }
+    RX.plan.ings = ings; RX.sub = "plan"; aliUI.draft = null; return renderAlimentacion();
+  }
   if(k==="drow"){ if(aliUI.draft){ aliUI.draft.items.splice(+b.dataset.i,1); } return renderAlimentacion(); }
   if(k==="discard"){ aliUI.draft = null; aliUI.err = ""; return renderAlimentacion(); }
   if(k==="commit"){
     const dr = aliUI.draft; if(!dr) return;
+    if(!dr.listo){
+      b.disabled = true; b.textContent = "Calculando…";
+      await aliCompletarKcal(dr.items);
+      if(dr.src==="manual") for(const x of dr.items){ if(x.n && aliN(x.kcal)>0 && !fdMatch(x.n)) await plGuardarMio({ tipo:"alimento", n:x.n, sec:"prin", u:(aliR(x.g)||100)+" g", g:aliR(x.g)||100, kcal:aliN(x.kcal), p:aliN(x.p), c:aliN(x.c), f:aliN(x.f) }); }
+      dr.listo = true;
+    }
     const meal = (document.getElementById("af-meal")||{}).value || dr.meal || aliMealNow();
     const r = aliDay(d), add = dr.items.filter(x=>x.n||x.kcal).map(x=>{
       const o = { id:aliUid(), meal, n:(x.n||"Alimento").trim(), g:aliR(x.g), kcal:aliR(x.kcal), p:+aliN(x.p).toFixed(1), c:+aliN(x.c).toFixed(1), f:+aliN(x.f).toFixed(1), src:dr.src, t:Date.now() };
@@ -5346,7 +5416,7 @@ function aiErrMsg(e){
 
 /* ======================= ALIMENTACIÓN · SOLAPAS =======================
    Registro (foto → calorías) · Recetario argentino · Mi heladera · Yo armo mi comida · Ayuno · Compras · Nutri IA */
-const RX_TABS = [["registro","📷 Registro"],["meta","🎯 Mi meta"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
+const RX_TABS = [["registro","📷 Registro"],["meta","🎯 Mi meta"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["plan","📅 Plan de comidas"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
 const RX = { sub:"registro", filtro:"todos", q:"", open:null, porc:{}, shown:{}, busy:false, err:"", abort:null,
   hel:{ ings:[], recetas:[], tipo:"cualquiera", min:"45", obj:"rendidora y sana", porc:"2" },
   armo:{ ings:[], receta:null, deseo:"", tipo:"cualquiera", porc:"2" },
@@ -5364,6 +5434,7 @@ function renderAlimentacion(){
   const body = root.querySelector("#rx-body");
   if(RX.sub==="registro") aliRenderRegistro(body);
   else if(RX.sub==="meta") rxMeta(body);
+  else if(RX.sub==="plan") rxPlan(body);
   else if(RX.sub==="recetario") rxRecetario(body);
   else if(RX.sub==="heladera") rxHeladera(body);
   else if(RX.sub==="armo") rxArmo(body);
@@ -5451,6 +5522,7 @@ function rxRecPrompt({ ings, n, tipo, min, obj, porc, deseo, foto }){
   return `Sos cocinero argentino y nutricionista deportivo. ${foto?"Te paso FOTO(S) de la heladera / alacena del usuario. Primero identificá los ingredientes que se ven (con cantidad aproximada).":""}
 ${ings.length?`Ingredientes que tiene: ${ings.map(x=>x.n||x).join(", ")}.`:""}${deseo?`\nLo que quiere comer: "${deseo}".`:""}
 Armá ${n} receta(s) ${tipo==="cualquiera"?"(saladas o dulces)":tipo==="dulce"?"DULCES":"SALADAS"} usando PRINCIPALMENTE esos ingredientes. Podés sumar básicos de alacena (sal, aceite, especias, harina, azúcar); marcá "tengo": false en lo que no tenga.
+${regTxt()}
 Cocina casera ARGENTINA: nombres y productos de acá (dulce de leche, queso cremoso, Por Salut, membrillo, almidón de mandioca, carne vacuna, zapallo anco, etc.). Medidas EXACTAS en g, ml, tazas o cucharadas, para ${porc} porción(es). Tiempo máximo: ${min} minutos. Objetivo: ${obj}.
 Pasos claros, cortos y numerables, en voseo, con tiempos y temperaturas.
 Si alguna receta es una de este recetario, poné su id en "rid": ${JSON.stringify(REC_DB.map(r=>[r.id,r.n]))}. Si no, "rid": "".
@@ -5514,7 +5586,8 @@ function rxHeladera(el){
     </label>
     <div style="margin-top:14px;"><label>Lo que tenés</label>${rxChips(S.ings,"hel")}</div>
     ${rxOpts(S,"hel")}
-    <button class="btn btn-primary" data-rx="gen" data-k="hel" ${!RX.busy&&aiOn()?"":"disabled"}>🍳 Armame una comida</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-primary" data-rx="gen" data-k="hel" ${!RX.busy&&aiOn()?"":"disabled"}>🍳 Armame una comida</button>
+    <button class="btn" data-rx="helplan" ${S.ings.length?"":"disabled"}>📅 Plan de varios días con esto</button></div>
     ${rxBusyBox()}${RX.err?`<div class="af-err">${rxEsc(RX.err)}</div>`:""}
   </div>
   ${S.recetas.map((r,i)=>rxCard(r, "hel"+i)).join("")}`;
@@ -5545,16 +5618,17 @@ function rxArmo(el){
   if(f) f.onchange = ()=>{ const fs = [...(f.files||[])]; f.value=""; if(fs.length) rxIdentificar(fs.slice(0,4)); };
   const d = document.getElementById("rx-deseo"); if(d) d.oninput = ()=>{ S.deseo = d.value; };
 }
+function rxS(w){ return w==="armo" ? RX.armo : w==="plan" ? RX.plan : RX.hel; }
 function rxWireChips(el){
   el.querySelectorAll(".rx-chip-in").forEach(inp=>{
     inp.onkeydown = e=>{
       if(e.key==="Enter" || e.key===","){ e.preventDefault(); const v = inp.value.trim().replace(/,$/,""); if(!v) return;
-        const S = inp.dataset.w==="armo" ? RX.armo : RX.hel;
+        const S = rxS(inp.dataset.w);
         v.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); renderAlimentacion();
         const again = document.querySelector(`.rx-chip-in[data-w="${inp.dataset.w}"]`); if(again) again.focus(); }
-      else if(e.key==="Backspace" && !inp.value){ const S = inp.dataset.w==="armo" ? RX.armo : RX.hel; if(S.ings.length){ S.ings.pop(); renderAlimentacion(); const a = document.querySelector(`.rx-chip-in[data-w="${inp.dataset.w}"]`); if(a) a.focus(); } }
+      else if(e.key==="Backspace" && !inp.value){ const S = rxS(inp.dataset.w); if(S.ings.length){ S.ings.pop(); renderAlimentacion(); const a = document.querySelector(`.rx-chip-in[data-w="${inp.dataset.w}"]`); if(a) a.focus(); } }
     };
-    inp.onblur = ev=>{ const v = inp.value.trim(); if(!v) return; const S = inp.dataset.w==="armo" ? RX.armo : RX.hel;
+    inp.onblur = ev=>{ const v = inp.value.trim(); if(!v) return; const S = rxS(inp.dataset.w);
       v.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); inp.value="";
       if(!(ev.relatedTarget && ev.relatedTarget.closest && ev.relatedTarget.closest("[data-rx]"))) setTimeout(renderAlimentacion,0); };
   });
@@ -5646,7 +5720,7 @@ async function rxAsk(q){
   const d = todayStr(), r = aliDay(d), tot = aliTot(r.items), A = RX.ayuno;
   const ctx = `Contexto del usuario (hoy ${d}): objetivo diario ${aliCfg.kcal} kcal, P ${aliCfg.p} g, C ${aliCfg.c} g, G ${aliCfg.f} g. Comió hasta ahora ${aliR(tot.kcal)} kcal, P ${aliR(tot.p)}, C ${aliR(tot.c)}, G ${aliR(tot.f)}.
 Comidas de hoy: ${(r.items||[]).map(x=>`${x.meal}: ${x.n} ${x.g} g`).join("; ")||"nada cargado"}. Agua: ${r.agua||0}/${aliCfg.agua} vasos. Peso: ${r.peso||aliUltimoPeso()||"?"} kg.
-Ayuno: ${A.start?`en curso hace ${((Date.now()-A.start)/3.6e6).toFixed(1)} h (plan ${A.plan}:${24-A.plan})`:"no"}. Entrena en el gimnasio. Vive en Argentina (Chaco): sugerí comidas y productos de acá.
+Ayuno: ${A.start?`en curso hace ${((Date.now()-A.start)/3.6e6).toFixed(1)} h (plan ${A.plan}:${24-A.plan})`:"no"}. Entrena en el gimnasio. ${regTxt()}
 Respondé como nutricionista deportivo argentino, en voseo, corto (máx. 120 palabras), práctico, con números cuando sirva. Sin diagnósticos médicos.`;
   RX.chat.push({ role:"user", content:q }); RX.chat.push({ role:"assistant", content:"…" }); RX.busy = "chat"; RX.err = ""; renderAlimentacion();
   const turns = RX.chat.slice(0,-1).map((t,i)=> i===0 ? { role:"user", content: ctx+"\n\nPregunta: "+t.content } : t).slice(-10);
@@ -5715,7 +5789,8 @@ document.addEventListener("click", async e=>{
     if(inp && inp.value.trim()){ inp.value.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=> S.ings.push({ n })); inp.value = ""; }
     if(!S.ings.length && !(k==="armo" && S.deseo)){ toast("Cargá al menos un ingrediente"); return; }
     return rxGenerar(k); }
-  if(a==="chipx"){ const S = b.dataset.w==="armo" ? RX.armo : RX.hel; S.ings.splice(+b.dataset.i,1); return renderAlimentacion(); }
+  if(a==="helplan"){ RX.plan.ings = RX.hel.ings.map(x=>({ n:x.n })); RX.sub = "plan"; return renderAlimentacion(); }
+  if(a==="chipx"){ const S = rxS(b.dataset.w); S.ings.splice(+b.dataset.i,1); return renderAlimentacion(); }
   const r = k && RX.shown[k];
   if(a==="tocompras" && r){
     const miss = r.ing.filter(x=>(x.tengo!=null ? x.tengo : rxPantryHas(x.item))===false);
@@ -5912,7 +5987,7 @@ function mtICS(){
 }
 async function mtIA(){
   const P = mtPlan(), s = P.s; MT.iaBusy = true; MT.iaErr = ""; renderAlimentacion();
-  const prompt = `Sos entrenador personal y nutricionista deportivo en Argentina (Chaco). Armá un PLAN PARA ESTA SEMANA (lunes a domingo), en voseo, práctico y corto (máx. 250 palabras), con 4 títulos: Meta de la semana, Comidas (ideas concretas con productos argentinos, porciones), Entrenamiento (respetando su rutina de pesas lunes a viernes; solo sugerí cardio/caminata extra), Hábitos.
+  const prompt = `Sos entrenador personal y nutricionista deportivo en Argentina. ${regTxt()} Armá un PLAN PARA ESTA SEMANA (lunes a domingo), en voseo, práctico y corto (máx. 250 palabras), con 4 títulos: Meta de la semana, Comidas (ideas concretas con productos argentinos, porciones), Entrenamiento (respetando su rutina de pesas lunes a viernes; solo sugerí cardio/caminata extra), Hábitos.
 Datos: peso actual ${P.p.kg} kg, objetivo ${P.obj} kg, edad ${aliCfg.edad||"?"}, altura ${aliCfg.altura||"?"} cm. Objetivo diario sugerido: ${P.kcal} kcal, P ${P.prot} g, C ${P.carb} g, G ${P.gras} g.
 Últimos 14 días: ${s.diasCargados} días con comidas cargadas, promedio ${aliR(s.kcal)} kcal y ${aliR(s.p)} g de proteína; entrenó ${s.entDias} días (${Math.round(s.entMin)} min promedio); agua ${s.agua.toFixed(1)} vasos/día; ${s.pesajes} pesajes en el mes.
 Tendencia: ${P.t ? P.t.kgSem.toFixed(2)+" kg/semana" : "sin datos"}. Ritmo recomendado: ${P.ritmo.toFixed(2)} kg/semana.
@@ -6063,6 +6138,437 @@ document.addEventListener("click", async e=>{
     if(db){ clearInterval(w);
       db.collection("alimentacion_ciclos").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = Object.assign({ id:x.id }, x.data()); }); mtCiclos = t;
         if(state.view==="alimentacion" && RX.sub==="meta" && !rxBusyFocus()) renderAlimentacion(); }, ()=>{});
+    } else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
+  }, 500);
+})();
+
+/* ======================= 🍽️ ARMAR PLATO · BASE DE ALIMENTOS · REGIONES · PLAN DE COMIDAS =======================
+   La comida se arma como un PLATO COMPLETO: principal + acompañamiento (guarnición, pan, untables) + bebida + postre.
+   Cada cosa va por UNIDADES NATURALES (rodajas, vasos de 300 cc, unidades grandes, porciones) y se suma todo.
+   Los huevos tienen armador propio: cantidad + preparación (frito, duro, poché, revuelto, omelet, tortilla)
+   + queso (tipo y cantidad) + agregados.
+   Todo lo que se carga a mano queda en "alimentos_mios" (tu propia base) y aparece después en buscadores y platos.
+   Región (NOA, NEA, Cuyo, Pampeana, Patagonia): ordena frutas, verduras, lácteos y pescados de la zona, y se le pasa
+   a la IA en recetas, heladera, plan y chat. Las carnes (vaca, pollo, cerdo) son iguales en todo el país; para pescado:
+   el de la zona o enlatados de mar (atún, caballa, sardinas) que hay en cualquier súper. */
+const REGIONES = {
+  NOA:{ n:"NOA · Noroeste", prov:"Jujuy, Salta, Tucumán, Catamarca, La Rioja y Santiago del Estero",
+    zona:"frutas y verduras de la zona: cítricos (limón tucumano), palta, mango, banana salteña, papa andina, choclo, zapallo, ají, quinoa, maíz; lácteos: queso de cabra, quesillo; pescado: trucha y pejerrey de dique, o enlatados de mar (atún, caballa, sardinas)" },
+  NEA:{ n:"NEA · Noreste", prov:"Formosa, Chaco, Corrientes y Misiones",
+    zona:"frutas y verduras de la zona: mandioca, batata, zapallo, naranja, mandarina, pomelo, banana, mamón, ananá, mburucuyá; lácteos: queso Paraguay, Por Salut, cuartirolo; comidas típicas: chipá, sopa paraguaya, mbeyú, chipa guazú; pescado de río: surubí, pacú, boga, dorado, sábalo, o enlatados de mar (atún, caballa, sardinas)" },
+  Cuyo:{ n:"Cuyo", prov:"Mendoza, San Juan y San Luis",
+    zona:"frutas y verduras de la zona: uva, durazno, ciruela, damasco, membrillo, aceitunas, ajo, tomate, zapallo; lácteos: queso de cabra; pescado: trucha y pejerrey de dique, o enlatados de mar (atún, caballa, sardinas)" },
+  Pampeana:{ n:"Región Pampeana", prov:"Buenos Aires, Santa Fe, Córdoba, Entre Ríos y La Pampa",
+    zona:"frutas y verduras de la zona: papa, zapallo, verdura de hoja, tomate, cebolla, manzana, pera, cítricos entrerrianos, frutilla de Coronda; lácteos: cremoso, tybo, reggianito, ricota; pescado: merluza, pejerrey, corvina, o enlatados (atún, caballa, sardinas)" },
+  Patagonia:{ n:"Patagonia", prov:"Neuquén, Río Negro, Chubut, Santa Cruz y Tierra del Fuego",
+    zona:"frutas y verduras de la zona: manzana, pera, cereza, frambuesa, frutos rojos, calafate, papa; carne típica: cordero; pescado y mariscos: merluza, trucha, salmón, langostino, centolla, o enlatados (atún, caballa, sardinas)" },
+};
+function regionAct(){ return REGIONES[aliCfg.region] ? aliCfg.region : "NEA"; }
+function regTxt(){ const r = REGIONES[regionAct()]; return `Región del usuario: ${r.n} (${r.prov}). Priorizá ${r.zona}. Carnes vacuna, de ave y de cerdo como en todo el país.`; }
+
+/* Base: [id, nombre, sección, unidad, gramos/ml por unidad, kcal, prot, carbos, grasas, regiones (opcional)]
+   sección: prin (principal) · guar (guarnición) · pan (pan y galletitas) · unt (untables/aderezos) · beb (bebida) · post (postre/fruta/lácteo) */
+const FD_RAW = [
+ // ---- Principal: carnes
+ ["mila-h","Milanesa de carne al horno","prin","1 unidad",150,345,33,20,15],["mila-f","Milanesa de carne frita","prin","1 unidad",150,435,30,21,25],
+ ["mila-p","Milanesa de pollo al horno","prin","1 unidad",150,315,36,18,10],["napo","Milanesa napolitana","prin","1 unidad",220,560,45,24,32],
+ ["suprema","Suprema grillé","prin","1 unidad",180,300,56,0,7],["pech","Pechuga de pollo a la plancha","prin","1 porción",150,248,46,0,5],
+ ["pollo-h","Pollo al horno con piel","prin","1 presa",200,430,50,0,25],["bife","Bife de chorizo","prin","1 bife",250,625,65,0,40],
+ ["nalga","Bife de nalga a la plancha","prin","1 bife",180,300,52,0,10],["asado","Asado de tira","prin","1 porción",250,800,60,0,62],
+ ["vacio","Vacío","prin","1 porción",250,725,62,0,52],["chori","Chorizo","prin","1 unidad",80,265,12,2,23],["morci","Morcilla","prin","1 unidad",80,305,11,10,24],
+ ["hamb-c","Hamburguesa casera","prin","1 unidad",120,300,24,5,20],["hamb-p","Hamburguesa de paquete","prin","1 unidad",80,220,13,4,17],
+ ["estofado","Carne al horno / estofado","prin","1 porción",200,360,50,0,17],["bondiola","Bondiola de cerdo","prin","1 porción",200,480,50,0,30],
+ ["matambre","Matambre a la pizza","prin","1 porción",250,600,45,6,43],["cordero","Cordero asado","prin","1 porción",250,700,55,0,52,["Patagonia"]],
+ // ---- Principal: pescados
+ ["atun","Atún al natural","prin","1 lata escurrida",120,140,31,0,1.2],["caballa","Caballa en aceite","prin","1 lata escurrida",110,250,22,0,18],
+ ["sardina","Sardinas en aceite","prin","1 lata",90,190,21,0,12],["merluza","Merluza al horno","prin","1 filet",180,160,34,0,2,["Pampeana","Patagonia"]],
+ ["surubi","Surubí a la parrilla","prin","1 porción",200,220,40,0,6,["NEA"]],["pacu","Pacú asado","prin","1 porción",200,300,36,0,17,["NEA"]],
+ ["boga","Boga a la parrilla","prin","1 porción",200,260,38,0,11,["NEA"]],["dorado","Dorado al horno","prin","1 porción",200,240,40,0,8,["NEA"]],
+ ["trucha","Trucha a la manteca","prin","1 porción",200,300,40,0,15,["NOA","Cuyo","Patagonia"]],["pejerrey","Pejerrey al horno","prin","1 porción",200,190,38,0,4,["Pampeana","Cuyo","NOA"]],
+ ["salmon","Salmón","prin","1 porción",150,310,30,0,20,["Patagonia"]],["langost","Langostinos","prin","1 porción",150,150,30,1,2,["Patagonia","Pampeana"]],
+ // ---- Principal: huevos (simples; el armador hace omelet y combinaciones)
+ ["h-duro","Huevo duro","prin","1 unidad",55,72,6.3,0.4,4.8],["h-frito","Huevo frito","prin","1 unidad",60,95,6.3,0.4,7.3],
+ ["h-poche","Huevo poché","prin","1 unidad",55,72,6.3,0.4,4.8],["h-rev","Huevo revuelto","prin","1 unidad",65,100,6.6,1,7.6],
+ // ---- Principal: pastas, guisos, minutas
+ ["fid-salsa","Fideos con salsa","prin","1 plato",300,420,13,72,9],["fid-manteca","Fideos con manteca y queso","prin","1 plato",250,450,14,70,13],
+ ["noquis","Ñoquis con salsa","prin","1 plato",300,400,9,75,7],["ravioles","Ravioles con salsa","prin","1 plato",300,520,20,70,17],
+ ["arroz-pollo","Arroz con pollo","prin","1 plato",350,520,32,65,13],["lentejas","Guiso de lentejas","prin","1 plato",350,420,24,55,12],
+ ["locro","Locro","prin","1 plato",350,600,30,60,26],["polenta","Polenta con tuco","prin","1 plato",300,330,8,60,6],
+ ["emp-carne","Empanada de carne al horno","prin","1 unidad",90,260,10,25,13],["emp-jyq","Empanada de jamón y queso","prin","1 unidad",85,255,10,24,14],
+ ["tarta","Tarta de verdura","prin","1 porción",180,410,14,36,23],["pizza","Pizza muzzarella","prin","1 porción",120,325,13,38,13],
+ ["tortilla-p","Tortilla de papas","prin","1 porción",200,330,11,30,18],["pastel","Pastel de papa","prin","1 porción",300,520,28,45,25],
+ ["gramajo","Revuelto gramajo","prin","1 porción",300,620,26,45,38],["sand-mila","Sándwich de milanesa","prin","1 unidad",300,680,38,65,28],
+ ["choripan","Choripán","prin","1 unidad",220,650,26,60,35],["tostado","Tostado de jamón y queso","prin","1 unidad",150,380,18,40,16],
+ ["chipa-p","Chipá","prin","4 unidades",100,380,10,45,18,["NEA"]],["sopa-py","Sopa paraguaya","prin","1 porción",150,410,15,40,21,["NEA"]],
+ ["mbeyu","Mbeyú","prin","1 unidad",100,290,9,45,9,["NEA"]],["chipaguazu","Chipa guazú","prin","1 porción",180,350,15,30,19,["NEA"]],
+ ["humita","Humita en chala","prin","1 unidad",250,380,12,50,15,["NOA"]],["tamal","Tamal","prin","1 unidad",200,350,12,35,18,["NOA"]],
+ // ---- Guarnición
+ ["ens-lt","Ensalada de lechuga y tomate","guar","1 plato",200,40,2,7,0.4],["ens-mixta","Ensalada mixta","guar","1 plato",250,55,2.5,10,0.5],
+ ["ens-rusa","Ensalada rusa","guar","1 porción",200,380,4,24,30],["pure-p","Puré de papa","guar","1 porción",200,210,4,30,8],
+ ["pure-c","Puré de calabaza","guar","1 porción",200,120,2,20,4],["papas-f","Papas fritas","guar","1 porción",150,470,5,61,22],
+ ["papas-h","Papas al horno","guar","1 porción",200,190,4,34,4],["batata","Batata al horno","guar","1 porción",200,180,3,42,0.3],
+ ["arroz","Arroz blanco","guar","1 taza cocido",180,235,4.8,51,0.5],["arroz-i","Arroz integral","guar","1 taza cocido",180,200,4.7,41,1.6],
+ ["verd-salt","Verduras salteadas","guar","1 porción",200,120,4,16,5],["mandioca","Mandioca hervida","guar","1 porción",200,320,3,76,0.6,["NEA"]],
+ ["choclo","Choclo","guar","1 unidad",150,130,4.5,27,1.8],["calabaza","Calabaza al horno","guar","1 porción",200,80,2,18,0.2],
+ // ---- Pan y galletitas
+ ["lactal","Pan lactal blanco","pan","1 rodaja",25,66,2.2,12.5,0.9],["lactal-i","Pan lactal integral","pan","1 rodaja",25,60,2.8,10.5,1],
+ ["masamadre","Pan de masa madre","pan","1 rodaja",40,100,3.6,20,0.5],["frances","Pan francés (mignon)","pan","1 unidad",60,168,5.4,34,0.9],
+ ["campo","Pan de campo","pan","1 rodaja",50,130,4.5,26,1],["integral","Pan integral","pan","1 rodaja",30,75,3,13,1.2],
+ ["arabe","Pan árabe","pan","1 unidad",60,165,5.5,33,0.7],["gall-agua","Galletitas de agua","pan","4 unidades",25,105,2.5,18,2.5],
+ ["gall-int","Galletitas integrales","pan","4 unidades",25,110,2.8,16,4],["tost-arroz","Tostadas de arroz","pan","2 unidades",18,70,1.4,15,0.5],
+ ["tostadas","Tostadas de pan","pan","2 unidades",30,120,3.6,22,1.5],["grisines","Grisines","pan","4 unidades",20,85,2.4,14,2],
+ ["bizcochitos","Bizcochitos de grasa","pan","5 unidades",30,165,2.5,18,9],["medialuna","Medialuna de manteca","pan","1 unidad",45,185,3,21,10],
+ ["factura","Factura","pan","1 unidad",60,230,3.6,31,10],["chipa-u","Chipá","pan","1 unidad",25,95,2.5,11,4.5,["NEA"]],
+ // ---- Untables y aderezos
+ ["manteca","Manteca","unt","1 cucharadita",5,36,0,0,4],["mermelada","Mermelada","unt","1 cucharada",20,50,0,12.5,0],
+ ["mermelada-l","Mermelada light","unt","1 cucharada",20,15,0,3.5,0],["ddl","Dulce de leche","unt","1 cucharada",20,63,1.4,11,1.4],
+ ["untable","Queso untable","unt","1 cucharada",20,50,1.6,0.8,4.4],["untable-l","Queso untable light","unt","1 cucharada",20,30,2,0.8,2],
+ ["miel","Miel","unt","1 cucharada",21,64,0,17,0],["mani","Manteca de maní","unt","1 cucharada",16,94,4,3,8],["palta","Palta","unt","½ unidad",70,112,1.4,6,10.3],
+ ["aceite","Aceite de oliva","unt","1 cucharada",10,88,0,0,10],["mayo","Mayonesa","unt","1 cucharada",15,100,0,0.5,11],["mayo-l","Mayonesa light","unt","1 cucharada",15,45,0,1.5,4.3],
+ ["ketchup","Ketchup","unt","1 cucharada",15,17,0.2,4,0],["chimi","Chimichurri","unt","1 cucharada",15,70,0,0.5,7.5],
+ // ---- Bebidas
+ ["agua","Agua","beb","1 vaso 300 cc",300,0,0,0,0],["soda","Agua con gas / soda","beb","1 vaso 300 cc",300,0,0,0,0],
+ ["saborizada","Agua saborizada","beb","1 vaso 300 cc",300,60,0,15,0],["saborizada-l","Agua saborizada light","beb","1 vaso 300 cc",300,6,0,1.5,0],
+ ["gaseosa","Gaseosa común","beb","1 vaso 300 cc",300,126,0,32,0],["gaseosa-l","Gaseosa light / zero","beb","1 vaso 300 cc",300,2,0,0,0],
+ ["jugo-polvo","Jugo en polvo con azúcar","beb","1 vaso 300 cc",300,90,0,22,0],["jugo-polvo-l","Jugo en polvo light","beb","1 vaso 300 cc",300,12,0,3,0],
+ ["jugo-nar","Jugo de naranja exprimido","beb","1 vaso 300 cc",300,135,2,31,0.6],["amargo","Amargo serrano con soda","beb","1 vaso 300 cc",300,60,0,15,0],
+ ["amargo-l","Amargo serrano light","beb","1 vaso 300 cc",300,10,0,2.5,0],["mate","Mate amargo","beb","1 termo",500,10,0.5,1.5,0],
+ ["mate-d","Mate dulce","beb","1 termo",500,160,0.5,40,0],["mate-cocido","Mate cocido con azúcar","beb","1 taza",250,45,0,11,0],
+ ["cafe","Café solo","beb","1 taza",150,2,0.2,0,0],["cafe-leche","Café con leche","beb","1 taza",250,100,5,8,5],
+ ["cafe-leche-d","Café con leche descremada","beb","1 taza",250,70,6,9,0.5],["te","Té","beb","1 taza",250,2,0,0.5,0],
+ ["leche","Leche entera","beb","1 vaso 250 cc",250,155,8,12,8],["leche-d","Leche descremada","beb","1 vaso 250 cc",250,88,8.5,12.5,0.3],
+ ["chocolatada","Chocolatada","beb","1 vaso 250 cc",250,190,7,30,5],["yog-beb","Yogur bebible","beb","1 vaso 200 cc",200,160,5,28,3],
+ ["isotonica","Bebida isotónica","beb","1 botella 500 cc",500,120,0,30,0],["cerveza","Cerveza","beb","1 vaso 300 cc",300,130,1,11,0],
+ ["vino","Vino tinto","beb","1 copa 150 cc",150,125,0,4,0],["fernet","Fernet con cola","beb","1 vaso 300 cc",300,200,0,28,0],
+ // ---- Postres, frutas y lácteos
+ ["manzana-g","Manzana grande","post","1 unidad",220,115,0.6,30,0.4],["manzana","Manzana mediana","post","1 unidad",180,94,0.5,25,0.3],
+ ["banana","Banana","post","1 unidad",120,107,1.3,27,0.4],["naranja","Naranja","post","1 unidad",180,85,1.7,21,0.2],
+ ["mandarina","Mandarina","post","1 unidad",100,53,0.8,13,0.3],["pera","Pera","post","1 unidad",180,103,0.7,27,0.2],
+ ["kiwi","Kiwi","post","1 unidad",75,45,0.8,11,0.4],["frutillas","Frutillas","post","1 taza",150,48,1,11,0.5],
+ ["durazno","Durazno","post","1 unidad",150,60,1.4,15,0.4,["Cuyo"]],["uvas","Uvas","post","1 taza",150,104,1,27,0.2,["Cuyo"]],
+ ["anana","Ananá","post","2 rodajas",150,75,0.8,20,0.2,["NEA"]],["mamon","Mamón","post","1 taza",150,60,0.7,16,0.4,["NEA"]],
+ ["mango","Mango","post","1 unidad",200,120,1.6,30,0.8,["NOA"]],["cerezas","Cerezas","post","1 taza",150,95,1.6,24,0.3,["Patagonia"]],
+ ["ens-frutas","Ensalada de frutas","post","1 compotera",200,120,1,30,0.3],
+ ["yog","Yogur entero","post","1 pote",190,120,6,15,4],["yog-d","Yogur descremado","post","1 pote",190,85,8.5,12,0.2],
+ ["yog-g","Yogur griego","post","1 pote",170,165,15,7,9],["yog-cer","Yogur con cereales","post","1 pote",170,190,6,32,4],
+ ["gelatina","Gelatina común","post","1 pote",125,80,2,19,0],["gelatina-l","Gelatina light","post","1 pote",125,10,2,0,0],
+ ["flan","Flan con dulce de leche","post","1 porción",150,330,8,52,9],["torta","Torta / bizcochuelo relleno","post","1 porción",100,380,5,52,17],
+ ["chocotorta","Chocotorta","post","1 porción",100,430,7,55,20],["pastafrola","Pastafrola","post","1 porción",100,380,5,62,13],
+ ["budin","Budín","post","1 rodaja",60,230,3.5,32,10],["arroz-leche","Arroz con leche","post","1 compotera",200,260,7,45,6],
+ ["helado","Helado de crema","post","1 bocha",70,145,2.5,17,7.5],["postre-leche","Postre de leche","post","1 pote",120,150,4,25,4],
+ ["alfajor","Alfajor","post","1 unidad",50,230,3,30,11],["vigilante","Queso y dulce (vigilante)","post","1 porción",100,330,11,35,16],
+];
+const FD = FD_RAW.map(([id,n,sec,u,g,kcal,p,c,f,reg])=>({ id, n, sec, u, g, kcal, p, c, f, reg:reg||null }));
+const FD_SECS = [["prin","🍖 Plato principal"],["acom","🥗 Acompañamiento"],["beb","🥤 Bebida"],["post","🍎 Postre"]];
+const FD_SEC_OF = { prin:"prin", guar:"acom", pan:"acom", unt:"acom", beb:"beb", post:"post" };
+// Armador de huevos
+const EGG_PREP = { frito:["Fritos",95,6.3,0.4,7.3], duro:["Duros",72,6.3,0.4,4.8], poche:["Poché",72,6.3,0.4,4.8], revuelto:["Revueltos",100,6.6,1,7.6], omelet:["Omelet",95,6.5,0.8,7], tortilla:["Tortilla",105,6.5,1,8.2] };
+const EGG_QUESO = { "":["Sin queso",0,0,0,0,""], cremoso:["Cremoso",90,6,0.6,7,"porción 30 g"], porsalut:["Por Salut",88,6.3,0.4,6.8,"porción 30 g"], barra:["De máquina (tybo/dambo)",70,5,0.4,5.5,"feta 20 g"], muzza:["Muzzarella",85,6,0.6,6.5,"porción 30 g"], rallado:["Rallado",39,3.6,0.4,2.6,"cucharada"], untable:["Untable",50,1.6,0.8,4.4,"cucharada"] };
+const EGG_EXTRA = { jamon:["Jamón cocido (2 fetas)",36,5.4,0.6,1.4], panceta:["Panceta (2 fetas)",140,4,0,13.5], cebolla:["Cebolla (½)",20,0.5,4.5,0], tomate:["Tomate (½)",11,0.5,2.3,0.1], morron:["Morrón (½)",15,0.5,3.5,0.1], espinaca:["Espinaca (½ taza)",3,0.4,0.5,0], champi:["Champiñones (½ taza)",8,1,1,0.1], papa:["Papa (1 chica)",77,2,17,0.1] };
+
+let alimMios = {};
+function fdTodos(){ return FD.concat(Object.values(alimMios).filter(x=>x && x.tipo!=="plato").map(x=>Object.assign({ mio:true }, x))); }
+function fdPlatosMios(){ return Object.values(alimMios).filter(x=>x && x.tipo==="plato"); }
+function fdBuscar(q, sec){
+  const nq = rxNorm(q).trim(); const reg = regionAct();
+  let L = fdTodos().filter(x=> !sec || FD_SEC_OF[x.sec]===sec);
+  if(nq) L = L.filter(x=> rxNorm(x.n).includes(nq));
+  else L = L.filter(x=> !x.reg || x.reg.includes(reg) || x.mio);           // sin búsqueda: solo lo común + lo de tu zona
+  return L.sort((a,b)=> (b.mio?2:0)+(b.reg&&b.reg.includes(reg)?1:0) - ((a.mio?2:0)+(a.reg&&a.reg.includes(reg)?1:0)));
+}
+// "3 tomates", "4 huevos", "lechuga" → busca en la base para no dejar alimentos en 0 kcal
+function fdMatch(nombre){
+  const m = String(nombre||"").trim().match(/^(\d+(?:[.,]\d+)?)\s*(.*)$/); const qty = m ? parseFloat(m[1].replace(",",".")) : 1;
+  const txt = rxNorm(m ? m[2] : nombre).replace(/s\b/g,"").replace(/\bde\b/g," ").replace(/\s+/g," ").trim(); if(!txt) return null;
+  const words = txt.split(" ").filter(w=>w.length>2);
+  let best = null, score = 0;
+  fdTodos().forEach(x=>{ const n = rxNorm(x.n).replace(/s\b/g,""); const s = words.filter(w=>n.includes(w)).length / Math.max(1, words.length);
+    if(s>score || (s===score && best && n.length<rxNorm(best.n).length)){ score = s; best = x; } });
+  if(score < 0.6) return null;
+  return { x:best, qty };
+}
+const FD_SUELTOS = [ // verduras y básicos sueltos, para cuando se cargan a mano
+ ["Lechuga","1 plato",150,23,1.4,4.3,0.2],["Tomate","1 unidad",120,22,1.1,4.7,0.2],["Zanahoria","1 unidad",80,33,0.7,7.7,0.2],["Cebolla","1 unidad",110,44,1.2,10,0.1],
+ ["Huevo","1 unidad",55,72,6.3,0.4,4.8],["Papa","1 unidad",170,131,3.4,30,0.2],["Zapallito","1 unidad",150,25,1.8,4.7,0.5],["Morrón","1 unidad",120,31,1.2,7.2,0.4],
+ ["Queso cremoso","1 porción",30,90,6,0.6,7],["Jamón cocido","1 feta",15,18,2.7,0.3,0.7],["Azúcar","1 cucharadita",5,20,0,5,0],["Leche","1 vaso",250,155,8,12,8],
+];
+FD_SUELTOS.forEach(([n,u,g,kcal,p,c,f],i)=> FD.push({ id:"suelto-"+i, n, sec:"guar", u, g, kcal, p, c, f, reg:null, suelto:true }));
+
+/* ---------- Estado del armador ---------- */
+function plNuevo(meal){ aliUI.plato = { meal: meal || aliMealNow(), items:[], open:null, q:{}, egg:null, otro:null }; }
+function plAdd(x, qty){
+  const P = aliUI.plato; const ex = P.items.find(i=>i.fid && i.fid===x.id);
+  if(ex){ ex.qty = +(ex.qty + (qty||1)).toFixed(2); return; }
+  P.items.push({ k:aliUid(), fid:x.id||null, n:x.n, u:x.u||"1 porción", g:aliN(x.g), kcal:aliN(x.kcal), p:aliN(x.p), c:aliN(x.c), f:aliN(x.f), qty:qty||1, sec:FD_SEC_OF[x.sec]||x.sec||"prin" });
+}
+function plTot(items){ return (items||[]).reduce((t,i)=>({ kcal:t.kcal+i.kcal*i.qty, p:t.p+i.p*i.qty, c:t.c+i.c*i.qty, f:t.f+i.f*i.qty }), {kcal:0,p:0,c:0,f:0}); }
+function plEggCalc(E){
+  const pr = EGG_PREP[E.prep] || EGG_PREP.revuelto, q = EGG_QUESO[E.queso||""], n = Math.max(1, aliN(E.n)), qq = E.queso ? Math.max(0, aliN(E.quesoQ)||1) : 0;
+  let t = { kcal:pr[1]*n + q[1]*qq, p:pr[2]*n + q[2]*qq, c:pr[3]*n + q[3]*qq, f:pr[4]*n + q[4]*qq };
+  (E.extras||[]).forEach(k=>{ const x = EGG_EXTRA[k]; if(x){ t.kcal+=x[1]; t.p+=x[2]; t.c+=x[3]; t.f+=x[4]; } });
+  const nom = (["omelet","tortilla"].includes(E.prep) ? `${pr[0]} de ${n} huevo${n>1?"s":""}` : `${n} huevo${n>1?"s":""} ${pr[0].toLowerCase()}`)
+    + (E.queso ? ` con queso ${q[0].toLowerCase()} (${qq} ${q[5]})` : "") + ((E.extras||[]).length ? ` + ${(E.extras||[]).map(k=>EGG_EXTRA[k][0].replace(/\s*\(.*\)/,"").toLowerCase()).join(", ")}` : "");
+  return { n:nom, t };
+}
+
+/* ---------- Render del armador ---------- */
+function plRender(){
+  const P = aliUI.plato; if(!P) return "";
+  const T = plTot(P.items), n1 = v=> String(+(+v).toFixed(2)).replace(".",",");
+  const sec = s=>{
+    const its = P.items.filter(i=>i.sec===s[0]), st = plTot(its), abierto = P.open===s[0];
+    const lista = abierto ? fdBuscar(P.q[s[0]]||"", s[0]).slice(0, P.q[s[0]] ? 30 : 24) : [];
+    return `<div class="pl-sec ${its.length?"has":""}">
+      <div class="pl-sec-head"><b>${s[1]}</b><span>${its.length?aliR(st.kcal)+" kcal":""}</span></div>
+      ${its.map(i=>`<div class="pl-it">
+        <div class="pl-it-n">${aliEsc(i.n)}<small>${aliEsc(i.u)} · ${aliR(i.kcal)} kcal c/u</small></div>
+        <div class="pl-step"><button data-pl="menos" data-k="${i.k}" aria-label="Menos">−</button><b>${n1(i.qty)}</b><button data-pl="mas" data-k="${i.k}" aria-label="Más">+</button></div>
+        <b class="pl-it-k">${aliR(i.kcal*i.qty)}</b><button class="btn btn-icon btn-ghost btn-sm" data-pl="quitar" data-k="${i.k}" aria-label="Quitar">✕</button></div>`).join("")}
+      ${abierto ? `<div class="pl-pal">
+        <input type="text" class="pl-q" data-sec="${s[0]}" placeholder="Buscar en ${s[1].replace(/^\S+\s/,"").toLowerCase()}…" value="${aliEsc(P.q[s[0]]||"")}" autocomplete="off">
+        ${s[0]==="prin" && !P.q.prin ? `<button class="pl-egg-btn" data-pl="egg">🥚 Huevos u omelet (armalo: cantidad, cocción, queso, agregados)</button>`:""}
+        ${s[0]==="prin" && P.egg ? plEggHtml(P.egg) : ""}
+        ${!P.q[s[0]] && fdPlatosMios().length && s[0]==="prin" ? `<div class="af-muted" style="margin:6px 0 2px;">⭐ Mis platos</div><div class="pl-chips">${fdPlatosMios().map(x=>`<button class="chip filter-chip pl-chip-mio" data-pl="miplato" data-k="${aliEsc(x.id)}">⭐ ${aliEsc(x.n)} · ${aliR(x.kcal)}</button>`).join("")}</div>`:""}
+        <div class="pl-chips">${lista.map(x=>`<button class="chip filter-chip ${x.mio?"pl-chip-mio":""}" data-pl="add" data-k="${aliEsc(x.id)}" title="${aliEsc(x.u)} · ${aliR(x.kcal)} kcal">${x.reg&&x.reg.includes(regionAct())?"📍 ":""}${x.mio?"★ ":""}${aliEsc(x.n)} <small>${aliEsc(x.u)} · ${aliR(x.kcal)}</small></button>`).join("") || `<span class="af-muted">No está en la base.</span>`}</div>
+        ${P.otro===s[0] ? plOtroHtml(s[0]) : `<button class="btn btn-sm btn-ghost" data-pl="otro" data-sec="${s[0]}">＋ Otro (cargarlo a mano y guardarlo en mi base)</button>`}
+        <button class="btn btn-sm" data-pl="cerrar">Listo</button>
+      </div>` : `<button class="btn btn-sm pl-add" data-pl="abrir" data-sec="${s[0]}">＋ ${its.length?"Sumar otro":"Elegir"}</button>`}
+    </div>`;
+  };
+  return `<div class="pl-box">
+    <div class="pl-head"><div><div class="pg-kicker">Armá tu plato completo · 📍 ${aliEsc(REGIONES[regionAct()].n)}</div><h3 style="margin:2px 0;">🍽️ ${P.items.length?P.items.length+" cosa"+(P.items.length>1?"s":"")+" en el plato":"Plato vacío"}</h3></div>
+      <div class="pl-tot"><b>${aliR(T.kcal)} kcal</b><span>P ${aliR(T.p)} · C ${aliR(T.c)} · G ${aliR(T.f)}</span></div></div>
+    <div class="pl-grid">${FD_SECS.map(sec).join("")}</div>
+    <div class="af-draft-foot">
+      <label style="margin:0;display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--ink);">Agregar a
+        <select id="pl-meal" style="width:auto;">${ALI_MEALS.map(([k,l])=>`<option value="${k}" ${k===P.meal?"selected":""}>${l}</option>`).join("")}</select></label>
+      <span style="flex:1"></span>
+      <button class="btn btn-sm btn-ghost" data-pl="descartar">Descartar</button>
+      <button class="btn btn-sm" data-pl="guardarplato" ${P.items.length?"":"disabled"}>⭐ Guardar como plato</button>
+      <button class="btn btn-sm btn-primary" data-pl="ok" ${P.items.length?"":"disabled"}>✓ Agregar ${aliR(T.kcal)} kcal</button>
+    </div>
+  </div>`;
+}
+function plEggHtml(E){
+  const r = plEggCalc(E);
+  return `<div class="pl-egg">
+    <div class="pl-egg-row"><span>Huevos</span><div class="pl-step"><button data-pl="egg-n" data-d="-1">−</button><b>${aliN(E.n)}</b><button data-pl="egg-n" data-d="1">+</button></div></div>
+    <div class="pl-egg-row"><span>Cocción</span><div class="pl-chips">${Object.entries(EGG_PREP).map(([k,v])=>`<button class="chip filter-chip ${E.prep===k?"on":""}" data-pl="egg-prep" data-k="${k}">${v[0]}</button>`).join("")}</div></div>
+    <div class="pl-egg-row"><span>Queso</span><div class="pl-chips">${Object.entries(EGG_QUESO).map(([k,v])=>`<button class="chip filter-chip ${(E.queso||"")===k?"on":""}" data-pl="egg-queso" data-k="${k}">${v[0]}</button>`).join("")}</div></div>
+    ${E.queso?`<div class="pl-egg-row"><span>Cantidad de queso <small>(${EGG_QUESO[E.queso][5]})</small></span><div class="pl-step"><button data-pl="egg-qq" data-d="-1">−</button><b>${aliN(E.quesoQ)||1}</b><button data-pl="egg-qq" data-d="1">+</button></div></div>`:""}
+    <div class="pl-egg-row"><span>Agregados</span><div class="pl-chips">${Object.entries(EGG_EXTRA).map(([k,v])=>`<button class="chip filter-chip ${(E.extras||[]).includes(k)?"on":""}" data-pl="egg-x" data-k="${k}">${v[0]}</button>`).join("")}</div></div>
+    <div class="pl-egg-foot"><span>${aliEsc(r.n)}</span><b>${aliR(r.t.kcal)} kcal</b><button class="btn btn-sm btn-primary" data-pl="egg-ok">Sumar al plato</button></div>
+  </div>`;
+}
+function plOtroHtml(sec){
+  return `<div class="pl-otro">
+    <input type="text" id="pl-o-n" placeholder="Nombre (ej: Milanesa de soja)">
+    <div class="pl-otro-row"><input type="text" id="pl-o-u" placeholder="Unidad (ej: 1 unidad, 1 vaso 300 cc)"><input type="number" id="pl-o-g" placeholder="g / ml" inputmode="numeric"></div>
+    <div class="pl-otro-row"><input type="number" id="pl-o-k" placeholder="kcal" inputmode="numeric"><input type="number" id="pl-o-p" placeholder="P" inputmode="decimal"><input type="number" id="pl-o-c" placeholder="C" inputmode="decimal"><input type="number" id="pl-o-f" placeholder="G" inputmode="decimal"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      ${aiOn()?`<button class="btn btn-sm" data-pl="otro-ia" data-sec="${sec}">✨ Calcular kcal con IA</button>`:""}
+      <button class="btn btn-sm btn-primary" data-pl="otro-ok" data-sec="${sec}">Guardar en mi base y sumar</button>
+      <button class="btn btn-sm btn-ghost" data-pl="otro-x">Cancelar</button>
+    </div>
+  </div>`;
+}
+async function plGuardarMio(o){
+  const id = "mio-"+aliUid(); const x = Object.assign({ id, t:Date.now() }, o);
+  alimMios = Object.assign({}, alimMios, { [id]:x });
+  try{ if(db) await db.doc("alimentos_mios/"+id).set(x); else localStorage.setItem("entrenador-alimentos-mios", JSON.stringify(alimMios)); }catch(_){}
+  return x;
+}
+async function plConfirmar(){
+  const P = aliUI.plato; if(!P || !P.items.length) return;
+  const d = aliDate || todayStr(), meal = (document.getElementById("pl-meal")||{}).value || P.meal, pid = aliUid();
+  const add = P.items.map(i=>({ id:aliUid(), meal, pl:pid, n:(i.qty!==1 ? String(+i.qty.toFixed(2)).replace(".",",")+" × " : "")+i.n+" ("+i.u+")",
+    g:aliR(i.g*i.qty), kcal:aliR(i.kcal*i.qty), p:+(i.p*i.qty).toFixed(1), c:+(i.c*i.qty).toFixed(1), f:+(i.f*i.qty).toFixed(1), src:"plato", t:Date.now() }));
+  const r = aliDay(d); aliData[d] = Object.assign({}, r, { items:(r.items||[]).concat(add) }); aliSave(d);
+  toast(`✓ Plato agregado: ${aliR(plTot(P.items).kcal)} kcal`); aliUI.plato = null; renderAlimentacion();
+}
+document.addEventListener("click", async e=>{
+  const b = e.target.closest && e.target.closest("[data-pl]"); if(!b) return;
+  const a = b.dataset.pl, k = b.dataset.k;
+  if(a==="nuevo"){ plNuevo(); aliUI.draft = null; renderAlimentacion(); const el = document.querySelector(".pl-box"); if(el) el.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  const P = aliUI.plato; if(!P) return;
+  if(a==="abrir"){ P.open = b.dataset.sec; P.otro = null; return renderAlimentacion(); }
+  if(a==="cerrar"){ P.open = null; P.egg = null; P.otro = null; return renderAlimentacion(); }
+  if(a==="add"){ const x = fdTodos().find(i=>i.id===k); if(x){ plAdd(x, 1); P.q[P.open] = ""; } return renderAlimentacion(); }
+  if(a==="miplato"){ const m = alimMios[k]; if(m) (m.items||[]).forEach(i=> P.items.push(Object.assign({}, i, { k:aliUid() }))); return renderAlimentacion(); }
+  if(a==="mas" || a==="menos"){ const i = P.items.find(x=>x.k===k); if(i){ const st = i.qty<1 || (a==="menos" && i.qty<=1) ? 0.5 : 1; i.qty = Math.max(0.5, +(i.qty + (a==="mas"?st:-st)).toFixed(2)); } return renderAlimentacion(); }
+  if(a==="quitar"){ P.items = P.items.filter(x=>x.k!==k); return renderAlimentacion(); }
+  if(a==="egg"){ P.egg = P.egg ? null : { n:2, prep:"revuelto", queso:"", quesoQ:1, extras:[] }; return renderAlimentacion(); }
+  if(a==="egg-n"){ P.egg.n = Math.max(1, Math.min(12, aliN(P.egg.n) + (+b.dataset.d))); return renderAlimentacion(); }
+  if(a==="egg-prep"){ P.egg.prep = k; return renderAlimentacion(); }
+  if(a==="egg-queso"){ P.egg.queso = k; return renderAlimentacion(); }
+  if(a==="egg-qq"){ P.egg.quesoQ = Math.max(1, Math.min(10, (aliN(P.egg.quesoQ)||1) + (+b.dataset.d))); return renderAlimentacion(); }
+  if(a==="egg-x"){ const x = P.egg.extras || []; P.egg.extras = x.includes(k) ? x.filter(i=>i!==k) : x.concat([k]); return renderAlimentacion(); }
+  if(a==="egg-ok"){ const r = plEggCalc(P.egg); P.items.push({ k:aliUid(), fid:null, n:r.n, u:"1 plato", g:aliN(P.egg.n)*55, kcal:aliR(r.t.kcal), p:+r.t.p.toFixed(1), c:+r.t.c.toFixed(1), f:+r.t.f.toFixed(1), qty:1, sec:"prin" }); P.egg = null; return renderAlimentacion(); }
+  if(a==="otro"){ P.otro = b.dataset.sec; renderAlimentacion(); const f = document.getElementById("pl-o-n"); if(f){ f.value = P.q[P.otro]||""; f.focus(); } return; }
+  if(a==="otro-x"){ P.otro = null; return renderAlimentacion(); }
+  if(a==="otro-ia"){
+    const n = (document.getElementById("pl-o-n")||{}).value||"", u = (document.getElementById("pl-o-u")||{}).value||"1 porción";
+    if(!n.trim()){ toast("Escribí el nombre"); return; }
+    b.disabled = true; b.textContent = "Calculando…";
+    try{
+      const r = await aiJSON(`Nutricionista argentino. Valores para "${n}" en la cantidad "${u}". ${regTxt()} Respondé SOLO JSON: {"g":gramos_o_ml,"kcal":kcal,"p":proteína_g,"c":carbos_g,"f":grasas_g}`);
+      [["pl-o-g","g"],["pl-o-k","kcal"],["pl-o-p","p"],["pl-o-c","c"],["pl-o-f","f"]].forEach(([id,f])=>{ const el = document.getElementById(id); if(el && r && r[f]!=null) el.value = Math.round(aliN(r[f])*10)/10; });
+      const uu = document.getElementById("pl-o-u"); if(uu && !uu.value) uu.value = u;
+    }catch(err){ toast(aiErrMsg(err)); }
+    b.disabled = false; b.textContent = "✨ Calcular kcal con IA"; return;
+  }
+  if(a==="otro-ok"){
+    const v = id=> (document.getElementById(id)||{}).value||"";
+    const n = v("pl-o-n").trim(); if(!n){ toast("Escribí el nombre"); return; }
+    if(!aliN(v("pl-o-k"))){ toast("Poné las kcal (o calculalas con IA)"); return; }
+    const sec = b.dataset.sec==="acom" ? "guar" : b.dataset.sec;
+    const x = await plGuardarMio({ tipo:"alimento", n, sec, u:v("pl-o-u").trim()||"1 porción", g:aliN(v("pl-o-g")), kcal:aliN(v("pl-o-k")), p:aliN(v("pl-o-p")), c:aliN(v("pl-o-c")), f:aliN(v("pl-o-f")) });
+    plAdd(x, 1); P.otro = null; P.q[P.open] = ""; toast("★ Guardado en tu base: "+n); return renderAlimentacion();
+  }
+  if(a==="guardarplato"){
+    const n = prompt("Nombre del plato (ej: Desayuno de siempre, Milanesa con puré):"); if(!n || !n.trim()) return;
+    const T = plTot(P.items);
+    await plGuardarMio({ tipo:"plato", n:n.trim(), kcal:aliR(T.kcal), items:P.items.map(i=>Object.assign({}, i)) });
+    toast("⭐ Plato guardado: lo vas a ver en Plato principal → Mis platos"); return renderAlimentacion();
+  }
+  if(a==="descartar"){ aliUI.plato = null; return renderAlimentacion(); }
+  if(a==="ok") return plConfirmar();
+});
+document.addEventListener("input", e=>{
+  const t = e.target; if(!t.classList || !t.classList.contains("pl-q") || !aliUI.plato) return;
+  const pos = t.selectionStart, sec = t.dataset.sec; aliUI.plato.q[sec] = t.value; renderAlimentacion();
+  const n = document.querySelector(`.pl-q[data-sec="${sec}"]`); if(n){ n.focus(); try{ n.setSelectionRange(pos,pos); }catch(_){} }
+});
+document.addEventListener("change", e=>{ if(e.target && e.target.id==="pl-meal" && aliUI.plato) aliUI.plato.meal = e.target.value; });
+
+/* ---------- Que nada quede en 0 kcal: completa con la base y, si hace falta, con IA ---------- */
+async function aliCompletarKcal(items){
+  const faltan = [];
+  items.forEach(x=>{
+    if(aliN(x.kcal)>0 || !x.n) return;
+    const m = fdMatch(x.n);
+    if(m){ const u = m.x, q = m.qty; Object.assign(x, { kcal:aliR(u.kcal*q), p:+(u.p*q).toFixed(1), c:+(u.c*q).toFixed(1), f:+(u.f*q).toFixed(1), g:aliR(u.g*q) }); }
+    else faltan.push(x);
+  });
+  if(faltan.length && aiOn()){
+    try{
+      const r = await aiJSON(`Nutricionista argentino. Estimá calorías y macros de cada alimento tal como lo escribió el usuario (si dice "3 tomates" son 3 unidades medianas). ${regTxt()}
+Alimentos: ${JSON.stringify(faltan.map(x=>x.n))}
+Respondé SOLO JSON: {"items":[{"n":"igual al recibido","g":gramos_totales,"kcal":kcal_totales,"p":prot_g,"c":carbos_g,"f":grasas_g}]}`);
+      (r && r.items || []).forEach((v,i)=>{ const x = faltan[i]; if(x && v) Object.assign(x, { kcal:aliR(v.kcal), p:+aliN(v.p).toFixed(1), c:+aliN(v.c).toFixed(1), f:+aliN(v.f).toFixed(1), g:aliR(v.g)||x.g }); });
+    }catch(_){}
+  }
+  return items;
+}
+
+/* ---------- 📅 Plan de comidas (desde foto, heladera o lo que cargues) ---------- */
+const PLAN_BEB = ["Agua","Agua con gas","Agua saborizada","Agua saborizada light","Gaseosa","Gaseosa light / zero","Jugo exprimido","Jugo en polvo light","Amargo serrano","Mate","Mate cocido","Café con leche","Té","Leche","Yogur bebible"];
+const PLAN_PAN = ["Pan lactal","Pan lactal integral","Pan de masa madre","Pan francés","Pan de campo","Pan integral","Galletitas de agua","Galletitas integrales","Tostadas de arroz","Chipá","Sin pan"];
+const PLAN_POST = ["Fruta de estación","Yogur","Gelatina","Gelatina light","Flan","Torta / budín","Helado","Ensalada de frutas","Postre de leche","Queso y dulce","Sin postre"];
+RX.plan = { ings:[], dias:"3", comidas:{ desayuno:true, almuerzo:true, merienda:true, cena:true, colaciones:false }, beb:["Agua","Agua saborizada light"], pan:["Pan lactal"], post:["Fruta de estación"], solo:"mas", kcal:"", res:null, extra:{} };
+function rxPlan(el){
+  const S = RX.plan, reg = regionAct();
+  const chipsSel = (list, key)=> `<div class="pl-chips">${list.concat(S.extra[key]||[]).map(v=>`<button class="chip filter-chip ${S[key].includes(v)?"on":""}" data-pn="tog" data-g="${key}" data-v="${aliEsc(v)}">${aliEsc(v)}</button>`).join("")}<input type="text" class="pn-otro" data-g="${key}" placeholder="+ otro (Enter)"></div>`;
+  el.innerHTML = `<div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">📅 Plan de comidas · con lo que tenés y a tu gusto</h3>
+    <div><label>Lo que tenés (de la foto, de la heladera o escribilo)</label>${rxChips(S.ings,"plan")}</div>
+    <div class="rx-opts">
+      <label>Región<select data-pno="region">${Object.entries(REGIONES).map(([k,v])=>`<option value="${k}" ${reg===k?"selected":""}>${v.n}</option>`).join("")}</select></label>
+      <label>Días<select data-pno="dias">${[1,2,3,4,5,6,7].map(n=>`<option ${String(n)===S.dias?"selected":""}>${n}</option>`).join("")}</select></label>
+      <label>Ingredientes<select data-pno="solo"><option value="solo" ${S.solo==="solo"?"selected":""}>Solo lo que tengo</option><option value="mas" ${S.solo==="mas"?"selected":""}>Lo que tengo + compras</option></select></label>
+      <label>kcal por día<input type="number" data-pno="kcal" value="${aliEsc(S.kcal||aliCfg.kcal||"")}" style="width:110px;"></label>
+    </div>
+    <label>Comidas</label>
+    <div class="pl-chips" style="margin-bottom:10px;">${ALI_MEALS.map(([k,l])=>`<button class="chip filter-chip ${S.comidas[k]?"on":""}" data-pn="meal" data-k="${k}">${l}</button>`).join("")}</div>
+    <label>🥤 Bebidas que te gustan</label>${chipsSel(PLAN_BEB,"beb")}
+    <label style="margin-top:10px;">🍞 Acompañar con</label>${chipsSel(PLAN_PAN,"pan")}
+    <label style="margin-top:10px;">🍎 Postres</label>${chipsSel(PLAN_POST,"post")}
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-primary" data-pn="gen" ${!RX.busy&&aiOn()?"":"disabled"}>📅 Armar mi plan</button>
+      ${!aiOn()?`<span class="af-muted">Configurá la IA en Nutri IA.</span>`:""}
+    </div>
+    ${RX.busy==="plan"?`<div class="af-busy"><span class="af-spin"></span><span>Armando ${S.dias} día${S.dias==="1"?"":"s"} de comidas con calorías…</span><button class="btn btn-sm btn-ghost" data-rx="cancel">Cancelar</button></div>`:""}
+    ${RX.err?`<div class="af-err">${aliEsc(RX.err)}</div>`:""}
+  </div>
+  ${S.res ? rxPlanRes(S.res) : ""}`;
+  rxWireChips(el);
+}
+function rxPlanRes(R){
+  const ico = { principal:"🍖", "acompañamiento":"🥗", bebida:"🥤", postre:"🍎" };
+  return `<div class="today-panel">
+    <div class="today-panel-head"><h3 class="pg-h3" style="margin:0;">Tu plan · ${(R.dias||[]).length} día${(R.dias||[]).length===1?"":"s"} · 📍 ${aliEsc((REGIONES[R.region]||REGIONES.NEA).n)}</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">${(R.compras||[]).length?`<button class="btn btn-sm" data-pn="compras">🛒 ${R.compras.length} cosas a la lista</button>`:""}<button class="btn btn-sm btn-ghost" data-pn="borrar">Borrar plan</button></div></div>
+    ${(R.dias||[]).map((D,di)=>{ const tot = (D.comidas||[]).reduce((a,c)=>a+aliN(c.kcal),0);
+      return `<div class="pn-dia"><div class="pn-dia-h"><b>${aliEsc(D.dia||("Día "+(di+1)))}</b><span>${aliR(tot)} kcal</span></div>
+      ${(D.comidas||[]).map((C,ci)=>{ const base = REC_DB.find(x=>x.id===C.rid), v = base && base.v;
+        return `<div class="pn-com"><div class="pn-com-h"><span>${aliEsc((ALI_MEALS.find(m=>m[0]===C.tipo)||[0,C.tipo])[1])}</span><b>${aliEsc(C.plato||"")}</b><em>${aliR(C.kcal)} kcal</em></div>
+          <ul>${(C.partes||[]).map(p=>`<li><span>${ico[p.cat]||"•"} ${aliEsc(p.n)}</span><b>${aliR(p.kcal)}</b></li>`).join("")}</ul>
+          ${C.prep?`<div class="af-tip">👨‍🍳 ${aliEsc(C.prep)}</div>`:""}
+          <div class="pn-acc"><button class="btn btn-sm" data-pn="reg" data-d="${di}" data-c="${ci}">＋ Registrar hoy</button>
+            ${v?`<a class="btn btn-sm rx-yt" href="https://www.youtube.com/watch?v=${aliEsc(v.id)}" target="_blank" rel="noopener">▶ Video verificado</a>`
+              :`<a class="btn btn-sm" href="https://www.youtube.com/results?search_query=${encodeURIComponent((C.yt||C.plato||"")+" receta")}" target="_blank" rel="noopener">🔎 Buscar video</a>`}
+            <button class="btn btn-sm btn-ghost" data-pn="receta" data-d="${di}" data-c="${ci}">Receta completa</button></div></div>`; }).join("")}</div>`; }).join("")}
+  </div>`;
+}
+async function rxPlanGen(){
+  const S = RX.plan; if(!aiOn()){ RX.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
+  const inp = document.querySelector('.rx-chip-in[data-w="plan"]'); if(inp && inp.value.trim()){ inp.value.split(/\s*[,;]\s*/).filter(Boolean).forEach(n=>S.ings.push({ n })); inp.value=""; }
+  const comidas = ALI_MEALS.filter(([k])=>S.comidas[k]).map(([k])=>k); if(!comidas.length){ toast("Elegí al menos una comida"); return; }
+  if(RX.abort) RX.abort.abort(); const ac = new AbortController(); RX.abort = ac; RX.busy = "plan"; RX.err = ""; renderAlimentacion();
+  const kcal = aliN(S.kcal) || aliN(aliCfg.kcal) || 2200;
+  const prompt = `Sos nutricionista deportivo y cocinero argentino. Armá un PLAN DE COMIDAS de ${S.dias} día(s) para alguien que entrena en el gimnasio.
+${regTxt()}
+Comidas por día: ${comidas.join(", ")}. Objetivo: ≈ ${kcal} kcal por día (repartilas con lógica), proteína alta (≈ ${aliN(aliCfg.p)||150} g/día).
+${S.ings.length?`Ingredientes que tiene: ${S.ings.map(x=>x.n).join(", ")}. ${S.solo==="solo"?"Usá SOLO estos ingredientes más básicos de alacena (sal, aceite, especias, harina, azúcar). Si es lo único que tiene para la semana, repartilo bien entre los días.":"Usá principalmente estos y sumá lo mínimo que haya que comprar."}`:"Sugerí comidas caseras argentinas accesibles."}
+Cada comida es un PLATO COMPLETO armado por partes: principal + acompañamiento (pan/galletitas/guarnición) + bebida + postre cuando corresponda.
+Bebidas que le gustan: ${S.beb.join(", ")||"agua"}. Acompañar con: ${S.pan.join(", ")||"sin preferencia"}. Postres: ${S.post.join(", ")||"sin postre"}.
+Cada parte con cantidad en unidades naturales y concretas (ej: "3 huevos revueltos con 1 porción de queso cremoso", "2 rodajas de pan lactal", "2 vasos de agua saborizada de 300 cc", "1 manzana grande"). Calculá kcal y macros de CADA parte y el total de la comida. Variá entre días.
+Si alguna comida es una de este recetario poné su id en "rid": ${JSON.stringify(REC_DB.map(r=>[r.id,r.n]))}. Si no, "rid":"". NO inventes links.
+Respondé SOLO JSON:
+{"dias":[{"dia":"Día 1","comidas":[{"tipo":"desayuno|almuerzo|merienda|cena|colaciones","plato":"nombre corto","partes":[{"n":"cantidad + alimento","cat":"principal|acompañamiento|bebida|postre","kcal":0,"p":0,"c":0,"f":0}],"kcal":0,"prep":"preparación en 1-2 frases","rid":"","yt":"texto para buscar el video"}]}],"compras":["lo que falta comprar"]}`;
+  try{
+    const r = await aiJSON(prompt, { signal: ac.signal }); if(ac.signal.aborted) return;
+    S.res = Object.assign({ region:regionAct(), creado:Date.now() }, r || {});
+    if(!(S.res.dias||[]).length) RX.err = "No pude armar el plan. Probá de nuevo.";
+    try{ if(db) await db.doc("alimentacion_cfg/plan").set(JSON.parse(JSON.stringify(S.res))); else localStorage.setItem("entrenador-ali-plan", JSON.stringify(S.res)); }catch(_){}
+  }catch(e){ RX.err = aiErrMsg(e); }
+  finally{ if(RX.abort===ac){ RX.busy = false; RX.abort = null; } renderAlimentacion(); }
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest("[data-pn]"); if(!b) return;
+  const S = RX.plan, a = b.dataset.pn;
+  if(a==="tog"){ const g = b.dataset.g, v = b.dataset.v; S[g] = S[g].includes(v) ? S[g].filter(x=>x!==v) : S[g].concat([v]); return renderAlimentacion(); }
+  if(a==="meal"){ S.comidas[b.dataset.k] = !S.comidas[b.dataset.k]; return renderAlimentacion(); }
+  if(a==="gen") return rxPlanGen();
+  if(a==="borrar"){ S.res = null; try{ if(db) db.doc("alimentacion_cfg/plan").delete(); else localStorage.removeItem("entrenador-ali-plan"); }catch(_){} return renderAlimentacion(); }
+  if(a==="compras"){ const n = rxAddCompras(S.res.compras||[], "Plan de comidas"); toast(n?`🛒 ${n} a la lista de compras`:"Ya estaban en la lista"); return; }
+  const C = S.res && S.res.dias && S.res.dias[+b.dataset.d] && S.res.dias[+b.dataset.d].comidas[+b.dataset.c]; if(!C) return;
+  if(a==="reg"){
+    const d = todayStr(), day = aliDay(d), pid = aliUid(), meal = ALI_MEALS.some(m=>m[0]===C.tipo) ? C.tipo : aliMealNow();
+    const add = (C.partes||[]).map(p=>({ id:aliUid(), meal, pl:pid, n:p.n, g:0, kcal:aliR(p.kcal), p:+aliN(p.p).toFixed(1), c:+aliN(p.c).toFixed(1), f:+aliN(p.f).toFixed(1), src:"plan", t:Date.now() }));
+    aliData[d] = Object.assign({}, day, { items:(day.items||[]).concat(add) }); aliSave(d); toast(`✓ ${C.plato}: ${aliR(C.kcal)} kcal registradas hoy`); return;
+  }
+  if(a==="receta"){ RX.armo.ings = (C.partes||[]).map(p=>({ n:p.n })); RX.armo.deseo = `Receta completa paso a paso de "${C.plato}", con medidas exactas`; RX.armo.receta = null; RX.sub = "armo"; return rxGenerar("armo"); }
+});
+document.addEventListener("change", e=>{
+  const t = e.target, k = t && t.dataset && t.dataset.pno; if(!k) return;
+  if(k==="region"){ aliCfg.region = t.value; aliSaveCfg(); toast("📍 Región: "+REGIONES[t.value].n); return renderAlimentacion(); }
+  RX.plan[k] = t.value;
+});
+document.addEventListener("keydown", e=>{
+  const t = e.target; if(!t.classList || !t.classList.contains("pn-otro") || e.key!=="Enter") return;
+  e.preventDefault(); const v = t.value.trim(); if(!v) return; const g = t.dataset.g, S = RX.plan;
+  S.extra[g] = (S.extra[g]||[]).concat([v]); S[g] = S[g].concat([v]); renderAlimentacion();
+  const n = document.querySelector(`.pn-otro[data-g="${g}"]`); if(n) n.focus();
+});
+(function plInit(){
+  try{ const m = localStorage.getItem("entrenador-alimentos-mios"); if(m) alimMios = JSON.parse(m)||{}; }catch(_){}
+  try{ const p = localStorage.getItem("entrenador-ali-plan"); if(p) RX.plan.res = JSON.parse(p); }catch(_){}
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(db){ clearInterval(w);
+      db.collection("alimentos_mios").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = Object.assign({ id:x.id }, x.data()); }); alimMios = t; }, ()=>{});
+      db.doc("alimentacion_cfg/plan").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v){ RX.plan.res = v; if(state.view==="alimentacion" && RX.sub==="plan" && !rxBusyFocus() && !RX.busy) renderAlimentacion(); } }, ()=>{});
     } else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
   }, 500);
 })();
