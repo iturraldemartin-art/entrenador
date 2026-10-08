@@ -161,7 +161,7 @@
   .btn:disabled{ opacity:.45; cursor:not-allowed; }
 
   label{ font-size:.76rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); display:block; margin-bottom:5px; }
-  input[type=text], input[type=number], input[type=date], select, textarea{
+  input[type=text], input[type=password], input[type=number], input[type=date], input[type=datetime-local], select, textarea{
     width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line);
     background:var(--surface); color:var(--ink);
   }
@@ -753,6 +753,34 @@
     .rx-cols{ grid-template-columns:1fr; } .rx-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
     .rx-ay-stages{ grid-template-columns:repeat(3,1fr); } .rx-card{ padding:14px; } .rx-armo-in{ flex-direction:column; } .rx-armo-in > label{ align-self:flex-start !important; }
   }
+  .mt-ciclo{ border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px; background:var(--surface-2); }
+  .mt-ciclo.actual{ border-color:var(--accent-soft-2); background:var(--accent-soft); }
+  .mt-ciclo-head{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:8px; } .mt-ciclo-head span{ font-size:.8rem; color:var(--ink-2); }
+  .mt-ciclo-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+  .mt-ciclo-grid > div{ background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:8px 10px; display:flex; flex-direction:column; }
+  .mt-ciclo-grid small{ font-size:.66rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); }
+  .mt-ciclo-grid b{ font-family:"Rajdhani",sans-serif; font-size:1.2rem; }
+  .mt-ciclo-grid em{ font-style:normal; font-size:.74rem; color:var(--ink-2); } .mt-ciclo-grid em.down{ color:var(--good); font-weight:700; } .mt-ciclo-grid em.up{ color:var(--danger); font-weight:700; }
+  .mt-prev-t{ font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-2); margin:16px 0 8px; font-family:"IBM Plex Sans",sans-serif; }
+  .mt-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .mt-grid .today-panel{ margin-bottom:0; } .mt-grid + .today-panel{ margin-top:18px; }
+  .mt-card .ali-box{ margin-top:10px; }
+  .mt-banner{ background:var(--accent-soft); border:1.5px solid var(--accent); border-radius:var(--radius); padding:12px 14px; margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .mt-rec{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .mt-rec label{ display:flex; flex-direction:column; gap:4px; margin:0; }
+  .mt-rec input{ width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:"IBM Plex Mono",monospace; font-size:1.05rem; }
+  .mt-check{ display:flex !important; align-items:center; gap:8px; margin:10px 0 0 !important; text-transform:none !important; letter-spacing:0 !important; font-size:.88rem !important; color:var(--ink) !important; }
+  .mt-check input{ width:18px; height:18px; accent-color:var(--accent); }
+  .mt-lunes{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .mt-lunes span{ font-size:.78rem; font-weight:600; background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:3px 10px; }
+  .mt-plan{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .mt-plan section{ background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .mt-plan h4{ margin:0 0 6px; font-family:"Rajdhani",sans-serif; font-size:1.1rem; }
+  .mt-plan ul{ list-style:none; margin:0 0 8px; padding:0; font-size:.88rem; }
+  .mt-plan li{ padding:5px 0; border-bottom:1px dashed var(--line); } .mt-plan li:last-child{ border-bottom:none; }
+  .mt-plan li.no{ color:var(--ink); }
+  .mt-ia{ margin-top:12px; background:var(--surface-2); border:1px solid var(--accent-soft-2); border-radius:10px; padding:12px 14px; font-size:.9rem; line-height:1.5; }
+  @media (max-width:760px){ .mt-grid, .mt-plan{ grid-template-columns:1fr; } }
   /* ---------- Alimentación estilo Healthify ---------- */
   .af-dash{ display:grid; grid-template-columns:150px 1fr 220px; gap:18px; align-items:center; margin-top:14px; }
   .af-ring{ width:150px; height:150px; display:block; }
@@ -766,6 +794,16 @@
   .af-bar-track{ height:8px; background:var(--surface-2); border-radius:6px; overflow:hidden; }
   .af-bar-track > div{ height:100%; border-radius:6px; transition:width .3s; }
   .af-side{ display:flex; flex-direction:column; gap:10px; }
+  .af-peso{ text-align:left; } .af-peso label, .af-trend label{ text-align:center; }
+  .af-peso-row{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; padding:2px 2px; }
+  .af-peso-row span{ font-size:.78rem; color:var(--ink-2); } .af-peso-row b{ font-family:"Rajdhani",sans-serif; font-size:1.3rem; }
+  .af-peso-foot{ font-size:.72rem; color:var(--ink-2); margin-top:3px; text-align:center; }
+  .af-pesar{ display:flex; gap:5px; margin-top:6px; } .af-pesar input{ flex:1; min-width:0; text-align:center; padding:5px; }
+  .af-pesar-btn{ width:100%; margin-top:6px; }
+  .af-trend{ text-align:center; }
+  .af-trend-sym{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.7rem; line-height:1.1; } .af-trend-sym span{ font-size:1.05rem; }
+  .af-trend-kg{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:.88rem; }
+  .af-trend-det{ text-align:left; margin-top:6px; font-size:.74rem; color:var(--ink-2); } .af-trend-det summary{ cursor:pointer; text-align:center; } .af-trend-det p{ margin:4px 0; }
   .af-cfg{ margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
   .af-cfg-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
   .af-calc summary{ cursor:pointer; font-weight:600; font-size:.88rem; padding:4px 0; }
@@ -825,7 +863,7 @@
   .af-ax{ font-size:10px; fill:var(--ink-2); font-family:"IBM Plex Sans",sans-serif; }
   @media (max-width:980px){ .af-ways{ grid-template-columns:1fr 1fr; } .af-photo{ grid-column:1/-1; } }
   @media (max-width:760px){
-    .af-dash{ grid-template-columns:120px 1fr; gap:12px; } .af-ring{ width:120px; height:120px; } .af-side{ grid-column:1/-1; flex-direction:row; } .af-side > *{ flex:1; }
+    .af-dash{ grid-template-columns:120px 1fr; gap:12px; } .af-ring{ width:120px; height:120px; } .af-side{ grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; } .af-side > .af-trend{ grid-column:1/-1; }
     .af-ways{ grid-template-columns:1fr; } .af-photo{ min-height:120px; }
     .af-row{ grid-template-columns:repeat(3,minmax(0,1fr)); } .af-row > input:first-child{ grid-column:1/-1; } .af-row-h{ display:none; }
   }
@@ -4710,8 +4748,9 @@ function aliRenderRegistro(el){
         <button class="btn btn-sm btn-ghost" data-ali="cfg" style="align-self:flex-start;margin-top:2px;">🎯 ${aliUI.cfgOpen?"Cerrar objetivos":"Objetivos del día"}</button>
       </div>
       <div class="af-side">
-        <div class="ali-box"><label>Peso corporal</label><input type="number" inputmode="decimal" step="0.1" data-alif="peso" value="${esc(r.peso)}" placeholder="kg"></div>
+        ${aliPesoBox(d)}
         <div class="ali-box"><label>Agua · ${Number(r.agua)||0}/${aliN(cfg.agua)||8} vasos</label><div class="ali-agua"><button type="button" data-ali="agua-" aria-label="Un vaso menos">−</button><b>${Number(r.agua)||0}</b><button type="button" data-ali="agua+" aria-label="Un vaso más">+</button></div></div>
+        ${aliTrendBox(d)}
       </div>
     </div>
     ${aliUI.cfgOpen ? aliCfgPanel() : ""}
@@ -4819,6 +4858,7 @@ function aliCfgPanel(){
       <div class="field"><label>Carbohidratos (g)</label><input type="number" data-alic="c" value="${esc(c.c)}"></div>
       <div class="field"><label>Grasas (g)</label><input type="number" data-alic="f" value="${esc(c.f)}"></div>
       <div class="field"><label>Agua (vasos)</label><input type="number" data-alic="agua" value="${esc(c.agua)}"></div>
+      <div class="field"><label>Peso objetivo (kg)</label><input type="number" step="0.5" data-alic="pesoObj" value="${esc(c.pesoObj)}" placeholder="ej: 95"></div>
     </div>
     <details class="af-calc"><summary>Calcular mis objetivos</summary>
       <div class="af-cfg-grid" style="margin-top:10px;">
@@ -4834,6 +4874,67 @@ function aliCfgPanel(){
       <button class="btn btn-sm btn-primary" data-ali="calc">Calcular y usar</button>
       <p class="af-muted" style="margin:6px 0 0;">Fórmula Mifflin-St Jeor. Proteína 1,8-2 g por kilo, grasas 25% de las calorías y el resto carbohidratos. Es una guía, no reemplaza a un nutricionista.</p>
     </details>
+  </div>`;
+}
+/* ---------- Peso: actual (último pesaje) vs objetivo, y tendencia según comida + entreno ----------
+   El peso NO se edita en el cuadro: se carga a propósito con "Registrar pesaje" (queda en el día).
+   Tendencia = balance calórico: lo que comiste − lo que gastaste (metabolismo × vida diaria + entreno
+   cronometrado). 7.700 kcal de diferencia ≈ 1 kg. Además, si hay 2 o más pesajes, compara con la balanza real. */
+const ALI_KCAL_KG = 7700;
+function aliPesoAl(d){ const ks = Object.keys(aliData).filter(k=>k<=d && aliN(aliData[k].peso)>0).sort(); const k = ks.pop(); return k ? { kg:aliN(aliData[k].peso), d:k } : null; }
+function aliGasto(d){
+  const c = aliCfg, p = aliPesoAl(d), kg = (p && p.kg) || aliN(c.peso) || 80, cm = aliN(c.altura), ed = aliN(c.edad) || 40;
+  const bmr = cm ? 10*kg + 6.25*cm - 5*ed + (c.sexo==="m"?-161:5) : 22*kg;
+  const min = typeof dayMin==="function" ? dayMin(d) : 0;
+  const entreno = 5 * kg * (min/60);          // pesas moderadas ≈ 5 MET
+  return { total: bmr*1.3 + entreno, bmr, entreno, min };
+}
+function aliBalance(d){ const its = aliDay(d).items || []; if(!its.length) return null; return aliTot(its).kcal - aliGasto(d).total; }
+function aliTrend(d){
+  const dias = []; for(let i=1;i<=7;i++){ const k = addDays(d,-i); const b = aliBalance(k); if(b!=null) dias.push(b); }
+  const hoy = aliBalance(d);
+  const base = dias.length ? dias : (hoy!=null ? [hoy] : []);
+  if(!base.length) return null;
+  const prom = base.reduce((a,b)=>a+b,0)/base.length;
+  const kgSem = prom*7/ALI_KCAL_KG;
+  // balanza real: primer y último pesaje de los últimos 30 días
+  const ps = Object.keys(aliData).filter(k=>k<=d && k>=addDays(d,-30) && aliN(aliData[k].peso)>0).sort();
+  let real = null;
+  if(ps.length>=2){ const dd = (dsToDate(ps[ps.length-1])-dsToDate(ps[0]))/864e5; if(dd>=5) real = (aliN(aliData[ps[ps.length-1]].peso)-aliN(aliData[ps[0]].peso))/(dd/7); }
+  return { kgSem, prom, n: dias.length, soloHoy: !dias.length, hoy, real };
+}
+function aliPesoBox(d){
+  const p = aliPesoAl(d), obj = aliN(aliCfg.pesoObj);
+  const dif = p && obj ? +(p.kg-obj).toFixed(1) : null;
+  return `<div class="ali-box af-peso"><label>Peso</label>
+    <div class="af-peso-row"><span>Actual</span><b>${p?String(p.kg).replace(".",",")+" kg":"—"}</b></div>
+    <div class="af-peso-row"><span>Objetivo</span>${obj?`<b>${String(obj).replace(".",",")} kg</b>`:`<button class="pg-exlink" data-ali="cfgpeso">definir</button>`}</div>
+    <div class="af-peso-foot">${p?`pesaje ${p.d===todayStr()?"de hoy":fmtShort(p.d)}`:"sin pesajes"}${dif?` · ${dif>0?"faltan "+String(dif).replace(".",",")+" kg":"sobran "+String(-dif).replace(".",",")+" kg"}`:dif===0?" · ¡en el objetivo!":""}</div>
+    ${aliUI.pesar?`<div class="af-pesar"><input type="number" inputmode="decimal" step="0.1" id="af-peso-in" placeholder="kg" value="${p&&p.d===d?p.kg:""}"><button class="btn btn-sm btn-primary" data-ali="pesoOk">✓</button><button class="btn btn-sm btn-ghost" data-ali="pesar">✕</button></div>`
+      :`<button class="btn btn-sm af-pesar-btn" data-ali="pesar">⚖️ Registrar pesaje</button>`}
+  </div>`;
+}
+function aliTrendBox(d){
+  const t = aliTrend(d), p = aliPesoAl(d), obj = aliN(aliCfg.pesoObj), g = aliGasto(d);
+  if(!t) return `<div class="ali-box af-trend"><label>Tendencia de peso</label><div class="af-trend-sym">·</div><div class="af-peso-foot">Cargá tus comidas y te muestro si vas subiendo, bajando o igual.</div></div>`;
+  const dir = Math.abs(t.kgSem) < 0.1 ? 0 : t.kgSem > 0 ? 1 : -1;
+  const quiere = p && obj ? Math.sign(obj - p.kg) : 0;           // -1 bajar, 1 subir, 0 mantener
+  const bien = quiere===0 ? dir===0 : dir===quiere;
+  const col = dir===0 ? (quiere===0 ? "var(--good)" : "var(--ink-2)") : (bien ? "var(--good)" : "var(--danger)");
+  const sym = dir===0 ? "=" : dir>0 ? "▲" : "▼";
+  const txt = dir===0 ? "Igualando" : dir>0 ? "Subiendo" : "Bajando";
+  const kg = v=> (v>0?"+":"")+v.toFixed(2).replace(".",",");
+  let eta = "";
+  if(p && obj && dir!==0 && bien){ const sem = Math.abs(p.kg-obj)/Math.abs(t.kgSem); if(sem<200){ const f = new Date(); f.setDate(f.getDate()+Math.round(sem*7)); eta = `Al objetivo ≈ ${f.toLocaleDateString("es-AR",{month:"short",year:"numeric"})}`; } }
+  return `<div class="ali-box af-trend"><label>Tendencia de peso</label>
+    <div class="af-trend-sym" style="color:${col}">${sym} <span>${txt}</span></div>
+    <div class="af-trend-kg" style="color:${col}">${kg(t.kgSem)} kg/semana</div>
+    <div class="af-peso-foot">${t.soloHoy?"Con lo de hoy (parcial)":`Promedio de ${t.n} día${t.n>1?"s":""} cargado${t.n>1?"s":""}`} · ${t.prom>=0?"+":""}${aliR(t.prom)} kcal/día</div>
+    ${t.real!=null?`<div class="af-peso-foot">Balanza real: ${kg(t.real)} kg/semana</div>`:""}
+    ${eta?`<div class="af-peso-foot"><b>${eta}</b></div>`:""}
+    <details class="af-trend-det"><summary>¿Cómo se calcula?</summary>
+      <p>Gasto de hoy ≈ <b>${aliR(g.total)} kcal</b>: metabolismo ${aliR(g.bmr)} × 1,3 por la vida diaria${g.min?` + entreno ${Math.round(g.min)} min ≈ ${aliR(g.entreno)} kcal`:""}.</p>
+      <p>Comido − gastado = balance. 7.700 kcal de diferencia ≈ 1 kg. Los días sin comidas cargadas no cuentan. Es una estimación: la balanza manda.</p></details>
   </div>`;
 }
 function aliUltimoPeso(){ const k = Object.keys(aliData).filter(x=>aliData[x].peso).sort().pop(); return k ? aliData[k].peso : ""; }
@@ -4917,6 +5018,8 @@ function aliWire(){
     const q2 = document.getElementById("af-q"); if(q2){ q2.focus(); try{ q2.setSelectionRange(pos,pos); }catch(_){} } };
   const fx = document.getElementById("af-fix");
   if(fx) fx.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); aliFix(); } };
+  const pi = document.getElementById("af-peso-in");
+  if(pi) pi.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); const b = document.querySelector('[data-ali="pesoOk"]'); if(b) b.click(); } };
   const ms = document.getElementById("af-meal");
   if(ms) ms.onchange = ()=>{ if(aliUI.draft) aliUI.draft.meal = ms.value; };
 }
@@ -4949,7 +5052,7 @@ document.addEventListener("change", e=>{
   }
   if(ds.alic){
     aliCfg[ds.alic] = e.target.type==="number" ? aliN(e.target.value) : e.target.value;
-    aliSaveCfg(); if(["kcal","p","c","f","agua"].includes(ds.alic)) renderAlimentacion();
+    aliSaveCfg(); if(["kcal","p","c","f","agua","pesoObj"].includes(ds.alic)) renderAlimentacion();
   }
 });
 document.addEventListener("click", e=>{
@@ -4963,6 +5066,10 @@ document.addEventListener("click", e=>{
     aliData[d] = Object.assign({}, r, { agua:v }); aliSave(d); return renderAlimentacion();
   }
   if(k==="cfg"){ aliUI.cfgOpen = !aliUI.cfgOpen; return renderAlimentacion(); }
+  if(k==="cfgpeso"){ aliUI.cfgOpen = true; renderAlimentacion(); const f = document.querySelector('[data-alic="pesoObj"]'); if(f) f.focus(); return; }
+  if(k==="pesar"){ aliUI.pesar = !aliUI.pesar; renderAlimentacion(); const f = document.getElementById("af-peso-in"); if(f) f.focus(); return; }
+  if(k==="pesoOk"){ const v = aliN((document.getElementById("af-peso-in")||{}).value); if(v<30 || v>300){ toast("Poné un peso válido en kg"); return; }
+    aliData[d] = Object.assign({}, aliDay(d), { peso:+v.toFixed(1) }); aliSave(d); aliUI.pesar = false; toast("⚖️ Pesaje guardado: "+String(+v.toFixed(1)).replace(".",",")+" kg"); return renderAlimentacion(); }
   if(k==="calc"){
     const c = aliCfg, kg = aliN(c.peso||aliUltimoPeso()), cm = aliN(c.altura), ed = aliN(c.edad);
     if(!kg || !cm || !ed){ toast("Completá edad, altura y peso"); return; }
@@ -5016,7 +5123,7 @@ document.addEventListener("click", e=>{
       db.collection("alimentacion").onSnapshot(snap=>{
         const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); });
         aliData = t;
-        if(state.view==="alimentacion" && !busyField() && (RX.sub==="registro" || RX.sub==="nutri")) renderAlimentacion();
+        if(state.view==="alimentacion" && !busyField() && (RX.sub==="registro" || RX.sub==="nutri" || RX.sub==="meta")) renderAlimentacion();
       }, ()=>{});
       db.doc("alimentacion_cfg/objetivos").onSnapshot(s=>{
         const v = s && (typeof s.data==="function" ? s.data() : s); if(v && typeof v==="object") aliCfg = Object.assign({}, ALI_CFG_DEF, v);
@@ -5185,7 +5292,7 @@ const REC_DB = [
    Esa vista no deja conectarse a servicios de afuera, así que Gemini queda para la app del celular:
    ahí se pega una clave gratuita de Google AI Studio en "Nutri IA → Motor de IA". */
 function aiGemKey(){ try{ return localStorage.getItem("entrenador-gemini-key")||""; }catch(_){ return ""; } }
-function aiGemModel(){ try{ return localStorage.getItem("entrenador-gemini-model")||"gemini-3.8-flash"; }catch(_){ return "gemini-3.8-flash"; } }
+function aiGemModel(){ try{ return localStorage.getItem("entrenador-gemini-model")||"gemini-flash-latest"; }catch(_){ return "gemini-flash-latest"; } }
 function aiOn(){ return !!aliSample || !!aiGemKey(); }
 function aiImgOn(){ return aliSample ? aliImgOk : !!aiGemKey(); }
 function aiMotor(){ return aliSample ? "Claude" : aiGemKey() ? "Gemini" : ""; }
@@ -5195,13 +5302,24 @@ async function aiB64(file){
   cv.getContext("2d").drawImage(bmp,0,0,cv.width,cv.height); bmp.close && bmp.close();
   return cv.toDataURL("image/jpeg",0.82).split(",")[1];
 }
+// Si un modelo está saturado (503), con límite (429) o ya no existe (404), prueba solo con el siguiente.
+const AI_GEM_FALLBACK = ["gemini-flash-latest","gemini-3-flash-preview","gemini-flash-lite-latest","gemini-3.1-flash-lite"];
 async function aiGemini(contents, json, signal){
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(aiGemModel())}:generateContent`, {
-    method:"POST", signal, headers:{ "Content-Type":"application/json", "x-goog-api-key":aiGemKey() },
-    body: JSON.stringify({ contents, generationConfig: json ? { responseMimeType:"application/json", temperature:0.4 } : { temperature:0.6 } }) });
-  if(!r.ok) throw { code: r.status===429 ? "rate_limited" : r.status===400||r.status===403 ? "bad_key" : "ai_error", message:"Gemini "+r.status };
-  const j = await r.json();
-  return ((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(p=>p.text||"").join("");
+  const models = [aiGemModel(), ...AI_GEM_FALLBACK].filter((m,i,a)=>m && a.indexOf(m)===i);
+  let last = null;
+  for(const m of models){
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`, {
+      method:"POST", signal, headers:{ "Content-Type":"application/json", "x-goog-api-key":aiGemKey() },
+      body: JSON.stringify({ contents, generationConfig: json ? { responseMimeType:"application/json", temperature:0.4 } : { temperature:0.6 } }) });
+    if(r.ok){
+      const j = await r.json();
+      return ((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(p=>p.text||"").join("");
+    }
+    last = r.status;
+    if(r.status===400 || r.status===401 || r.status===403) throw { code:"bad_key", message:"Gemini "+r.status };
+    if(![404,429,500,503].includes(r.status)) break;
+  }
+  throw { code: last===429 ? "rate_limited" : last===503 ? "busy" : "ai_error", message:"Gemini "+last };
 }
 async function aiJSON(prompt, { images, signal, onText } = {}){
   const s = await aliGetSample();
@@ -5223,12 +5341,12 @@ function aiErrMsg(e){
   return c==="cancelled" ? "" : c==="not_granted" ? "Hace falta permitir que la app le consulte a la IA (aparece un aviso la primera vez)."
     : c==="images_unavailable" ? "Esta vista no puede mandar fotos: escribí los ingredientes." : c==="image_rejected" ? "No pude leer esa imagen: probá con JPG o PNG."
     : c==="rate_limited" ? "Muchas consultas seguidas: esperá un minuto." : c==="no_ai" ? "No hay IA configurada (en el celular: Nutri IA → Motor de IA → clave de Gemini)."
-    : c==="bad_key" ? "La clave de Gemini no funciona: revisala en Nutri IA → Motor de IA." : "No se pudo ("+((e&&e.message)||"error")+"). Probá de nuevo.";
+    : c==="busy" ? "Los servidores de Gemini están saturados en este momento. Probá de nuevo en unos minutos." : c==="bad_key" ? "La clave de Gemini no funciona: revisala en Nutri IA → Motor de IA." : "No se pudo ("+((e&&e.message)||"error")+"). Probá de nuevo.";
 }
 
 /* ======================= ALIMENTACIÓN · SOLAPAS =======================
    Registro (foto → calorías) · Recetario argentino · Mi heladera · Yo armo mi comida · Ayuno · Compras · Nutri IA */
-const RX_TABS = [["registro","📷 Registro"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
+const RX_TABS = [["registro","📷 Registro"],["meta","🎯 Mi meta"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
 const RX = { sub:"registro", filtro:"todos", q:"", open:null, porc:{}, shown:{}, busy:false, err:"", abort:null,
   hel:{ ings:[], recetas:[], tipo:"cualquiera", min:"45", obj:"rendidora y sana", porc:"2" },
   armo:{ ings:[], receta:null, deseo:"", tipo:"cualquiera", porc:"2" },
@@ -5245,6 +5363,7 @@ function renderAlimentacion(){
   root.querySelector(".rx-tabs").innerHTML = RX_TABS.map(([k,l])=>`<button role="tab" aria-selected="${RX.sub===k}" class="rx-tab ${RX.sub===k?"on":""}" data-rx="sub" data-k="${k}">${l}</button>`).join("");
   const body = root.querySelector("#rx-body");
   if(RX.sub==="registro") aliRenderRegistro(body);
+  else if(RX.sub==="meta") rxMeta(body);
   else if(RX.sub==="recetario") rxRecetario(body);
   else if(RX.sub==="heladera") rxHeladera(body);
   else if(RX.sub==="armo") rxArmo(body);
@@ -5506,7 +5625,7 @@ function rxNutri(el){
   const motor = aiMotor();
   el.innerHTML = `<div class="today-panel">
     <h3 class="pg-h3" style="margin-top:0;">Preguntale a tu nutri · sabe lo que comiste hoy y tus objetivos</h3>
-    <div class="rx-chat" id="rx-chat">${RX.chat.map(t=>`<div class="rx-msg ${t.role}">${rxEsc(t.content).replace(/\n/g,"<br>")}</div>`).join("") || `<div class="af-muted">Probá con una de estas:</div>`}</div>
+    <div class="rx-chat" id="rx-chat">${RX.chat.map(t=>`<div class="rx-msg ${t.role}">${rxEsc(t.content).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/^\s*[*-]\s+/gm,"• ").replace(/\n/g,"<br>")}</div>`).join("") || `<div class="af-muted">Probá con una de estas:</div>`}</div>
     ${!RX.chat.length?`<div class="af-chips" style="margin:8px 0;">${["¿Cómo voy hoy con la proteína?","¿Qué ceno para cerrar bien el día?","Merienda post entreno con cosas de acá","¿Me conviene entrenar en ayunas?"].map(q=>`<button class="chip filter-chip" data-rx="ask" data-k="${rxEsc(q)}">${q}</button>`).join("")}</div>`:""}
     <div class="af-fix"><input type="text" id="rx-ask" placeholder="${motor?"Escribí tu pregunta…":"Configurá la IA abajo para usar el chat"}" ${motor?"":"disabled"}><button class="btn btn-sm btn-primary" data-rx="ask" ${motor&&!RX.busy?"":"disabled"}>Enviar</button></div>
     ${RX.chat.length?`<button class="btn btn-sm btn-ghost" data-rx="chatclear" style="margin-top:6px;">Nueva charla</button>`:""}
@@ -5625,7 +5744,7 @@ document.addEventListener("click", async e=>{
     try{ await navigator.clipboard.writeText(txt); toast("📋 Lista copiada"); }catch(_){ toast("No se pudo copiar"); } return; }
   if(a==="ask"){ const v = k || (document.getElementById("rx-ask")||{}).value; return rxAsk(v); }
   if(a==="chatclear"){ RX.chat = []; return renderAlimentacion(); }
-  if(a==="gsave"){ try{ localStorage.setItem("entrenador-gemini-key", (document.getElementById("rx-gkey")||{}).value.trim()); localStorage.setItem("entrenador-gemini-model", ((document.getElementById("rx-gmodel")||{}).value||"").trim()||"gemini-3.8-flash"); }catch(_){}
+  if(a==="gsave"){ try{ localStorage.setItem("entrenador-gemini-key", (document.getElementById("rx-gkey")||{}).value.trim()); localStorage.setItem("entrenador-gemini-model", ((document.getElementById("rx-gmodel")||{}).value||"").trim()||"gemini-flash-latest"); }catch(_){}
     toast(aiGemKey()?"Clave guardada":"Clave borrada"); return renderAlimentacion(); }
   if(a==="cookx"){ RX.cook = null; clearInterval(RX.cookT); RX.cookLeft = 0; return rxCookRender(); }
   if(a==="cookp" && RX.cook){ RX.cook.i = Math.max(0, RX.cook.i-1); return rxCookRender(); }
@@ -5649,6 +5768,302 @@ setInterval(()=>{ if(state.view==="alimentacion" && RX.sub==="ayuno" && RX.ayuno
       db.collection("recetas_mias").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); }); RX.mias = t; rer(); }, ()=>{});
     }
     else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
+  }, 500);
+})();
+
+/* ======================= 🎯 MI META (peso, recordatorios de pesaje y plan sugerido) =======================
+   - Meta: peso actual (último pesaje) → objetivo, ritmo recomendado y fecha estimada.
+   - Recordatorio de pesaje: todos los lunes del mes en curso, hasta 2 horarios.
+       · Dentro de la app: aviso + sonido a esa hora (con la app abierta) y cartel los lunes hasta que te pesás.
+       · Para que suene aunque la app esté cerrada: "Agregar al calendario del celular" arma los eventos
+         de los lunes que quedan del mes, con alarma, y el calendario del celular avisa solo.
+   - Plan en 4 partes (Meta · Alimentación · Entrenamiento · Hábitos) calculado con tus datos reales:
+     comidas cargadas, minutos entrenados (cronómetro), agua y pesajes. Más un plan semanal opcional con IA. */
+const MT = { iaTxt:"", iaBusy:false, iaErr:"" };
+function mtLunesDelMes(ref){ // lunes del mes de "ref" desde hoy en adelante
+  const d = dsToDate(ref || todayStr()), y = d.getFullYear(), m = d.getMonth(), out = [];
+  for(let i=1;i<=31;i++){ const x = new Date(y, m, i); if(x.getMonth()!==m) break; if(x.getDay()===1 && todayStr(x) >= todayStr()) out.push(todayStr(x)); }
+  return out;
+}
+function mtRec(){ const r = aliCfg.recPeso || {}; return { h1: r.h1 || "08:00", h2: r.h2 || "", on: r.on !== false, mes: r.mes || "" }; }
+function mtStats(){
+  const hoy = todayStr(), dias = [];
+  for(let i=1;i<=14;i++) dias.push(addDays(hoy,-i));
+  const comidos = dias.filter(k=>(aliDay(k).items||[]).length);
+  const tot = comidos.map(k=>aliTot(aliDay(k).items));
+  const avg = f=> tot.length ? tot.reduce((a,t)=>a+t[f],0)/tot.length : 0;
+  const ent = dias.map(k=> typeof dayMin==="function" ? dayMin(k) : 0).filter(m=>m>5);
+  const aguaDias = dias.filter(k=>aliN(aliDay(k).agua)>0);
+  const pes = Object.keys(aliData).filter(k=>k>=addDays(hoy,-30) && aliN(aliData[k].peso)>0).length;
+  const gasto = dias.slice(0,7).reduce((a,k)=>a+aliGasto(k).total,0)/7;
+  return { diasCargados: comidos.length, kcal: avg("kcal"), p: avg("p"), c: avg("c"), f: avg("f"),
+    entDias: ent.length, entMin: ent.length ? ent.reduce((a,b)=>a+b,0)/ent.length : 0,
+    agua: aguaDias.length ? aguaDias.reduce((a,k)=>a+aliN(aliDay(k).agua),0)/aguaDias.length : 0, pesajes: pes, gasto };
+}
+function mtPlan(){
+  const hoy = todayStr(), p = aliPesoAl(hoy), obj = aliN(aliCfg.pesoObj), s = mtStats(), t = aliTrend(hoy);
+  if(!p || !obj) return { s, falta:true };
+  const dif = p.kg - obj, quiere = Math.abs(dif) < 0.5 ? 0 : dif > 0 ? -1 : 1;
+  // ritmo recomendado: bajar ≈0,75% del peso por semana (máx 1 kg) · subir ≈0,25% (máx 0,35 kg)
+  let ritmo = quiere<0 ? Math.min(1, p.kg*0.0075) : quiere>0 ? Math.min(0.35, p.kg*0.0025) : 0;
+  const ajuste = quiere * ritmo * ALI_KCAL_KG / 7;                    // kcal/día a sumar (−) o restar
+  // nunca más de 25% por debajo del gasto ni menos de un piso mínimo: se baja más lento pero sin perder músculo
+  const piso = Math.max(s.gasto*0.75, aliCfg.sexo==="m" ? 1300 : 1600);
+  const kcal = Math.round(Math.max(s.gasto + ajuste, quiere<0 ? piso : 0)/50)*50;
+  if(quiere<0) ritmo = Math.max(0.1, (s.gasto - kcal)*7/ALI_KCAL_KG);
+  const semanas = ritmo ? Math.abs(dif)/ritmo : 0;
+  const fecha = new Date(); fecha.setDate(fecha.getDate()+Math.round(semanas*7));
+  const pesoRef = quiere<0 ? Math.max(obj, p.kg*0.85) : p.kg;          // proteína sobre un peso "de referencia"
+  const prot = Math.round(pesoRef * (quiere<0 ? 2 : 1.8) / 5)*5;
+  const gras = Math.round(kcal*0.27/9/5)*5;
+  const carb = Math.max(80, Math.round((kcal - prot*4 - gras*9)/4/5)*5);
+  return { s, t, p, obj, dif, quiere, ritmo, semanas, fecha, kcal, prot, gras, carb };
+}
+function mtLi(ok, txt){ return `<li class="${ok===true?"ok":ok===false?"no":""}">${ok===true?"✅":ok===false?"⚠️":"👉"} ${txt}</li>`; }
+function rxMeta(el){
+  const P = mtPlan(), s = P.s, R = mtRec(), lunes = mtLunesDelMes(), hoy = todayStr();
+  const n1 = v=> String(+(+v).toFixed(1)).replace(".",",");
+  const esLunes = dsToDate(hoy).getDay()===1, pesadoHoy = aliN(aliDay(hoy).peso)>0;
+  const notifOk = typeof Notification!=="undefined" && Notification.permission==="granted";
+  const mesNombre = dsToDate(hoy).toLocaleDateString("es-AR",{month:"long"});
+  el.innerHTML = `
+  ${esLunes && !pesadoHoy ? `<div class="mt-banner">⚖️ <b>Hoy es lunes: toca pesarte.</b> En ayunas, después del baño y antes de desayunar. <button class="btn btn-sm btn-primary" data-ali="pesar" data-mt="go">Registrar pesaje</button></div>`:""}
+  <div class="mt-grid">
+    <div class="today-panel mt-card">
+      <h3 class="pg-h3" style="margin-top:0;">⚖️ Peso</h3>
+      ${aliPesoBox(hoy)}
+      <div class="field" style="margin-top:12px;"><label>Peso objetivo (kg)</label>
+        <input type="number" step="0.5" data-alic="pesoObj" value="${aliEsc(aliCfg.pesoObj)}" placeholder="¿A cuánto querés llegar?"></div>
+      ${aliTrendBox(hoy)}
+    </div>
+    <div class="today-panel mt-card">
+      <h3 class="pg-h3" style="margin-top:0;">🔔 Recordatorio de pesaje · lunes de ${mesNombre}</h3>
+      <div class="mt-rec">
+        <label>1er aviso<input type="time" data-mtr="h1" value="${aliEsc(R.h1)}"></label>
+        <label>2do aviso (opcional)<input type="time" data-mtr="h2" value="${aliEsc(R.h2)}"></label>
+      </div>
+      <label class="mt-check"><input type="checkbox" data-mtr="on" ${R.on?"checked":""}> Avisarme dentro de la app</label>
+      <div class="mt-lunes">${lunes.length ? lunes.map(k=>`<span>Lun ${fmtShort(k)}</span>`).join("") : `<span class="af-muted">No quedan lunes este mes: el mes que viene se renuevan solos.</span>`}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+        <button class="btn btn-sm btn-primary" data-mt="ics" ${lunes.length?"":"disabled"}>📅 Agregar al calendario del celular</button>
+        ${typeof Notification!=="undefined" && !notifOk ? `<button class="btn btn-sm" data-mt="notif">🔔 Permitir avisos</button>`:""}
+      </div>
+      <p class="af-muted" style="margin:8px 0 0;">Dentro de la app avisa a esa hora si la tenés abierta. Para que suene <b>aunque esté cerrada</b>, tocá "Agregar al calendario": el calendario del celular te avisa los ${lunes.length} lunes que quedan del mes. Al empezar el mes, volvé a tocarlo.</p>
+    </div>
+  </div>
+
+  <div class="today-panel">
+    <div class="today-panel-head"><h3 class="pg-h3" style="margin:0;">🧭 Tu plan · lo que sugiere el entrenador</h3>
+      <span class="af-muted">Con tus últimos 14 días: ${s.diasCargados} días con comidas cargadas · ${s.entDias} entrenos</span></div>
+    ${P.falta ? `<div class="empty">Para armar tu plan necesito tu <b>peso actual</b> (Registrar pesaje) y tu <b>peso objetivo</b>.</div>` : `
+    <div class="mt-plan">
+      <section><h4>1 · 🎯 Meta</h4><ul>
+        ${mtLi(null, P.quiere===0 ? `Estás en tu peso objetivo (${n1(P.obj)} kg): el plan es <b>mantener</b>.` : `De <b>${n1(P.p.kg)}</b> a <b>${n1(P.obj)} kg</b>: ${P.quiere<0?"bajar":"subir"} ${n1(Math.abs(P.dif))} kg.`)}
+        ${P.quiere!==0 ? mtLi(null, `Ritmo sano recomendado: <b>${n1(P.ritmo)} kg por semana</b> → llegás ≈ <b>${P.fecha.toLocaleDateString("es-AR",{month:"long",year:"numeric"})}</b> (${Math.round(P.semanas)} semanas).`) : ""}
+        ${P.t ? mtLi(P.quiere===0 ? Math.abs(P.t.kgSem)<0.15 : Math.sign(P.t.kgSem)===P.quiere && Math.abs(P.t.kgSem)<=P.ritmo*1.5, `Hoy vas a <b>${(P.t.kgSem>0?"+":"")+P.t.kgSem.toFixed(2).replace(".",",")} kg/semana</b>${P.quiere!==0 && Math.sign(P.t.kgSem)===P.quiere && Math.abs(P.t.kgSem)>P.ritmo*1.5 ? ": más rápido de lo recomendado, cuidá no perder músculo" : ""}.`) : mtLi(false, "Todavía no hay datos de comidas para ver tu tendencia.")}
+      </ul></section>
+      <section><h4>2 · 🍽️ Alimentación</h4><ul>
+        ${mtLi(null, `Objetivo diario sugerido: <b>${P.kcal} kcal</b> · P ${P.prot} g · C ${P.carb} g · G ${P.gras} g.`)}
+        ${s.diasCargados ? mtLi(Math.abs(s.kcal-P.kcal) < 200, `Venís comiendo ≈ <b>${aliR(s.kcal)} kcal</b>${s.kcal>P.kcal+200?` (${aliR(s.kcal-P.kcal)} de más: recortá harinas o porciones de la cena)`:s.kcal<P.kcal-200?` (${aliR(P.kcal-s.kcal)} de menos: no te quedes corto, perdés músculo)`:""}.`) : ""}
+        ${s.diasCargados ? mtLi(s.p >= P.prot*0.85, `Proteína promedio <b>${aliR(s.p)} g</b>${s.p < P.prot*0.85 ? ` → sumá ${aliR(P.prot-s.p)} g (ej: 200 g de pollo, 4 claras o un yogur con whey)` : ""}.`) : ""}
+        ${mtLi(s.diasCargados>=10, `Cargaste comidas ${s.diasCargados} de 14 días${s.diasCargados<10?": cuanto más cargues, más exacto el plan":""}.`)}
+      </ul>
+      <button class="btn btn-sm" data-mt="usar">✓ Usar estos objetivos</button></section>
+      <section><h4>3 · 🏋️ Entrenamiento</h4><ul>
+        ${mtLi(s.entDias>=8, `Entrenaste <b>${s.entDias} de 14 días</b>${s.entDias?` · ${Math.round(s.entMin)} min promedio`:""} (tu plan es lunes a viernes).`)}
+        ${P.quiere<0 ? mtLi(null, "Sumá <b>20-30 min de cinta o caminata</b> al final de 3 sesiones por semana: ayuda a bajar sin tocar tu rutina.") : P.quiere>0 ? mtLi(null, "Priorizá los básicos pesados y no sumes cardio largo: necesitás el excedente para crecer.") : mtLi(null, "Mantené la rutina y el cardio que venís haciendo.")}
+        ${mtLi(null, "Tus reglas de entrenamiento y el ciclo de fases no se tocan: el plan se adapta a ellos.")}
+      </ul></section>
+      <section><h4>4 · 💧 Hábitos</h4><ul>
+        ${mtLi(s.agua >= aliN(aliCfg.agua||8)*0.8, `Agua: ${s.agua?n1(s.agua)+" vasos por día":"sin registro"} (meta ${aliN(aliCfg.agua||8)}).${P.p ? ` Con tu peso, apuntá a ≈ ${n1(P.p.kg*0.035)} litros.` : ""}`)}
+        ${mtLi(s.pesajes>=3, `Pesajes en el último mes: <b>${s.pesajes}</b> (ideal: 1 por semana, el lunes en ayunas).`)}
+        ${mtLi(null, "Dormí 7-8 horas: dormir poco aumenta el hambre y frena la recuperación.")}
+        ${RX.ayuno && RX.ayuno.start ? mtLi(true, "Tenés un ayuno en curso: cortalo con proteína.") : mtLi(null, "Si te sirve, el ayuno 14:10 o 16:8 ayuda a ordenar las comidas (solapa Ayuno).")}
+      </ul></section>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-sm btn-primary" data-mt="ia" ${aiOn() && !MT.iaBusy ? "" : "disabled"}>✨ Plan semanal con IA</button>
+      ${!aiOn() ? `<span class="af-muted">Configurá la IA en Nutri IA para usarlo.</span>`:""}
+      ${MT.iaBusy ? `<span class="af-spin"></span><span class="af-muted">Armando tu semana…</span>`:""}
+    </div>
+    ${MT.iaErr ? `<div class="af-err">${aliEsc(MT.iaErr)}</div>`:""}
+    ${MT.iaTxt ? `<div class="mt-ia">${aliEsc(MT.iaTxt).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/^\s*[*-]\s+/gm,"• ").replace(/^#+\s*(.+)$/gm,"<b>$1</b>").replace(/\n/g,"<br>")}</div>`:""}
+    `}
+    <p class="af-muted" style="margin:12px 0 0;">Son sugerencias generales a partir de tus datos, no reemplazan a un médico o nutricionista.</p>
+  </div>`;
+  el.insertAdjacentHTML("beforeend", mtCiclosHtml());
+}
+function mtICS(){
+  const R = mtRec(), lunes = mtLunesDelMes(), hs = [R.h1, R.h2].filter(Boolean);
+  const pad = n=> String(n).padStart(2,"0"), now = new Date();
+  const stamp = now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+"T"+pad(now.getUTCHours())+pad(now.getUTCMinutes())+"00Z";
+  const L = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Entrenador Personal//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  lunes.forEach(k=> hs.forEach((h,i)=>{
+    const dt = k.replace(/-/g,"")+"T"+h.replace(":","")+"00";
+    L.push("BEGIN:VEVENT","UID:pesaje-"+dt+"-"+i+"@entrenador","DTSTAMP:"+stamp,"DTSTART:"+dt,"DURATION:PT10M",
+      "SUMMARY:⚖️ Pesarte (Entrenador)","DESCRIPTION:En ayunas y antes de desayunar. Cargalo en la app: Alimentación → Mi meta → Registrar pesaje.",
+      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Hora de pesarte","TRIGGER:PT0M","END:VALARM","END:VEVENT");
+  }));
+  L.push("END:VCALENDAR");
+  const blob = new Blob([L.join("\r\n")], { type:"text/calendar" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "recordatorio-pesaje-"+todayStr().slice(0,7)+".ics";
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+  return lunes.length*hs.length;
+}
+async function mtIA(){
+  const P = mtPlan(), s = P.s; MT.iaBusy = true; MT.iaErr = ""; renderAlimentacion();
+  const prompt = `Sos entrenador personal y nutricionista deportivo en Argentina (Chaco). Armá un PLAN PARA ESTA SEMANA (lunes a domingo), en voseo, práctico y corto (máx. 250 palabras), con 4 títulos: Meta de la semana, Comidas (ideas concretas con productos argentinos, porciones), Entrenamiento (respetando su rutina de pesas lunes a viernes; solo sugerí cardio/caminata extra), Hábitos.
+Datos: peso actual ${P.p.kg} kg, objetivo ${P.obj} kg, edad ${aliCfg.edad||"?"}, altura ${aliCfg.altura||"?"} cm. Objetivo diario sugerido: ${P.kcal} kcal, P ${P.prot} g, C ${P.carb} g, G ${P.gras} g.
+Últimos 14 días: ${s.diasCargados} días con comidas cargadas, promedio ${aliR(s.kcal)} kcal y ${aliR(s.p)} g de proteína; entrenó ${s.entDias} días (${Math.round(s.entMin)} min promedio); agua ${s.agua.toFixed(1)} vasos/día; ${s.pesajes} pesajes en el mes.
+Tendencia: ${P.t ? P.t.kgSem.toFixed(2)+" kg/semana" : "sin datos"}. Ritmo recomendado: ${P.ritmo.toFixed(2)} kg/semana.
+Sin diagnósticos médicos.`;
+  try{ MT.iaTxt = await aiChat([{ role:"user", content:prompt }]); }
+  catch(e){ MT.iaErr = aiErrMsg(e); }
+  finally{ MT.iaBusy = false; renderAlimentacion(); }
+}
+document.addEventListener("click", async e=>{
+  const b = e.target.closest && e.target.closest("[data-mt]"); if(!b) return;
+  const a = b.dataset.mt;
+  if(a==="ics"){ const n = mtICS(); toast(`📅 ${n} recordatorio${n>1?"s":""}: abrí el archivo y aceptá agregarlo al calendario`); }
+  if(a==="notif"){ try{ const r = await Notification.requestPermission(); toast(r==="granted"?"🔔 Avisos activados en este dispositivo":"Los avisos quedaron bloqueados"); }catch(_){} renderAlimentacion(); }
+  if(a==="usar"){ const P = mtPlan(); if(P.falta) return; Object.assign(aliCfg, { kcal:P.kcal, p:P.prot, c:P.carb, f:P.gras }); aliSaveCfg(); toast(`✓ Objetivo: ${P.kcal} kcal · P ${P.prot} · C ${P.carb} · G ${P.gras}`); renderAlimentacion(); }
+  if(a==="ia") mtIA();
+  if(a==="go"){ /* el botón también tiene data-ali="pesar": abre el pesaje en esta misma pantalla */ }
+});
+document.addEventListener("change", e=>{
+  const t = e.target, k = t && t.dataset && t.dataset.mtr; if(!k) return;
+  const r = Object.assign({}, aliCfg.recPeso || {}); r[k] = t.type==="checkbox" ? t.checked : t.value; r.mes = todayStr().slice(0,7);
+  aliCfg.recPeso = r; aliSaveCfg(); toast("🔔 Recordatorio guardado");
+});
+// Aviso dentro de la app: lunes, a la hora elegida (si la app está abierta). Una vez por horario por día.
+setInterval(()=>{
+  const R = mtRec(); if(!R.on) return;
+  const now = new Date(); if(now.getDay()!==1) return;
+  const hm = String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"), hoy = todayStr();
+  [R.h1, R.h2].forEach((h,i)=>{
+    if(!h || h!==hm) return;
+    const key = "entrenador-aviso-peso-"+hoy+"-"+i; try{ if(localStorage.getItem(key)) return; localStorage.setItem(key,"1"); }catch(_){}
+    if(aliN(aliDay(hoy).peso)>0) return;
+    rxBeep(); toast("⚖️ Hora de pesarte: Alimentación → Mi meta");
+    try{ if(typeof Notification!=="undefined" && Notification.permission==="granted") new Notification("⚖️ Hora de pesarte", { body:"En ayunas. Cargalo en Alimentación → Mi meta.", icon:"icons/icon-192.png" }); }catch(_){}
+  });
+}, 20000);
+
+/* ======================= 📦 CICLOS DE ALIMENTACIÓN =======================
+   Cada uno cierra el ciclo cuando quiere (botón en Mi meta). Al cerrar:
+     1. Se guarda una ESTADÍSTICA de todo el período (alimentación, peso, agua, ayunos y, solo como
+        lectura, lo que pasó en el gym) en "alimentacion_ciclos/<id>", con una serie diaria compacta.
+     2. Se descarga una copia completa de Alimentación (archivo .json) por las dudas.
+     3. Alimentación vuelve a cero: comidas, agua, notas, pesajes e historial de ayunos.
+   NO se toca: el gym (sesiones, rutinas, reglas, fases, cronómetro), objetivos, peso objetivo,
+   recordatorios, recetario, Mis recetas, lista de compras ni la clave de IA.
+   El último peso pasa al nuevo ciclo como punto de partida. */
+let mtCiclos = {};
+function mtCicloIni(){
+  if(aliCfg.cicloIni) return aliCfg.cicloIni;
+  const ks = Object.keys(aliData).sort(); return ks[0] || todayStr();
+}
+function mtResumen(ini, fin){
+  const dias = daysIn([ini, fin]);
+  const conComida = dias.filter(d=>(aliDay(d).items||[]).length);
+  const tots = conComida.map(d=>aliTot(aliDay(d).items));
+  const avg = (arr, f)=> arr.length ? arr.reduce((a,x)=>a+f(x),0)/arr.length : 0;
+  const pes = dias.filter(d=>aliN(aliDay(d).peso)>0);
+  const pIni = pes.length ? aliN(aliDay(pes[0]).peso) : null, pFin = pes.length ? aliN(aliDay(pes[pes.length-1]).peso) : null;
+  const agua = dias.filter(d=>aliN(aliDay(d).agua)>0);
+  const t0 = dsToDate(ini).getTime(), t1 = dsToDate(fin).getTime() + 864e5;
+  const ay = (RX.ayuno.hist||[]).filter(x=>x.s>=t0 && x.s<t1);
+  let gym = null;
+  try{ if(typeof periodStats==="function"){ const g = periodStats([ini, fin]); gym = { sesiones:g.sesiones, diasCrono:g.diasMin, minutos:Math.round(g.min), series:g.series, ejercicios:g.nEj }; } }catch(_){}
+  const r1 = v=> Math.round(v*10)/10;
+  return {
+    ini, fin, cerrado: todayStr(), dias: dias.length, diasConComida: conComida.length,
+    kcal: Math.round(avg(tots,t=>t.kcal)), p: Math.round(avg(tots,t=>t.p)), c: Math.round(avg(tots,t=>t.c)), f: Math.round(avg(tots,t=>t.f)),
+    alimentos: conComida.reduce((a,d)=>a+(aliDay(d).items||[]).length,0),
+    pesoIni: pIni, pesoFin: pFin, pesoCambio: pIni!=null && pFin!=null ? r1(pFin-pIni) : null, pesajes: pes.length, pesoObj: aliN(aliCfg.pesoObj)||null,
+    agua: r1(avg(agua, d=>aliN(aliDay(d).agua))),
+    ayunos: ay.length, ayunosCumplidos: ay.filter(x=>(x.e-x.s)/3.6e6 >= x.plan).length, ayunoHoras: r1(avg(ay, x=>(x.e-x.s)/3.6e6)),
+    objetivo: { kcal:aliN(aliCfg.kcal), p:aliN(aliCfg.p), c:aliN(aliCfg.c), f:aliN(aliCfg.f) },
+    gym,
+    serie: dias.filter(d=>(aliDay(d).items||[]).length || aliN(aliDay(d).peso)>0).map(d=>{ const x = aliDay(d), t = aliTot(x.items);
+      const o = { d }; if((x.items||[]).length){ o.kcal = Math.round(t.kcal); o.p = Math.round(t.p); } if(aliN(x.peso)>0) o.peso = aliN(x.peso); if(aliN(x.agua)>0) o.agua = aliN(x.agua); return o; })
+  };
+}
+function mtCicloCard(c, actual){
+  const n1 = v=> v==null ? "—" : String(v).replace(".",",");
+  const cam = c.pesoCambio;
+  return `<div class="mt-ciclo ${actual?"actual":""}">
+    <div class="mt-ciclo-head"><b>${actual?"Ciclo actual":"Ciclo"} · ${fmtShort(c.ini)} → ${fmtShort(c.fin)}</b><span>${c.dias} día${c.dias===1?"":"s"}${actual?"":" · cerrado "+fmtShort(c.cerrado)}</span></div>
+    <div class="mt-ciclo-grid">
+      <div><small>Peso</small><b>${n1(c.pesoIni)} → ${n1(c.pesoFin)}</b>${cam!=null?`<em class="${cam<0?"down":cam>0?"up":""}">${cam>0?"+":""}${n1(cam)} kg</em>`:""}</div>
+      <div><small>Calorías prom.</small><b>${c.kcal||"—"}</b><em>${c.diasConComida} días cargados</em></div>
+      <div><small>Proteína prom.</small><b>${c.p||"—"} g</b><em>C ${c.c||0} · G ${c.f||0}</em></div>
+      <div><small>Agua prom.</small><b>${c.agua?n1(c.agua)+" vasos":"—"}</b><em>${c.pesajes} pesajes</em></div>
+      <div><small>Ayunos</small><b>${c.ayunos}</b><em>${c.ayunos?c.ayunosCumplidos+" cumplidos · "+n1(c.ayunoHoras)+" h prom.":"—"}</em></div>
+      ${c.gym?`<div><small>Gym (solo lectura)</small><b>${c.gym.sesiones} entrenos</b><em>${fmtMin(c.gym.minutos)} · ${c.gym.series} series</em></div>`:""}
+    </div>
+    ${!actual?`<button class="btn btn-sm btn-ghost btn-danger" data-mt="cicdel" data-k="${aliEsc(c.id)}">Borrar este resumen</button>`:""}
+  </div>`;
+}
+function mtCiclosHtml(){
+  const ini = mtCicloIni(), hoy = todayStr(), act = mtResumen(ini, hoy);
+  const prev = Object.values(mtCiclos).sort((a,b)=> a.ini<b.ini?1:-1);
+  return `<div class="today-panel">
+    <div class="today-panel-head"><h3 class="pg-h3" style="margin:0;">📦 Ciclos de alimentación</h3>
+      <button class="btn btn-sm btn-danger" data-mt="cerrar">Cerrar ciclo y empezar de cero</button></div>
+    <p class="af-muted" style="margin:0 0 12px;">Cerralo cuando quieras. Se guarda la estadística de todo (incluye lo del gym, solo para ver), se descarga una copia y <b>solo Alimentación</b> vuelve a cero. El gym, tus rutinas y reglas no se tocan.</p>
+    ${mtCicloCard(act, true)}
+    ${prev.length ? `<h4 class="mt-prev-t">Ciclos anteriores</h4>${prev.map(c=>mtCicloCard(c,false)).join("")}` : ""}
+  </div>`;
+}
+function mtDescargar(nombre, obj){
+  const blob = new Blob([JSON.stringify(obj, null, 1)], { type:"application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nombre;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 3000);
+}
+async function mtCerrarCiclo(){
+  const ini = mtCicloIni(), hoy = todayStr(), R = mtResumen(ini, hoy);
+  const ok = confirm(`¿Cerrar el ciclo de alimentación ${fmtShort(ini)} → ${fmtShort(hoy)}?\n\n✔ Se guarda la estadística (${R.diasConComida} días con comidas, peso ${R.pesoIni??"—"} → ${R.pesoFin??"—"}).\n✔ Se descarga una copia completa.\n✖ Se borran comidas, agua, notas, pesajes e historial de ayunos.\n\nNO se toca el gym, tus rutinas ni las reglas. Tus objetivos, recetas y lista de compras quedan.`);
+  if(!ok) return;
+  const id = ini+"_"+hoy+"_"+Date.now().toString(36);
+  const fechas = Object.keys(aliData);
+  // 1) copia completa
+  mtDescargar(`alimentacion-ciclo-${ini}_a_${hoy}.json`, { tipo:"copia-alimentacion", desde:ini, hasta:hoy, alimentacion:aliData, ayuno:RX.ayuno, objetivos:aliCfg, resumen:R });
+  // 2) estadística
+  const res = Object.assign({ id }, R);
+  mtCiclos = Object.assign({}, mtCiclos, { [id]:res });
+  try{ if(db) await db.doc("alimentacion_ciclos/"+id).set(res); else localStorage.setItem("entrenador-ali-ciclos", JSON.stringify(mtCiclos)); }
+  catch(_){ toast("No se pudo guardar la estadística en la nube: no se borró nada"); return; }
+  // 3) Alimentación a cero (el último peso pasa al ciclo nuevo como punto de partida)
+  const ult = aliPesoAl(hoy);
+  for(const d of fechas){ try{ if(db) await db.doc("alimentacion/"+d).delete(); }catch(_){} }
+  aliData = {};
+  if(ult){ aliData[hoy] = { date:hoy, peso:ult.kg }; await aliSave(hoy); }
+  if(!db){ try{ localStorage.setItem("entrenador-alimentacion", JSON.stringify(aliData)); }catch(_){} }
+  RX.ayuno = { plan: RX.ayuno.plan || 16, start:null, hist:[] }; rxSaveCfg("ayuno");
+  aliCfg.cicloIni = hoy; aliSaveCfg();
+  aliUI.draft = null; MT.iaTxt = "";
+  toast("📦 Ciclo cerrado: estadística guardada y Alimentación en cero");
+  renderAlimentacion();
+}
+document.addEventListener("click", async e=>{
+  const b = e.target.closest && e.target.closest("[data-mt]"); if(!b) return;
+  if(b.dataset.mt==="cerrar") return mtCerrarCiclo();
+  if(b.dataset.mt==="cicdel"){
+    if(!confirm("¿Borrar este resumen de ciclo? (los datos del ciclo ya se habían borrado al cerrarlo)")) return;
+    const id = b.dataset.k, m = Object.assign({}, mtCiclos); delete m[id]; mtCiclos = m;
+    try{ if(db) await db.doc("alimentacion_ciclos/"+id).delete(); else localStorage.setItem("entrenador-ali-ciclos", JSON.stringify(mtCiclos)); }catch(_){}
+    renderAlimentacion();
+  }
+});
+(function mtCiclosInit(){
+  try{ const c = localStorage.getItem("entrenador-ali-ciclos"); if(c) mtCiclos = JSON.parse(c)||{}; }catch(_){}
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(db){ clearInterval(w);
+      db.collection("alimentacion_ciclos").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = Object.assign({ id:x.id }, x.data()); }); mtCiclos = t;
+        if(state.view==="alimentacion" && RX.sub==="meta" && !rxBusyFocus()) renderAlimentacion(); }, ()=>{});
+    } else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
   }, 500);
 })();
 
