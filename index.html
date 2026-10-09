@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; media-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; media-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#16181a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -781,6 +781,22 @@
   .mt-plan li.no{ color:var(--ink); }
   .mt-ia{ margin-top:12px; background:var(--surface-2); border:1px solid var(--accent-soft-2); border-radius:10px; padding:12px 14px; font-size:.9rem; line-height:1.5; }
   @media (max-width:760px){ .mt-grid, .mt-plan{ grid-template-columns:1fr; } }
+  /* ---------- Video por ejercicio · CB combinaciones ---------- */
+  .exv{ margin-bottom:14px; display:flex; flex-direction:column; gap:8px; }
+  .exv-yt{ width:100%; max-width:380px; aspect-ratio:9/16; max-height:62vh; border:0; border-radius:10px; background:#111; align-self:center; }
+  .exv-ig{ width:100%; max-width:400px; height:620px; max-height:75vh; border:0; border-radius:10px; background:#fff; align-self:center; }
+  .exv-nota{ font-size:.86rem; background:var(--accent-soft); border:1px solid var(--accent-soft-2); border-radius:8px; padding:8px 10px; }
+  .exv-acc{ display:flex; gap:8px; flex-wrap:wrap; } .exv-acc a{ text-decoration:none; }
+  .ex-cb-btn{ flex:none; font-family:"Rajdhani",sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.04em; padding:5px 8px; color:var(--ink-2); }
+  .ex-cb-btn.has{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .ex-cb-line{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:3px; font-size:.78rem; color:var(--ink); }
+  .ex-cb-tag{ background:var(--accent); color:var(--accent-ink); font-family:"Rajdhani",sans-serif; font-weight:700; border-radius:5px; padding:0 6px; }
+  .ex-cb-line .btn{ padding:2px 8px; font-size:.72rem; }
+  .cb-bl{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:6px 0; border-bottom:1px dashed var(--line); font-size:.85rem; }
+  .cb-bl > span:first-child{ min-width:62px; font-weight:600; } .cb-bl small{ color:var(--ink-2); }
+  .cb-prev{ background:var(--surface-2); border-radius:8px; padding:8px 10px; font-size:.85rem; font-weight:600; }
+  #cb-run{ position:fixed; inset:0; z-index:96; background:var(--paper); display:flex; justify-content:center; overflow:auto; }
+  .cb-sub{ font-size:.9rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
   /* ---------- Carga rápida por comida · Mi zona ---------- */
   .mq{ margin:6px 0; }
   .mq-row{ display:flex; gap:6px; } .mq-row input{ flex:1; min-width:0; }
@@ -1478,7 +1494,8 @@ function exThumb(ex){
   if(ex && hasPhoto(ex.id)) return `<img class="ph-thumb" src="${photoSrc(ex.id,1)}" alt="">`;
   return ex ? mannequinThumb(ex.mus, ex.mus2) : "";
 }
-function exDemoHtml(ex){
+function exDemoHtml(ex){ return exVidHtml(ex) + exDemoHtml0(ex); }
+function exDemoHtml0(ex){
   if(hasVideo(ex.id)){
     const v = EX_VIDEO[ex.id];
     return `<div class="vid-demo">
@@ -3557,9 +3574,10 @@ function dayEditorBody(d){
     return `<div class="day-ex-card ${en.exerciseId?exCardState(en):""} ${(en.base!==undefined && phaseFor(d.dateStr)===1)?"has-agr":""}" data-card-ei="${ei}">
       <div class="day-ex-head">
         <div class="day-ex-thumb" ${ex?`data-action="open-exercise" data-id="${ex.id}" title="Ver cómo se hace"`:""}>${exThumb(ex)}</div>
-        <div class="day-ex-name-wrap"><div class="day-ex-name">${ex ? ex.n : "—"}</div>${en.exerciseId?exNoteLine(en.exerciseId):""}</div>
+        <div class="day-ex-name-wrap"><div class="day-ex-name">${ex ? ex.n : "—"}</div>${en.exerciseId?exNoteLine(en.exerciseId):""}${en.exerciseId?exCbLine(en.exerciseId):""}</div>
         ${en.exerciseId?exStartBtnHtml(d, en, ei):""}
         ${en.exerciseId?`<button type="button" class="btn btn-sm btn-ghost ex-note-btn" data-exnote="${en.exerciseId}" title="Nota de la máquina (asiento, agarre…)" aria-label="Nota del ejercicio">${NOTE_ICON}</button>`:""}
+        ${en.exerciseId?exCbBtn(en.exerciseId):""}
       </div>
       <div class="day-ex-fields">
         <div class="day-field wide"><label>Ejercicio</label>${ejercicioField}</div>
@@ -6781,6 +6799,163 @@ document.addEventListener("click", e=>{
   if(a==="semana"){ Object.assign(RX.plan, { dias:"7", comidas:{ desayuno:true, almuerzo:true, merienda:true, cena:true, colaciones:false } }); }
   RX.sub = "plan"; try{ localStorage.setItem("entrenador-ali-sub","plan"); }catch(_){} rxPlanGen();
 });
+
+/* ======================= 🎬 VIDEO DE CADA EJERCICIO (link + desde qué segundo) =======================
+   Videos de YouTube o Instagram que pasa Martin. Se ven dentro del "Cómo se hace" del ejercicio:
+   YouTube arranca solo en el segundo indicado; Instagram no deja adelantar desde afuera, así que se muestra
+   el aviso "adelantá hasta…". Cada video se puede cambiar desde la app (✏️ Cambiar video) y queda en "meta/videos". */
+const EX_VIDEO_LINKS = {
+  "custom_e018fa52-2439-4121-b3ba-48a3a986b96a": { url:"https://youtube.com/shorts/8UgCDN4ldI4", start:0, nota:"Femoral en máquina + negativas. Si no arranca justo en el movimiento, tocá ✏️ y poné el segundo." },
+  "hack_cuadriceps": { url:"https://www.instagram.com/reel/DXWlS4QgL2W/", start:0, nota:"Es el 2º de los 3 tipos de sentadilla del video: adelantá hasta el segundo ejercicio." },
+  "femoral_hip_thrust": { url:"https://www.instagram.com/reel/DMay1WjoUfs/", start:0, nota:"Adelantá hasta que se vea la técnica." },
+  "custom_73a02213-42d8-4472-aa79-6950b8c16759": { url:"https://www.instagram.com/reel/C_I8FMmuNpC/", start:0, nota:"Variante de femoral unilateral en polea." },
+};
+let exVideosDb = {};
+function exVid(id){ const v = exVideosDb[id]; return (v && v.url) ? v : (v && v.borrado ? null : EX_VIDEO_LINKS[id] || null); }
+function vidParse(url){
+  const u = String(url||"");
+  let m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|watch\?v=|embed\/|live\/))([\w-]{11})/); if(m) return { tipo:"yt", id:m[1] };
+  m = u.match(/instagram\.com\/(?:reel|p|tv)\/([\w-]+)/); if(m) return { tipo:"ig", id:m[1] };
+  return null;
+}
+function segTxt(s){ s = Math.max(0, Math.round(Number(s)||0)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+function txtSeg(t){ t = String(t||"").trim(); if(!t) return 0; if(t.includes(":")){ const [a,b] = t.split(":"); return (Number(a)||0)*60 + (Number(b)||0); } return Number(t)||0; }
+function exVidHtml(ex){
+  const v = exVid(ex.id), edit = `<button type="button" class="btn btn-sm btn-ghost" data-exvid="${ex.id}">✏️ ${v?"Cambiar video":"Agregar video"}</button>`;
+  if(!v) return `<div class="exv">${edit}</div>`;
+  const p = vidParse(v.url), st = Number(v.start)||0;
+  let player = "";
+  if(p && p.tipo==="yt") player = `<iframe class="exv-yt" src="https://www.youtube-nocookie.com/embed/${p.id}?start=${st}&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${p.id}" title="Video de ${aliEsc(ex.n)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  else if(p && p.tipo==="ig") player = `<iframe class="exv-ig" src="https://www.instagram.com/reel/${p.id}/embed/" title="Video de ${aliEsc(ex.n)}" allowfullscreen loading="lazy"></iframe>`;
+  const abrir = p && p.tipo==="yt" ? `https://www.youtube.com/watch?v=${p.id}${st?`&t=${st}s`:""}` : v.url;
+  return `<div class="exv">
+    ${player}
+    ${(st || v.nota) ? `<div class="exv-nota">${st && p && p.tipo==="ig" ? `⏩ <b>Adelantá hasta ${segTxt(st)}</b> · ` : st ? `▶ Arranca en ${segTxt(st)} · ` : ""}${aliEsc(v.nota||"")}</div>` : ""}
+    <div class="exv-acc"><a class="btn btn-sm" href="${aliEsc(abrir)}" target="_blank" rel="noopener">↗ Abrir en ${p && p.tipo==="ig" ? "Instagram" : p && p.tipo==="yt" ? "YouTube" : "el navegador"}</a>${edit}</div>
+  </div>`;
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest("[data-exvid]"); if(!b) return;
+  const id = b.dataset.exvid, ex = exerciseById(id), v = exVid(id) || {};
+  openModal(`<div class="modal-head"><div><h2>Video del ejercicio</h2><div style="color:var(--ink-2);font-size:.85rem;">${ex?ex.n:""}</div></div>
+    <button class="modal-close" type="button" data-action="close-modal">${ICON.close}</button></div>
+    <div class="field"><label for="exv-url">Link de YouTube o Instagram</label><input type="text" id="exv-url" value="${aliEsc(v.url||"")}" placeholder="https://youtube.com/shorts/… o https://www.instagram.com/reel/…"></div>
+    <div class="field-row"><div class="field"><label for="exv-st">Empezar en (min:seg)</label><input type="text" id="exv-st" value="${segTxt(v.start||0)}" placeholder="0:12"></div></div>
+    <div class="field"><label for="exv-nota">Aclaración</label><input type="text" id="exv-nota" value="${aliEsc(v.nota||"")}" placeholder="Ej: es el 2º ejercicio del video"></div>
+    <p class="af-muted" style="margin:0;">YouTube arranca solo en ese segundo. Instagram no lo permite: la app te muestra "adelantá hasta…".</p>
+    <div class="modal-foot">${exVid(id)?`<button class="btn btn-danger btn-ghost" type="button" data-exvid-del="${id}">Quitar video</button>`:""}<button class="btn" type="button" data-action="close-modal">Cancelar</button><button class="btn btn-primary" type="button" data-exvid-save="${id}">Guardar</button></div>`);
+});
+document.addEventListener("click", async e=>{
+  const s = e.target.closest && e.target.closest("[data-exvid-save],[data-exvid-del]"); if(!s) return;
+  const id = s.dataset.exvidSave || s.dataset.exvidDel;
+  let val;
+  if(s.dataset.exvidDel) val = { borrado:true };
+  else { const url = (document.getElementById("exv-url")||{}).value.trim();
+    if(url && !vidParse(url)){ toast("El link tiene que ser de YouTube o Instagram"); return; }
+    val = url ? { url, start:txtSeg((document.getElementById("exv-st")||{}).value), nota:((document.getElementById("exv-nota")||{}).value||"").trim() } : { borrado:true }; }
+  exVideosDb = Object.assign({}, exVideosDb, { [id]: val });
+  closeModal(); try{ render(); }catch(_){}
+  if(!db){ toast("Sin conexión: no se guardó"); return; }
+  try{ await db.doc("meta/videos").set(exVideosDb); toast("🎬 Video guardado"); }catch(_){ toast("No se pudo guardar el video"); }
+});
+
+/* ======================= CB · COMBINACIONES DE SERIES =======================
+   Botón "CB" en cada ejercicio de Hoy (al lado de la nota). Solo aparece la combinación si la cargás.
+   Tipos: series continuas, rest-pause, drop set, pirámide, superserie o libre.
+   Bloques: repeticiones × veces (ej: 7×2 → 5×2 → 3×2), retención en segundos (isometría en la contracción)
+   y descanso entre bloques (0 = sin descanso, continuo). Queda guardado por ejercicio en "meta/combos".
+   "▶ Guía" abre un paso a paso a pantalla completa con timer de retención y de descanso. */
+const CB_TIPOS = { continuas:"Series continuas", restpause:"Rest-pause", drop:"Drop set", piramide:"Pirámide", superserie:"Superserie", libre:"Libre" };
+let exCombos = {}, cbEdit = null, cbRun = null;
+function cbDelNombre(name){ // "retención 5 [7x2+5x2+3x2]" escrito en el nombre del ejercicio
+  const n = String(name||""), b = n.match(/\[([^\]]+)\]/); if(!b) return null;
+  const bloques = b[1].split("+").map(s=>s.trim().match(/^(\d+)\s*[x×]\s*(\d+)$/i)).filter(Boolean).map(m=>({ r:+m[1], x:+m[2] }));
+  if(!bloques.length) return null;
+  const ret = n.match(/retenci[oó]n\s*(\d+)/i);
+  return { tipo:"continuas", ret: ret ? +ret[1] : 0, bloques, desc:0, nota:"", delNombre:true };
+}
+function exCombo(id){ const c = exCombos[id]; if(c && c.borrado) return null; if(c && c.bloques && c.bloques.length) return c; const ex = exerciseById(id); return ex ? cbDelNombre(ex.n) : null; }
+function cbResumen(c){ const tot = c.bloques.reduce((a,b)=>a+b.r*b.x,0);
+  return `${CB_TIPOS[c.tipo]||"Combinación"}${c.ret?` · retención ${c.ret} s`:""} · ${c.bloques.map(b=>`${b.r}×${b.x}`).join(" → ")} = ${tot} reps${c.desc?` · descanso ${c.desc} s`:" · sin descanso"}`; }
+function exCbLine(id){ const c = exCombo(id); if(!c) return "";
+  return `<div class="ex-cb-line"><span class="ex-cb-tag">CB</span><span>${cbResumen(c)}</span><button type="button" class="btn btn-sm" data-cbgo="${id}">▶ Guía</button></div>`; }
+function exCbBtn(id){ const has = !!exCombo(id); return `<button type="button" class="btn btn-sm btn-ghost ex-cb-btn ${has?"has":""}" data-excb="${id}" title="Combinación de series (CB)" aria-label="Combinación de series">CB</button>`; }
+function cbModal(){
+  const c = cbEdit, ex = exerciseById(c.id);
+  openModal(`<div class="modal-head"><div><h2>CB · Combinación de series</h2><div style="color:var(--ink-2);font-size:.85rem;">${ex?ex.n:""} · se guarda para este ejercicio</div></div>
+    <button class="modal-close" type="button" data-action="close-modal">${ICON.close}</button></div>
+    <div class="field"><label>Tipo</label><div class="pl-chips">${Object.entries(CB_TIPOS).map(([k,l])=>`<button type="button" class="chip filter-chip ${c.tipo===k?"on":""}" data-cbt="${k}">${l}</button>`).join("")}</div></div>
+    <div class="field"><label>Bloques (repeticiones × veces)</label>
+      ${c.bloques.map((b,i)=>`<div class="cb-bl"><span>Bloque ${i+1}</span>
+        <div class="pl-step"><button type="button" data-cbb="${i}:r:-1">−</button><b>${b.r}</b><button type="button" data-cbb="${i}:r:1">+</button></div><small>reps</small>
+        <span>×</span><div class="pl-step"><button type="button" data-cbb="${i}:x:-1">−</button><b>${b.x}</b><button type="button" data-cbb="${i}:x:1">+</button></div><small>veces</small>
+        <button type="button" class="btn btn-icon btn-ghost btn-sm" data-cbdel="${i}" aria-label="Quitar bloque">✕</button></div>`).join("")}
+      <button type="button" class="btn btn-sm btn-ghost" data-cbadd="1">＋ Agregar bloque</button></div>
+    <div class="field-row">
+      <div class="field"><label>Retención (seg)</label><div class="pl-step"><button type="button" data-cbn="ret:-1">−</button><b>${c.ret}</b><button type="button" data-cbn="ret:1">+</button></div></div>
+      <div class="field"><label>Descanso entre bloques (seg)</label><div class="pl-step"><button type="button" data-cbn="desc:-15">−</button><b>${c.desc}</b><button type="button" data-cbn="desc:15">+</button></div></div>
+    </div>
+    <div class="field"><label for="cb-nota">Nota</label><input type="text" id="cb-nota" value="${aliEsc(c.nota||"")}" placeholder="Ej: bajada lenta en 3 segundos"></div>
+    <div class="cb-prev">${c.bloques.length ? cbResumen(c) : "Agregá al menos un bloque"}</div>
+    <div class="modal-foot">${exCombos[c.id] && !exCombos[c.id].borrado ? `<button class="btn btn-danger btn-ghost" type="button" data-cbsave="del">Quitar CB</button>`:""}<button class="btn" type="button" data-action="close-modal">Cancelar</button><button class="btn btn-primary" type="button" data-cbsave="ok" ${c.bloques.length?"":"disabled"}>Guardar CB</button></div>`);
+}
+document.addEventListener("click", async e=>{
+  const t = e.target.closest && e.target.closest("[data-excb],[data-cbt],[data-cbb],[data-cbdel],[data-cbadd],[data-cbn],[data-cbsave],[data-cbgo],[data-cbrun]"); if(!t) return;
+  const ds = t.dataset;
+  if(ds.excb){ try{ syncDayDraftFromDom(); }catch(_){} const base = exCombo(ds.excb) || { tipo:"continuas", ret:0, bloques:[{ r:10, x:1 }], desc:0, nota:"" };
+    cbEdit = Object.assign({ id:ds.excb }, JSON.parse(JSON.stringify(base))); return cbModal(); }
+  if(!cbEdit && !ds.cbgo && !ds.cbrun) return;
+  const keepNota = ()=>{ const n = document.getElementById("cb-nota"); if(n && cbEdit) cbEdit.nota = n.value; };
+  if(ds.cbt){ keepNota(); cbEdit.tipo = ds.cbt; return cbModal(); }
+  if(ds.cbb){ keepNota(); const [i,f,d] = ds.cbb.split(":"); const b = cbEdit.bloques[+i]; b[f] = Math.max(1, Math.min(f==="r"?50:10, b[f] + (+d))); return cbModal(); }
+  if(ds.cbdel){ keepNota(); cbEdit.bloques.splice(+ds.cbdel,1); return cbModal(); }
+  if(ds.cbadd){ keepNota(); const last = cbEdit.bloques[cbEdit.bloques.length-1]; cbEdit.bloques.push({ r: last ? Math.max(1,last.r-2) : 10, x: last ? last.x : 1 }); return cbModal(); }
+  if(ds.cbn){ keepNota(); const [f,d] = ds.cbn.split(":"); cbEdit[f] = Math.max(0, Math.min(f==="ret"?60:300, (cbEdit[f]||0) + (+d))); return cbModal(); }
+  if(ds.cbsave){ keepNota(); const id = cbEdit.id;
+    const val = ds.cbsave==="del" ? { borrado:true } : { tipo:cbEdit.tipo, ret:cbEdit.ret, bloques:cbEdit.bloques, desc:cbEdit.desc, nota:(cbEdit.nota||"").trim() };
+    exCombos = Object.assign({}, exCombos, { [id]: val }); cbEdit = null; closeModal(); try{ redrawDayEditor(); }catch(_){ try{ render(); }catch(__){} }
+    if(!db){ toast("Sin conexión: no se guardó"); return; }
+    try{ await db.doc("meta/combos").set(exCombos); toast(ds.cbsave==="del" ? "CB quitada" : "CB guardada"); }catch(_){ toast("No se pudo guardar"); }
+    return; }
+  if(ds.cbgo){ const c = exCombo(ds.cbgo); if(!c) return; const ex = exerciseById(ds.cbgo);
+    const pasos = []; c.bloques.forEach((b,bi)=>{ for(let k=1;k<=b.x;k++){ pasos.push({ txt:`${b.r} repeticiones`, sub:`Bloque ${bi+1} · tanda ${k} de ${b.x}`, reps:b.r });
+      const ultimo = bi===c.bloques.length-1 && k===b.x; if(!ultimo && c.desc) pasos.push({ desc:c.desc }); } });
+    cbRun = { n: ex ? ex.n : "", c, pasos, i:0, t:0, timer:null, hechas:0 }; try{ if(typeof requestWakeLock==="function") requestWakeLock(); }catch(_){} return cbRender(); }
+  if(ds.cbrun){ const R = cbRun; if(!R) return;
+    if(ds.cbrun==="x"){ clearInterval(R.timer); cbRun = null; return cbRender(); }
+    if(ds.cbrun==="prev"){ clearInterval(R.timer); R.t = 0; R.i = Math.max(0, R.i-1); return cbRender(); }
+    if(ds.cbrun==="next"){ clearInterval(R.timer); R.t = 0; const p = R.pasos[R.i]; if(p && p.reps) R.hechas += p.reps;
+      if(R.i < R.pasos.length-1){ R.i++; const q = R.pasos[R.i]; if(q.desc) cbTimer(q.desc); return cbRender(); }
+      clearInterval(R.timer); cbRun = null; toast("💪 Combinación terminada"); return cbRender(); }
+    if(ds.cbrun==="ret"){ cbTimer(R.c.ret); return cbRender(); }
+  }
+});
+function cbTimer(seg){ const R = cbRun; if(!R || !seg) return; clearInterval(R.timer); R.t = seg;
+  R.timer = setInterval(()=>{ if(!cbRun){ clearInterval(R.timer); return; } R.t--; if(R.t<=0){ clearInterval(R.timer); R.t = 0; try{ rxBeep(); }catch(_){} } cbRender(); }, 1000); }
+function cbRender(){
+  let o = document.getElementById("cb-run");
+  if(!cbRun){ if(o) o.remove(); return; }
+  if(!o){ o = document.createElement("div"); o.id = "cb-run"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); document.body.appendChild(o); }
+  const R = cbRun, p = R.pasos[R.i], tot = R.c.bloques.reduce((a,b)=>a+b.r*b.x,0);
+  o.innerHTML = `<div class="rx-cook-in">
+    <div class="rx-cook-top"><b>CB · ${aliEsc(R.n)}</b><span>Paso ${R.i+1} de ${R.pasos.length}</span><button class="btn btn-sm" data-cbrun="x">✕ Salir</button></div>
+    <div class="rx-cook-bar"><div style="width:${(R.i+1)/R.pasos.length*100}%"></div></div>
+    ${p.desc ? `<p class="rx-cook-step">😮‍💨 Descanso</p><div class="rx-cook-timer"><span class="mono">${segTxt(R.t)}</span></div>`
+      : `<div class="cb-sub">${aliEsc(p.sub)}</div><p class="rx-cook-step">${aliEsc(p.txt)}</p>
+         ${R.c.ret ? `<div class="rx-cook-timer">${R.t>0 ? `<span class="mono">${R.t}</span><span>retené…</span>` : `<button class="btn btn-primary" data-cbrun="ret">⏱ Retención ${R.c.ret} s</button>`}<small class="af-muted">en la contracción de cada repetición</small></div>` : ""}`}
+    <div class="af-muted">Llevás ${R.hechas} de ${tot} repeticiones${R.c.nota?` · ${aliEsc(R.c.nota)}`:""}</div>
+    <div class="rx-cook-nav"><button class="btn" data-cbrun="prev" ${R.i?"":"disabled"}>← Anterior</button><button class="btn btn-primary" data-cbrun="next">${R.i<R.pasos.length-1?"Hecho, siguiente →":"✓ Terminé"}</button></div>
+  </div>`;
+}
+(function cbInit(){
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(db){ clearInterval(w);
+      db.doc("meta/combos").onSnapshot(s=>{ exCombos = (s.exists && s.data()) || {}; if(document.getElementById("day-editor") && typeof dayDraft!=="undefined" && dayDraft){ try{ syncDayDraftFromDom(); redrawDayEditor(); }catch(_){} } }, ()=>{});
+      db.doc("meta/videos").onSnapshot(s=>{ exVideosDb = (s.exists && s.data()) || {}; }, ()=>{});
+    } else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
+  }, 500);
+})();
 
 /* ======================= GUARDAR IDEAS =======================
    Anotás (escribiendo o DICTANDO, que pasa la voz a texto al instante) o grabás un audio.
