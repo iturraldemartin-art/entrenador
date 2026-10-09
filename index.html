@@ -820,6 +820,14 @@
   .pn-hora{ font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ink) !important; }
   @media (max-width:760px){ .zn-regs{ grid-template-columns:1fr 1fr; } .zn-cats{ grid-template-columns:1fr; } .af-item{ flex-wrap:wrap; } .af-item-main{ flex:1 1 calc(100% - 60px); } .af-item-n{ white-space:normal; } .af-item .pl-step{ margin-left:50px; } }
   /* ---------- Armar plato · plan de comidas ---------- */
+  .buy-hint{ margin-top:12px; font-size:.78rem; color:var(--ink-2); }
+  .buy-g{ margin-top:10px; } .buy-g > b{ font-size:.85rem; display:block; padding:4px 0; border-bottom:2px solid var(--accent-soft-2); }
+  .buy-g .rx-buy{ margin-top:2px; }
+  .buy-in{ display:flex; gap:8px; flex-wrap:wrap; } .buy-in input{ flex:1; min-width:200px; } .buy-in label{ margin:0; text-transform:none; letter-spacing:0; font-size:.87rem; color:var(--ink); }
+  .buy-dict{ margin-top:8px; padding:8px 12px; border-radius:8px; background:var(--danger-soft); border:1px solid var(--danger); font-size:.88rem; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .rec-dot{ width:10px; height:10px; border-radius:50%; background:var(--danger); animation:recp 1s infinite; flex:none; } @keyframes recp{ 50%{ opacity:.25; } }
+  .buy-sec{ margin-top:12px; display:flex; flex-direction:column; gap:6px; } .buy-sec b{ font-size:.85rem; }
+
   .pn-in-head{ display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
   .pn-fotos{ display:flex; gap:6px; flex-wrap:wrap; } .pn-fotos label{ margin:0; text-transform:none; letter-spacing:0; } .pn-fotos .btn:not(.btn-primary){ color:var(--ink); }
 
@@ -5736,24 +5744,141 @@ function rxAyuno(el){
 function rxLocalDT(ts){ const d = new Date(ts); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,16); }
 
 /* ---------- 🛒 Lista de compras ---------- */
+/* Compras: agregar escribiendo, DICTANDO (micrófono), con foto de una lista o ticket, tocando
+   "lo de siempre" o eligiendo de las góndolas del súper (≈ 180 artículos en 11 góndolas, liviano: unos pocos KB). */
+const GONDOLAS = [
+ ["almacen","🥫 Almacén",["Yerba","Azúcar","Edulcorante","Sal","Aceite de girasol","Aceite de oliva","Vinagre","Arroz","Fideos secos","Harina 0000","Harina leudante","Polenta","Avena","Lentejas","Garbanzos","Porotos","Puré de tomate","Tomate en lata","Atún en lata","Caballa en lata","Sardinas en lata","Choclo en lata","Arvejas en lata","Mayonesa","Ketchup","Mostaza","Café","Té","Mate cocido","Cacao","Dulce de leche","Mermelada","Miel","Galletitas de agua","Galletitas dulces","Tostadas de arroz","Cereales","Almidón de mandioca","Caldo en cubos","Especias","Pan rallado","Levadura"]],
+ ["lacteos","🥛 Lácteos y huevos",["Leche entera","Leche descremada","Yogur","Yogur griego","Yogur bebible","Queso cremoso","Queso Por Salut","Queso de máquina","Queso rallado","Queso untable","Ricota","Manteca","Crema de leche","Huevos","Postre de leche","Flan"]],
+ ["carniceria","🥩 Carnicería y pollería",["Carne picada","Bife de nalga","Bife de chorizo","Milanesas de carne","Asado","Vacío","Osobuco","Pechuga de pollo","Pata muslo","Pollo entero","Milanesas de pollo","Bondiola","Chorizo","Morcilla","Hamburguesas","Pescado (filet)"]],
+ ["verduleria","🥕 Verdulería",["Papa","Batata","Cebolla","Ajo","Zanahoria","Zapallo","Zapallito","Calabaza","Tomate","Lechuga","Acelga","Espinaca","Morrón","Choclo","Mandioca","Remolacha","Repollo","Brócoli","Pepino","Perejil","Limón"]],
+ ["frutas","🍎 Frutas",["Banana","Manzana","Naranja","Mandarina","Pera","Durazno","Uvas","Frutillas","Kiwi","Ananá","Mamón","Pomelo","Palta","Sandía","Melón"]],
+ ["panaderia","🍞 Panadería",["Pan francés","Pan lactal","Pan lactal integral","Pan de masa madre","Pan de campo","Pan árabe","Pan de hamburguesa","Facturas","Medialunas","Bizcochitos","Tapas de empanadas","Tapas de tarta","Prepizzas","Bizcochuelo"]],
+ ["fiambreria","🥓 Fiambrería",["Jamón cocido","Jamón crudo","Paleta","Salame","Mortadela","Queso en fetas","Salchichas","Aceitunas"]],
+ ["bebidas","🥤 Bebidas",["Agua","Agua con gas / soda","Agua saborizada","Agua saborizada light","Gaseosa","Gaseosa light / zero","Jugo en polvo","Jugo exprimido / de caja","Amargo serrano","Bebida isotónica","Cerveza","Vino","Hielo"]],
+ ["congelados","🧊 Congelados",["Verduras congeladas","Papas congeladas","Hamburguesas congeladas","Medallones de pollo","Empanadas congeladas","Helado","Pescado congelado"]],
+ ["limpieza","🧽 Limpieza",["Lavandina","Detergente","Jabón en polvo","Jabón líquido para ropa","Suavizante","Limpiador de piso","Desengrasante","Esponjas","Trapo de piso","Rejilla","Bolsas de residuo","Papel de cocina","Servilletas","Insecticida","Fósforos / encendedor"]],
+ ["higiene","🧴 Higiene personal",["Papel higiénico","Jabón de tocador","Shampoo","Acondicionador","Pasta dental","Cepillo de dientes","Desodorante","Máquina de afeitar","Crema de afeitar","Protector solar","Repelente","Algodón","Pañuelos descartables"]],
+];
+RX.buyTab = RX.buyTab || "almacen"; RX.buyDict = null;
 function rxCompras(el){
   const its = RX.compras.items||[], pend = its.filter(x=>!x.ok);
-  const txt = "🛒 Lista de compras\n" + pend.map(x=>"• "+x.t).join("\n");
+  const enLista = new Set(pend.map(x=>rxNorm(x.t)));
+  const hist = Object.entries(RX.compras.hist||{}).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).filter(t=>!enLista.has(rxNorm(t))).slice(0,16);
+  const canDict = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  const txt = rxComprasTexto();
+  const G = GONDOLAS.find(g=>g[0]===RX.buyTab) || GONDOLAS[0];
   el.innerHTML = `<div class="today-panel">
-    <div class="rx-filter"><input type="text" id="rx-buy" placeholder="Agregar: yerba, dulce de leche, carne picada… (Enter)" autocomplete="off"></div>
-    <ul class="rx-buy">${its.map(x=>`<li class="${x.ok?"ok":""}"><label><input type="checkbox" data-rx="buyok" data-k="${rxEsc(x.id)}" ${x.ok?"checked":""}> <span>${rxEsc(x.t)}</span></label>${x.src?`<small>${rxEsc(x.src)}</small>`:""}<button class="btn btn-icon btn-ghost btn-sm" data-rx="buydel" data-k="${rxEsc(x.id)}" aria-label="Quitar">✕</button></li>`).join("") || `<li class="af-muted">La lista está vacía. Sumá cosas acá o desde una receta (🛒).</li>`}</ul>
+    <div class="buy-in">
+      <input type="text" id="rx-buy" placeholder="Escribí y Enter: arroz, costeleta, fideos tirabuzón…" autocomplete="off">
+      ${canDict?`<button class="btn ${RX.buyDict?"btn-danger":"btn-primary"}" data-rx="buydict">${RX.buyDict?"⏹ Listo":"🎤 Dictar"}</button>`:""}
+      <label class="btn">📷 Foto de lista o ticket<input type="file" accept="image/*" id="rx-buy-foto" hidden></label>
+    </div>
+    ${RX.buyDict?`<div class="buy-dict"><span class="rec-dot"></span> Te escucho… decí solo los productos, por ejemplo <b>"arroz, costeleta, fideos tirabuzón, queso rallado y jamón cocido"</b>. <span id="buy-dict-txt"></span></div>`:""}
+    ${RX.busy==="buyfoto"?`<div class="af-busy"><span class="af-spin"></span><span>Leyendo la lista…</span></div>`:""}
+    ${RX.err?`<div class="af-err">${rxEsc(RX.err)}</div>`:""}
+    ${hist.length?`<div class="buy-sec"><b>⭐ Lo de siempre</b><div class="pl-chips">${hist.map(t=>`<button class="chip filter-chip" data-rx="buyadd" data-v="${rxEsc(t)}">＋ ${rxEsc(t)}</button>`).join("")}</div></div>`:""}
+    ${pend.length?`<div class="buy-hint">${pend.length} producto${pend.length===1?"":"s"} · ordenados por góndola</div>`:""}
+    ${rxComprasAgrupadas(its).map(g=>`<div class="buy-g"><b>${g.n}</b><ul class="rx-buy">${g.its.map(x=>`<li class="${x.ok?"ok":""}"><label><input type="checkbox" data-rx="buyok" data-k="${rxEsc(x.id)}" ${x.ok?"checked":""}> <span>${rxEsc(x.t)}</span></label>${x.src?`<small>${rxEsc(x.src)}</small>`:""}<button class="btn btn-icon btn-ghost btn-sm" data-rx="buydel" data-k="${rxEsc(x.id)}" aria-label="Quitar">✕</button></li>`).join("")}</ul></div>`).join("") || `<p class="af-muted">La lista está vacía: dictá, sacá una foto o tocá artículos de las góndolas de abajo.</p>`}
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
       <button class="btn btn-sm" data-rx="buycopy" ${pend.length?"":"disabled"}>📋 Copiar lista</button>
-      ${pend.length?`<a class="btn btn-sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">💬 Mandar por WhatsApp</a>`:""}
+      ${pend.length?`<a class="btn btn-sm btn-primary" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">💬 Mandar por WhatsApp</a>`:""}
       <button class="btn btn-sm btn-ghost" data-rx="buyclean" ${its.some(x=>x.ok)?"":"disabled"}>Sacar los tildados</button>
-    </div></div>`;
+      ${its.length?`<button class="btn btn-sm btn-ghost btn-danger" data-rx="buyvaciar">Vaciar lista</button>`:""}
+    </div></div>
+  <div class="today-panel">
+    <h3 class="pg-h3" style="margin-top:0;">🏪 Góndolas del súper · tocá para sumar (y de nuevo para sacar)</h3>
+    <div class="mq-tabs">${GONDOLAS.map(g=>`<button class="mq-tab ${g[0]===G[0]?"on":""}" data-rx="buytab" data-k="${g[0]}">${g[1]}</button>`).join("")}</div>
+    <div class="pl-chips">${G[2].map(t=>`<button class="chip filter-chip ${enLista.has(rxNorm(t))?"on":""}" data-rx="buytog" data-v="${rxEsc(t)}">${enLista.has(rxNorm(t))?"✓ ":""}${rxEsc(t)}</button>`).join("")}</div>
+  </div>`;
   const b = document.getElementById("rx-buy");
-  if(b) b.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); const v = b.value.trim(); if(!v) return; rxAddCompras(v.split(/\s*[,;]\s*/).filter(Boolean), ""); const n = document.getElementById("rx-buy"); if(n) n.focus(); } };
+  if(b) b.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); const v = b.value.trim(); if(!v) return; rxAddCompras(rxSplitCompras(v), ""); const n = document.getElementById("rx-buy"); if(n) n.focus(); } };
+  const f = document.getElementById("rx-buy-foto");
+  if(f) f.onchange = ()=>{ const fl = f.files && f.files[0]; f.value = ""; if(fl) rxCompraFoto(fl); };
 }
+// Ayuda memoria: solo el NOMBRE del producto (la cantidad la decide cada uno en el súper)
+const CANT_RE = /^(?:\d+(?:[.,]\d+)?|un|una|uno|unos|unas|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|doce|media|medio|algo|un poco)\s*(?:(?:kilos?|kg|gramos?|grs?|g|litros?|lts?|l|cc|paquetes?|paq|cajas?|latas?|botellas?|bolsas?|sobres?|potes?|docenas?|unidades?|u|frascos?|maples?|atados?|cuartos?|fetas?)\s*)?(?:de\s+)?/i;
+const PROD_FIX = { "rayado":"rallado", "tirabuson":"tirabuzón", "tirabuzon":"tirabuzón", "costeletas":"costeleta", "fideo ":"fideos ", "jamon":"jamón", "limon":"limón", "melon":"melón", "azucar":"azúcar", "atun":"atún", "jabon":"jabón", "cafe\\b":"café", "pure ":"puré " };
+function rxLimpiarProd(s){
+  let t = String(s||"").trim().replace(/\s+/g," ");
+  for(let i=0;i<2;i++) t = t.replace(CANT_RE, "").trim();
+  Object.entries(PROD_FIX).forEach(([a,b])=>{ t = (t+" ").replace(new RegExp(a,"gi"), b).trim(); });
+  return t ? t.charAt(0).toUpperCase()+t.slice(1) : "";
+}
+function rxSplitCompras(txt){
+  return String(txt||"").replace(/^\s*(anot[aá]|agreg[aá]|sum[aá]|compr[aá]r?|necesito|falta[n]?|traer)\s*/i,"")
+    .split(/\s*(?:,|;|\.|\by\b|\be\b|\bcoma\b|\bpunto\b|\botro\b|\botra\b)\s*/i).map(rxLimpiarProd).filter(s=>s.length>1);
+}
+// Góndola de cada producto (para ordenar la lista y el mensaje de WhatsApp)
+const GONDOLA_KEYS = {
+  almacen:["fideo","tirabuz","spaghetti","tallarin","mostachol","moñito","ñoqui","arroz","harina","polenta","avena","azucar","yerba","sal","aceite","vinagre","lenteja","garbanzo","poroto","tomate en lata","pure de tomate","salsa","atun","caballa","sardina","choclo en lata","arveja","mayonesa","ketchup","mostaza","cafe","te ","mate cocido","cacao","dulce de leche","mermelada","miel","galletita","tostada","cereal","almidon","caldo","especia","oregano","pimienta","pan rallado","levadura","edulcorante","maicena","gelatina","bizcochuelo en polvo"],
+  lacteos:["leche","yogur","queso","ricota","manteca","crema","huevo","postre","flan","quesillo","cuartirolo"],
+  carniceria:["carne","costeleta","costilla","bife","nalga","peceto","cuadrada","lomo","entraña","matambre","vacio","asado","osobuco","picada","milanesa","pollo","pechuga","pata","muslo","alita","cerdo","bondiola","chorizo","morcilla","hamburguesa","pescado","merluza","filet","mondongo","hígado","higado","chuleta"],
+  verduleria:["papa","batata","cebolla","ajo","zanahoria","zapallo","calabaza","tomate","lechuga","acelga","espinaca","morron","pimiento","choclo","mandioca","remolacha","repollo","brocoli","pepino","perejil","limon","verdeo","puerro","apio","berenjena","rucula","radicheta"],
+  frutas:["banana","manzana","naranja","mandarina","pera","durazno","uva","frutilla","kiwi","anana","mamon","pomelo","palta","sandia","melon","ciruela","mango"],
+  panaderia:["pan","factura","medialuna","bizcochito","tapa","prepizza","pizza","bizcochuelo","budin","grisin"],
+  fiambreria:["jamon","paleta","salame","mortadela","fiambre","salchicha","aceituna","bondiola fet"],
+  bebidas:["agua","soda","gaseosa","coca","jugo","amargo","cerveza","vino","isotonic","hielo","fernet","sprite","pepsi","levite"],
+  congelados:["congelad","helado","medallon","nugget"],
+  limpieza:["lavandina","detergente","jabon en polvo","jabon liquido para ropa","suavizante","limpiador","desengrasante","esponja","trapo","rejilla","bolsa","papel de cocina","rollo de cocina","servilleta","insecticida","fosforo","encendedor","virulana","escoba","lustramuebles"],
+  higiene:["papel higienico","jabon de tocador","jabon","shampoo","champu","acondicionador","pasta dental","dentifrico","cepillo","desodorante","afeitar","protector solar","repelente","algodon","pañuelo","toallita","hisopo"],
+};
+function rxGondolaDe(t){
+  const n = " "+rxNorm(t)+" ";
+  for(const g of GONDOLAS) if(g[2].some(x=>rxNorm(x)===n.trim())) return g[0];
+  let best = null, len = 0;
+  Object.entries(GONDOLA_KEYS).forEach(([g,ks])=> ks.forEach(k=>{ const kk = rxNorm(k); if(n.includes(kk) && kk.length>len){ best = g; len = kk.length; } }));
+  return best || "otros";
+}
+function rxComprasAgrupadas(items){
+  const grupos = GONDOLAS.map(g=>({ k:g[0], n:g[1], its:[] })).concat([{ k:"otros", n:"📦 Otros", its:[] }]);
+  items.forEach(x=>{ const g = grupos.find(gr=>gr.k===rxGondolaDe(x.t)); g.its.push(x); });
+  grupos.forEach(g=> g.its.sort((a,b)=> a.t.localeCompare(b.t, "es")));
+  return grupos.filter(g=>g.its.length);
+}
+function rxComprasTexto(){
+  const pend = (RX.compras.items||[]).filter(x=>!x.ok), grupos = rxComprasAgrupadas(pend);
+  const f = new Date().toLocaleDateString("es-AR",{ weekday:"long", day:"numeric", month:"numeric" });
+  return `🛒 *LISTA DE COMPRAS* · ${f}\n` + grupos.map(g=>`\n*${g.n}*\n` + g.its.map(x=>`☐ ${x.t}`).join("\n")).join("\n") + `\n\n_${pend.length} productos · Entrenador Personal_`;
+}
+function rxDictCompras(){
+  if(RX.buyDict){ try{ RX.buyDict.stop(); }catch(_){} return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if(!SR) return;
+  const r = new SR(); r.lang = "es-AR"; r.continuous = true; r.interimResults = true;
+  r.onresult = e=>{ let interim = "";
+    for(let i=e.resultIndex;i<e.results.length;i++){ const t = e.results[i][0].transcript;
+      if(e.results[i].isFinal){ const n = rxAddCompras(rxSplitCompras(t), "Dictado"); if(n) toast(`🎤 ${n} a la lista`); } else interim += t; }
+    const s = document.getElementById("buy-dict-txt"); if(s) s.textContent = interim ? "“"+interim+"”" : ""; };
+  r.onend = ()=>{ RX.buyDict = null; renderAlimentacion(); };
+  r.onerror = ev=>{ if(ev.error==="not-allowed") toast("Dale permiso al micrófono para dictar"); };
+  RX.buyDict = r; try{ r.start(); }catch(_){ RX.buyDict = null; }
+  renderAlimentacion();
+}
+async function rxCompraFoto(file){
+  if(!aiOn() || !aiImgOn()){ RX.err = "Para leer la foto falta la clave de Gemini: 💬 Nutri IA → Motor de IA."; return renderAlimentacion(); }
+  RX.busy = "buyfoto"; RX.err = ""; renderAlimentacion();
+  try{
+    const r = await aiJSON(`La foto es una lista de compras escrita a mano, un ticket del súper o productos. Listá cada artículo SOLO con el nombre del producto, SIN cantidades, en español de Argentina. Respondé SOLO JSON: {"items":["Papa","Yerba","Fideos tirabuzón"]}`, { images:[file] });
+    const its = (r && r.items || []).map(x=> rxLimpiarProd(typeof x==="string" ? x : (x && (x.n||x.nombre)) || "")).filter(Boolean);
+    const n = rxAddCompras(its, "Foto"); toast(n ? `📷 ${n} artículos a la lista` : "No encontré artículos nuevos");
+  }catch(e){ RX.err = aiErrMsg(e); }
+  finally{ RX.busy = false; renderAlimentacion(); }
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest('[data-rx="buydict"],[data-rx="buytab"],[data-rx="buytog"],[data-rx="buyadd"],[data-rx="buyvaciar"]'); if(!b) return;
+  const a = b.dataset.rx;
+  if(a==="buydict") return rxDictCompras();
+  if(a==="buyvaciar"){ if(!confirm("¿Vaciar toda la lista de compras?")) return; RX.compras = Object.assign({}, RX.compras, { items:[] }); rxSaveCfg("compras"); return renderAlimentacion(); }
+  if(a==="buytab"){ RX.buyTab = b.dataset.k; return renderAlimentacion(); }
+  if(a==="buyadd"){ rxAddCompras([b.dataset.v], ""); return; }
+  if(a==="buytog"){ const v = b.dataset.v, its = RX.compras.items||[], ex = its.find(x=>!x.ok && rxNorm(x.t)===rxNorm(v));
+    if(ex){ RX.compras = Object.assign({}, RX.compras, { items: its.filter(x=>x!==ex) }); rxSaveCfg("compras"); return renderAlimentacion(); }
+    rxAddCompras([v], "Góndola"); }
+});
 function rxAddCompras(list, src){
   const have = new Set((RX.compras.items||[]).filter(x=>!x.ok).map(x=>rxNorm(x.t)));
   const add = list.filter(t=>t && !have.has(rxNorm(t))).map(t=>({ id:aliUid(), t, ok:false, src }));
-  RX.compras = { items:(RX.compras.items||[]).concat(add) }; rxSaveCfg("compras"); renderAlimentacion(); return add.length;
+  const hist = Object.assign({}, RX.compras.hist||{}); add.forEach(x=>{ hist[x.t] = (hist[x.t]||0) + 1; });
+  RX.compras = Object.assign({}, RX.compras, { items:(RX.compras.items||[]).concat(add), hist }); rxSaveCfg("compras"); renderAlimentacion(); return add.length;
 }
 
 /* ---------- 💬 Nutri IA (como el NutriChatBot de Fastic, pero con TUS datos) ---------- */
@@ -5837,7 +5962,7 @@ document.addEventListener("change", e=>{
   const t = e.target, ds = t && t.dataset; if(!ds) return;
   if(ds.rx==="porc"){ RX.porc[ds.k] = +t.value; renderAlimentacion(); }
   if(ds.rxo){ const S = ds.w==="armo" ? RX.armo : RX.hel; S[ds.rxo] = t.value; }
-  if(ds.rx==="buyok"){ RX.compras = { items:(RX.compras.items||[]).map(x=> x.id===ds.k ? Object.assign({}, x, { ok:t.checked }) : x) }; rxSaveCfg("compras"); renderAlimentacion(); }
+  if(ds.rx==="buyok"){ RX.compras = { hist:RX.compras.hist||{}, items:(RX.compras.items||[]).map(x=> x.id===ds.k ? Object.assign({}, x, { ok:t.checked }) : x) }; rxSaveCfg("compras"); renderAlimentacion(); }
 });
 document.addEventListener("click", async e=>{
   const b = e.target.closest && e.target.closest("[data-rx]"); if(!b || b.tagName==="SELECT" || b.type==="checkbox") return;
@@ -5875,9 +6000,9 @@ document.addEventListener("click", async e=>{
   if(a==="ayini"){ RX.ayuno = Object.assign({}, RX.ayuno, { start:Date.now() }); rxSaveCfg("ayuno"); return renderAlimentacion(); }
   if(a==="ayfin"){ const A = RX.ayuno; RX.ayuno = Object.assign({}, A, { start:null, hist:(A.hist||[]).concat([{ s:A.start, e:Date.now(), plan:A.plan }]).slice(-30) }); rxSaveCfg("ayuno");
     toast("¡Ayuno terminado! Cortalo con proteína y verdura."); return renderAlimentacion(); }
-  if(a==="buydel"){ RX.compras = { items:(RX.compras.items||[]).filter(x=>x.id!==k) }; rxSaveCfg("compras"); return renderAlimentacion(); }
-  if(a==="buyclean"){ RX.compras = { items:(RX.compras.items||[]).filter(x=>!x.ok) }; rxSaveCfg("compras"); return renderAlimentacion(); }
-  if(a==="buycopy"){ const txt = (RX.compras.items||[]).filter(x=>!x.ok).map(x=>"• "+x.t).join("\n");
+  if(a==="buydel"){ RX.compras = { hist:RX.compras.hist||{}, items:(RX.compras.items||[]).filter(x=>x.id!==k) }; rxSaveCfg("compras"); return renderAlimentacion(); }
+  if(a==="buyclean"){ RX.compras = { hist:RX.compras.hist||{}, items:(RX.compras.items||[]).filter(x=>!x.ok) }; rxSaveCfg("compras"); return renderAlimentacion(); }
+  if(a==="buycopy"){ const txt = rxComprasTexto();
     try{ await navigator.clipboard.writeText(txt); toast("📋 Lista copiada"); }catch(_){ toast("No se pudo copiar"); } return; }
   if(a==="ask"){ const v = k || (document.getElementById("rx-ask")||{}).value; return rxAsk(v); }
   if(a==="chatclear"){ RX.chat = []; return renderAlimentacion(); }
@@ -5901,7 +6026,7 @@ setInterval(()=>{ if(state.view==="alimentacion" && RX.sub==="ayuno" && RX.ayuno
     if(db){ clearInterval(w);
       const rer = ()=>{ if(state.view==="alimentacion" && !rxBusyFocus() && RX.sub!=="registro") renderAlimentacion(); };
       db.doc("alimentacion_cfg/ayuno").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v) RX.ayuno = Object.assign({ plan:16, start:null, hist:[] }, v); rer(); }, ()=>{});
-      db.doc("alimentacion_cfg/compras").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v) RX.compras = { items:(v.items||[]).slice() }; rer(); }, ()=>{});
+      db.doc("alimentacion_cfg/compras").onSnapshot(s=>{ const v = s && s.exists && s.data(); if(v) RX.compras = { items:(v.items||[]).slice(), hist:Object.assign({}, v.hist||{}) }; rer(); }, ()=>{});
       db.collection("recetas_mias").onSnapshot(snap=>{ const t = {}; snap.docs.forEach(x=>{ t[x.id] = x.data(); }); RX.mias = t; rer(); }, ()=>{});
     }
     else if(tries>(window.__STANDALONE__?1e9:40)) clearInterval(w);
