@@ -820,6 +820,9 @@
   .pn-hora{ font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ink) !important; }
   @media (max-width:760px){ .zn-regs{ grid-template-columns:1fr 1fr; } .zn-cats{ grid-template-columns:1fr; } .af-item{ flex-wrap:wrap; } .af-item-main{ flex:1 1 calc(100% - 60px); } .af-item-n{ white-space:normal; } .af-item .pl-step{ margin-left:50px; } }
   /* ---------- Armar plato · plan de comidas ---------- */
+  .pn-in-head{ display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+  .pn-fotos{ display:flex; gap:6px; flex-wrap:wrap; } .pn-fotos label{ margin:0; text-transform:none; letter-spacing:0; } .pn-fotos .btn:not(.btn-primary){ color:var(--ink); }
+
   .pl-start{ width:100%; display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; text-align:left; padding:14px 16px; margin-bottom:14px; border:2px solid var(--accent); border-radius:12px; background:var(--accent-soft); color:var(--ink); cursor:pointer; font:inherit; }
   .pl-start span{ grid-row:1/3; font-size:2rem; } .pl-start b{ font-family:"Rajdhani",sans-serif; font-size:1.25rem; } .pl-start small{ color:var(--ink-2); font-size:.8rem; }
   .pl-box{ border:1.5px solid var(--accent); border-radius:12px; padding:14px; margin-bottom:16px; background:var(--surface); box-shadow:var(--shadow); }
@@ -4850,7 +4853,7 @@ function aliRenderRegistro(el){
         <small>${aiOn&&imgOn?"La IA ve qué es y te pregunta qué hacer: registrarlo, una receta o un plan de comidas":"Primero cargá la clave de Gemini en 💬 Nutri IA → Motor de IA"}</small>
         <div class="af-photo-btns">
           <label class="btn btn-primary btn-sm">📷 Cámara<input type="file" accept="image/*" capture="environment" id="af-file" hidden></label>
-          <label class="btn btn-sm">🖼️ Galería<input type="file" accept="image/*" id="af-file2" hidden></label>
+          <label class="btn btn-sm">🖼️ Galería (1 a 5 fotos)<input type="file" accept="image/*" multiple id="af-file2" hidden></label>
         </div>
       </div>
       <div class="af-text">
@@ -4908,18 +4911,18 @@ function aliDraftCard(dr){
       ${dr.thumb?`<img src="${aliEsc(dr.thumb)}" alt="" class="af-draft-img">`:""}
       <div style="flex:1;min-width:0;">
         <div class="pg-kicker">${dr.src==="foto"?"Estimado de la foto":dr.src==="texto"?"Estimado de tu descripción":"Revisá y agregá"}</div>
-        <h3 style="margin:2px 0;">${aliEsc(dr.titulo||"Tu comida")}</h3>
+        <h3 style="margin:2px 0;">${aliEsc(dr.titulo||(dr.tipo==="plato"?"Tu comida":"Tus alimentos"))}</h3>
         <div class="af-draft-tot" ${dr.src==="foto" && dr.tipo && dr.tipo!=="plato" && !dr.verTabla ? 'hidden' : ''}><b>${aliR(t.kcal)} kcal</b> · P ${aliR(t.p)} g · C ${aliR(t.c)} g · G ${aliR(t.f)} g
           ${dr.salud?`<span class="af-score s${dr.salud>=7?"g":dr.salud>=4?"m":"b"}" title="Qué tan saludable es, del 1 al 10">💚 ${aliR(dr.salud)}/10</span>`:""}</div>
         ${dr.nota?`<div class="af-tip">💡 ${aliEsc(dr.nota)}</div>`:""}
       </div>
     </div>
     ${dr.src==="foto" ? `<div class="af-que">
-      <b>${dr.tipo==="plato" ? "¿Qué querés hacer con este plato?" : dr.tipo==="heladera" ? "Veo una heladera / alacena. ¿Qué querés hacer?" : "Veo alimentos sueltos. ¿Qué querés hacer?"}</b>
+      <b>${dr.tipo==="plato" ? "¿Qué querés hacer con este plato?" : dr.tipo==="heladera" ? "Veo una heladera / alacena. ¿Qué querés hacer?" : `Veo ${dr.nFotos>1?"en las "+dr.nFotos+" fotos ":""}estos alimentos: ${aliEsc((dr.ingredientes||[]).slice(0,12).join(", "))}${(dr.ingredientes||[]).length>12?"…":""}. ¿Qué querés hacer?`}</b>
       <div class="pl-chips">
         ${dr.tipo==="plato" ? `<span class="chip on">📝 Registrarlo (abajo)</span>` : ""}
         <button class="chip filter-chip" data-ali="foto-receta">👨‍🍳 Receta con esto (+ video)</button>
-        <button class="chip filter-chip" data-ali="foto-plan">📅 Plan de comidas de varios días</button>
+        <button class="chip filter-chip" data-ali="foto-plan">📅 Plan de comidas (día o semana)</button>
         <button class="chip filter-chip" data-ali="foto-hel">🍳 3 ideas para cocinar ya</button>
         <button class="chip filter-chip" data-ali="foto-org">🗓️ Organigrama de hoy</button>
         ${dr.tipo!=="plato" && !dr.verTabla ? `<button class="chip filter-chip" data-ali="foto-tabla">📝 Registrarlo igual</button>` : ""}
@@ -5041,7 +5044,8 @@ function aliTrendBox(d){
 function aliUltimoPeso(){ const k = Object.keys(aliData).filter(x=>aliData[x].peso).sort().pop(); return k ? aliData[k].peso : ""; }
 
 /* ---------- IA: foto o texto → lista de alimentos ---------- */
-async function aliAnalyze({file, texto, correccion}){
+async function aliAnalyze({file, files, texto, correccion}){
+  const varias = files && files.length > 1;
   await aliGetSample();
   if(!aiOn()){ aliUI.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
   if(aliUI.abort) aliUI.abort.abort();
@@ -5051,7 +5055,7 @@ async function aliAnalyze({file, texto, correccion}){
   let thumb = prev && prev.thumb || null;
   if(file && !correccion){ try{ thumb = await aliThumb(file); }catch(_){ thumb = null; } }
   renderAlimentacion();
-  const prompt = `Sos nutricionista deportivo en Argentina. ${file?"Te paso una FOTO de una comida.":""}${texto?` El usuario la describe así: "${texto}".`:""}
+  const prompt = `Sos nutricionista deportivo en Argentina. ${varias?`Te paso ${files.length} FOTOS de distintos alimentos o grupos de alimentos del usuario: juntá todo lo que se ve en una sola lista de ingredientes (tipo "alimentos").`:file?"Te paso una FOTO de una comida.":""}${texto?` El usuario la describe así: "${texto}".`:""}
 Identificá cada alimento ${file?"visible en la foto":"mencionado"} (separá lo que se pueda: ej. milanesa / puré / ensalada), estimá la porción en gramos (o ml para bebidas) y calculá los valores nutricionales de ESA porción.
 Tené en cuenta comidas y porciones típicas argentinas (milanesa, empanadas, asado, facturas, mate, guisos, etc.) y el tamaño del plato o cubiertos para estimar cantidades. Si dudás, elegí lo más probable y bajá "conf". Contá el aceite o aderezo visible.
 ${correccion?`Estimación anterior: ${JSON.stringify((prev&&prev.items||[]).map(x=>({n:x.n,g:x.g,kcal:x.kcal,p:x.p,c:x.c,f:x.f})))}
@@ -5061,13 +5065,13 @@ CORRECCIÓN del usuario: "${correccion}". Rehacé la estimación aplicando la co
 Si no hay comida: {"titulo":"","items":[],"nota":"No veo comida en la foto"}.`;
   try{
     const opts = { signal: ac.signal, onText: ()=>{ const t = document.getElementById("af-busy-txt"); if(t) t.textContent = "Calculando porciones y macros…"; } };
-    if(file) opts.images = [file];
+    if(files && files.length) opts.images = files; else if(file) opts.images = [file];
     const res = await aiJSON(prompt, opts);
     if(ac.signal.aborted) return;
     const its = (res && Array.isArray(res.items) ? res.items : []).map(aliDraftItem);
     aliUI.draft = { src: file||(prev&&prev.src==="foto"&&correccion) ? "foto" : "texto", thumb, titulo: res&&res.titulo || "", nota: res&&res.nota || "",
-      tipo: (res && /heladera|alimentos/.test(res.tipo||"")) ? (/heladera/.test(res.tipo)?"heladera":"alimentos") : "plato",
-      ingredientes: (res && Array.isArray(res.ingredientes) ? res.ingredientes : []).map(String),
+      tipo: varias ? "alimentos" : (res && /heladera|alimentos/.test(res.tipo||"")) ? (/heladera/.test(res.tipo)?"heladera":"alimentos") : "plato", nFotos: files ? files.length : 1,
+      ingredientes: (res && Array.isArray(res.ingredientes) ? res.ingredientes : []).map(x=> typeof x==="string" ? x : x && (x.n||x.nombre) ? (x.n||x.nombre)+(x.cant?` (${x.cant})`:"") : "").filter(Boolean),
       salud: res&&res.salud, items: its, meal: prev&&prev.meal || aliMealNow(), texto, file: file || (prev&&prev.file) || null };
     if(!its.length && !(aliUI.draft.ingredientes||[]).length) aliUI.err = (res&&res.nota) || "No encontré alimentos. Probá otra foto o describilo.";
     const desc = document.getElementById("af-desc"); if(desc && texto) desc.value = "";
@@ -5108,9 +5112,9 @@ async function aliSaveCfg(){
 /* ---------- Eventos ---------- */
 function aliWire(){
   const fi = document.getElementById("af-file");
-  [fi, document.getElementById("af-file2")].forEach(inp=>{ if(inp) inp.onchange = ()=>{ const f = inp.files && inp.files[0]; inp.value = "";
-    if(!f) return; if(!aiOn() || !aiImgOn()){ aliUI.err = "Para analizar fotos falta la clave de Gemini: andá a 💬 Nutri IA → Motor de IA, pegala y tocá Guardar."; return renderAlimentacion(); }
-    aliAnalyze({ file:f, texto:(document.getElementById("af-desc")||{}).value||"" }); }; });
+  [fi, document.getElementById("af-file2")].forEach(inp=>{ if(inp) inp.onchange = ()=>{ const fs = [...(inp.files||[])].slice(0,5); inp.value = "";
+    if(!fs.length) return; if(!aiOn() || !aiImgOn()){ aliUI.err = "Para analizar fotos falta la clave de Gemini: andá a 💬 Nutri IA → Motor de IA, pegala y tocá Guardar."; return renderAlimentacion(); }
+    aliAnalyze({ file:fs[0], files:fs, texto:(document.getElementById("af-desc")||{}).value||"" }); }; });
   const dz = document.getElementById("af-drop");
   if(dz && aiImgOn()){
     dz.ondragover = e=>{ e.preventDefault(); dz.classList.add("over"); };
@@ -5604,14 +5608,16 @@ async function rxGenerar(modo, files){
   }catch(e){ RX.err = aiErrMsg(e); }
   finally{ if(RX.abort===ac){ RX.busy = false; RX.abort = null; } renderAlimentacion(); }
 }
-async function rxIdentificar(files){ // foto de productos → ingredientes (Yo armo)
+async function rxIdentificar(files, who){ // foto(s) de productos → ingredientes (Yo armo / Plan)
+  const S = rxS(who || "armo");
   if(!aiOn()){ RX.err = aiErrMsg({code:"no_ai"}); return renderAlimentacion(); }
-  const ac = new AbortController(); RX.abort = ac; RX.busy = "foto"; RX.err = ""; renderAlimentacion();
+  const ac = new AbortController(); RX.abort = ac; RX.busy = "foto"; RX.err = ""; RX.fotosN = files.length; renderAlimentacion();
   try{
     const res = await aiJSON(`Mirá la(s) foto(s): son productos o ingredientes de cocina de un usuario argentino. Listá cada ingrediente con su cantidad aproximada si se ve (paquete de 1 kg, 6 huevos, etc.). Respondé SOLO JSON: {"ingredientes":[{"n":"nombre del ingrediente","cant":"cantidad aprox o vacío"}]}`, { images:files, signal:ac.signal });
-    const have = new Set(RX.armo.ings.map(x=>rxNorm(x.n)));
-    (res && res.ingredientes || []).forEach(x=>{ const n = (x.n||"").trim(); if(n && !have.has(rxNorm(n))){ RX.armo.ings.push({ n, cant:x.cant||"" }); have.add(rxNorm(n)); } });
+    const have = new Set(S.ings.map(x=>rxNorm(x.n))); let nuevos = 0;
+    (res && res.ingredientes || []).forEach(x=>{ const n = (x.n||"").trim(); if(n && !have.has(rxNorm(n))){ S.ings.push({ n, cant:x.cant||"" }); have.add(rxNorm(n)); nuevos++; } });
     if(!(res && res.ingredientes && res.ingredientes.length)) RX.err = "No reconocí productos en la foto.";
+    else toast(`📷 ${nuevos} ingrediente${nuevos===1?"":"s"} reconocido${nuevos===1?"":"s"} en ${files.length} foto${files.length===1?"":"s"}`);
   }catch(e){ RX.err = aiErrMsg(e); }
   finally{ if(RX.abort===ac){ RX.busy = false; RX.abort = null; } renderAlimentacion(); }
 }
@@ -5627,7 +5633,7 @@ function rxOpts(S, who){
     <label>Objetivo<select data-rxo="obj" data-w="hel">${["rendidora y sana","alta en proteína (post entreno)","liviana (bajar grasa)","antojo / darse un gusto"].map(v=>`<option ${S.obj===v?"selected":""}>${v}</option>`).join("")}</select></label>`:""}
   </div>`;
 }
-function rxBusyBox(){ return RX.busy ? `<div class="af-busy"><span class="af-spin"></span><span>${RX.busy==="foto"?"Mirando los productos…":RX.busy==="hel"?"Mirando la heladera y pensando qué cocinar…":"Armando tu receta…"}</span><button class="btn btn-sm btn-ghost" data-rx="cancel">Cancelar</button></div>` : ""; }
+function rxBusyBox(){ return RX.busy ? `<div class="af-busy"><span class="af-spin"></span><span>${RX.busy==="foto"?`Mirando ${RX.fotosN>1?"las "+RX.fotosN+" fotos":"los productos"}…`:RX.busy==="hel"?"Mirando la heladera y pensando qué cocinar…":"Armando tu receta…"}</span><button class="btn btn-sm btn-ghost" data-rx="cancel">Cancelar</button></div>` : ""; }
 
 /* ---------- 🧊 Mi heladera ---------- */
 function rxHeladera(el){
@@ -6526,7 +6532,11 @@ function rxPlan(el){
   const chipsSel = (list, key)=> `<div class="pl-chips">${list.concat(S.extra[key]||[]).map(v=>`<button class="chip filter-chip ${S[key].includes(v)?"on":""}" data-pn="tog" data-g="${key}" data-v="${aliEsc(v)}">${aliEsc(v)}</button>`).join("")}<input type="text" class="pn-otro" data-g="${key}" placeholder="+ otro (Enter)"></div>`;
   el.innerHTML = `<div class="today-panel">
     <h3 class="pg-h3" style="margin-top:0;">📅 Plan de comidas · con lo que tenés y a tu gusto</h3>
-    <div><label>Lo que tenés (de la foto, de la heladera o escribilo)</label>${rxChips(S.ings,"plan")}</div>
+    <div class="pn-in-head"><label style="margin:0;">Lo que tenés (escribilo o cargá fotos)</label>
+      <div class="pn-fotos"><label class="btn btn-sm btn-primary">📷 Cámara<input type="file" accept="image/*" capture="environment" id="pn-cam" hidden></label>
+      <label class="btn btn-sm">🖼️ Fotos guardadas (hasta 5)<input type="file" accept="image/*" multiple id="pn-gal" hidden></label></div></div>
+    ${rxChips(S.ings,"plan")}
+    ${RX.busy==="foto"?rxBusyBox():""}
     <div class="rx-opts">
       <label>Región<select data-pno="region">${Object.entries(REGIONES).map(([k,v])=>`<option value="${k}" ${reg===k?"selected":""}>${v.n}</option>`).join("")}</select></label>
       <label>Días<select data-pno="dias">${[1,2,3,4,5,6,7].map(n=>`<option ${String(n)===S.dias?"selected":""}>${n}</option>`).join("")}</select></label>
@@ -6547,6 +6557,9 @@ function rxPlan(el){
   </div>
   ${S.res ? rxPlanRes(S.res) : ""}`;
   rxWireChips(el);
+  ["pn-cam","pn-gal"].forEach(id=>{ const f = document.getElementById(id); if(f) f.onchange = ()=>{ const fs = [...(f.files||[])].slice(0,5); f.value = "";
+    if(!fs.length) return; if(!aiOn() || !aiImgOn()){ RX.err = "Para leer fotos falta la clave de Gemini: 💬 Nutri IA → Motor de IA."; return renderAlimentacion(); }
+    rxIdentificar(fs, "plan"); }; });
 }
 function rxPlanRes(R){
   const ico = { principal:"🍖", "acompañamiento":"🥗", bebida:"🥤", postre:"🍎" };
