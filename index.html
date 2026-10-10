@@ -616,7 +616,6 @@
   .mt-vgrid a{ width:var(--mt-ic); height:var(--mt-ic); border-radius:12px; overflow:hidden; display:block; }
   .mt-vgrid a:hover{ filter:brightness(1.1); }
   .mt-vgrid svg{ width:100%; height:100%; display:block; }
-  .mt-vgrid .mt-v-youtube{ grid-column:1 / span 2; justify-self:center; }
   @media (max-width:760px){ .mt-appsv{ --mt-ic:50px; } }
   .mt-btn:hover{ filter:brightness(1.1); }
   .media-tile .stat-foot{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -4146,16 +4145,18 @@ function mediaTileRadio(){
 // Iconos del cuadro Apps: cuadrados llenos del mismo tamaño que FM / TV / Facebook / Instagram
 const APPS_TILE_SVG = {
   spotify:'<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#1DB954"/><path d="M6.2 9.2c4-1.2 8.6-.8 11.8 1.2M6.9 12.6c3.3-.9 6.9-.5 9.7 1.1M7.6 15.8c2.6-.7 5.3-.4 7.6.9" stroke="#000" stroke-width="1.9" stroke-linecap="round" fill="none"/></svg>',
+  telefono:'<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#1E88E5"/><path d="M8.6 5.6l1.6 3.3c.2.5.1 1-.3 1.4l-1 1c.9 1.8 2.4 3.3 4.2 4.2l1-1c.4-.4.9-.5 1.4-.3l3.3 1.6c.5.2.8.8.6 1.3l-.4 1.5c-.2.7-.8 1.1-1.5 1.1C10.9 19.5 4.5 13.1 4.3 6.5c0-.7.4-1.3 1.1-1.5l1.5-.4c.6-.2 1.2.1 1.4.6z" fill="#fff"/></svg>',
   youtube:'<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#FF0000"/><path d="M9.5 7.8l7 4.2-7 4.2z" fill="#fff"/></svg>',
   whatsapp:'<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#25D366"/><path d="M12 4.6a7.3 7.3 0 00-6.3 11l-1 3.8 3.9-1a7.3 7.3 0 103.4-13.8z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.9 8.4c-.2 0-.5.1-.7.4-.2.3-.7.8-.7 1.8s.8 2 .9 2.2c.1.1 1.5 2.3 3.6 3.2 1.8.7 2.1.6 2.5.5.4 0 1.2-.5 1.4-1 .2-.5.2-.9.1-1l-.4-.2-1.5-.7c-.2-.1-.4-.1-.5.1l-.6.8c-.1.2-.3.2-.5.1s-.9-.4-1.7-1.1c-.6-.6-1.1-1.3-1.2-1.5-.1-.2 0-.3.1-.4l.4-.4.2-.4v-.4l-.7-1.6c-.2-.4-.3-.4-.5-.4z" fill="#fff"/></svg>'
 };
 function mediaTileApps(){
-  // Forma de V como el dibujo de Martin: Spotify arriba a la izquierda, WhatsApp arriba a la derecha, YouTube abajo al medio
-  const a = id=> APPS.find(x=>x.id===id);
+  // Como el dibujo de Martin: Spotify | WhatsApp arriba · Teléfono | YouTube abajo
+  // Teléfono: "tel:" abre la app Teléfono del celular (con su lista de llamadas / recientes).
+  const a = id=> id==="telefono" ? { id, name:"Teléfono (llamadas)", url:"tel:", tgt:"_self" } : APPS.find(x=>x.id===id);
   const link = id=>{ const x=a(id); return `<a class="mt-v-${id}" href="${x.url}" target="${x.tgt||"_blank"}" rel="noopener" title="${x.name}" aria-label="${x.name}">${APPS_TILE_SVG[id]}</a>`; };
   return `<div class="stat media-tile mt-appsv">
     <div class="stat-label">Apps</div>
-    <div class="mt-vgrid">${link("spotify")}${link("whatsapp")}${link("youtube")}</div></div>`;
+    <div class="mt-vgrid">${link("spotify")}${link("whatsapp")}${link("telefono")}${link("youtube")}</div></div>`;
 }
 function renderMedia(){
   const side = document.getElementById("media-side");
