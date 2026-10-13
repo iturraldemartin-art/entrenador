@@ -1745,6 +1745,11 @@ function fmtDateLong(dateStr){
   return dt.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});
 }
 function dowKeyFromDate(dt){ const j=dt.getDay(); return ["dom","lun","mar","mie","jue","vie","sab"][j]; }
+// Corrimiento de rutinas SOLO por una semana (fecha → rutina de qué día se hace). Pasada la fecha, todo vuelve solo a lo normal.
+// Semana del 12/10/2026: el lunes 12 fue feriado → mar hace la del lunes, mié la del martes, jue la del miércoles,
+// vie la del jueves, y la rutina del viernes se suprime. La planificación de la Semana NO se modifica.
+const PLAN_CORRIDO = { "2026-10-13":"lun", "2026-10-14":"mar", "2026-10-15":"mie", "2026-10-16":"jue" };
+function planDow(ds){ return PLAN_CORRIDO[ds] || dowKeyFromDate(dsToDate(ds)); }
 function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))); }
 
 /* ======================= STORAGE ADAPTER ======================= */
@@ -2635,7 +2640,7 @@ function applyTypedValues(draft, captured){
   });
 }
 function buildDayEditState(dateStr){
-  const dow = dowKeyFromDate(new Date(dateStr+"T00:00:00"));
+  const dow = planDow(dateStr);
   const existing = state.sessions[dateStr] || (state.futureSessions||{})[dateStr];
   let entries;
   if(existing){
@@ -2762,7 +2767,7 @@ function renderCalendario(){
   }
   for(let d=1; d<=daysInMonth; d++){
     const dt = new Date(y,m,d);
-    cells.push({d, other:false, dateStr: todayStr(dt), dow: dowKeyFromDate(dt)});
+    cells.push({d, other:false, dateStr: todayStr(dt), dow: planDow(todayStr(dt))});
   }
   let nextD = 1;
   while(cells.length % 7 !== 0){ cells.push({d: nextD++, other:true, dateStr:null}); }
@@ -3380,7 +3385,7 @@ function toast(msg){
 function dayDetailHtml(dateStr){
   const session = state.sessions[dateStr];
   const entries = (session && session.entries) || [];
-  const dow = dowKeyFromDate(new Date(dateStr+"T00:00:00"));
+  const dow = planDow(dateStr);
   const planItems = state.weekPlan[dow] || [];
   const tms = timerMsFor(dateStr);
   const head = `<div class="modal-head"><div><h2 style="text-transform:capitalize;">${fmtDateLong(dateStr)}</h2>${tms>=60000?`<div class="day-time">⏱ Tiempo de entreno: ${fmtDur(tms)}</div>`:""}`;
@@ -3694,6 +3699,7 @@ function dayEditorBody(d){
     <div class="today-panel-head">
       <div><h2>Entreno del día</h2></div>
     </div>
+    ${PLAN_CORRIDO[d.dateStr] ? `<div class="rules-note" style="border-left-color:#1E88E5;">🔁 <b>Semana corrida:</b> hoy toca la rutina del <b>${DOW_LABEL[PLAN_CORRIDO[d.dateStr]].toLowerCase()}</b>. Solo esta semana; el lunes 19 vuelve todo a lo normal.</div>` : ""}
     <div class="rules-note"><b>Regla de siempre:</b> movilidad de zona y calentamiento antes de empezar.</div>
     <div>${rows || `<p style="color:var(--ink-2);font-size:.88rem;margin:2px 0 14px;">Sin ejercicios para este día. Configurá el día en la pestaña Semana, o agregá uno acá.</p>
       <button class="btn" style="margin-top:4px;" data-action="day-add-blank">${ICON.plus} Agregar ejercicio</button>`}</div>
@@ -3958,8 +3964,8 @@ document.body.addEventListener("click", async (e)=>{
     // Lo que cambiaste en ejercicios (agregados, quitados, reemplazados, orden, series y reps) pasa a la
     // planificación de ese día de la semana, así la semana siguiente aparece igual. Solo si es el registro
     // más reciente de ese día de la semana: corregir un día viejo no pisa la rutina actual.
-    const dowSaved = dowKeyFromDate(dsToDate(dayDraft.dateStr));
-    const newerSameDow = Object.keys(state.sessions).some(d=> d>dayDraft.dateStr && dowKeyFromDate(dsToDate(d))===dowSaved && sessionHasWork(state.sessions[d]));
+    const dowSaved = planDow(dayDraft.dateStr);
+    const newerSameDow = Object.keys(state.sessions).some(d=> d>dayDraft.dateStr && planDow(d)===dowSaved && sessionHasWork(state.sessions[d]));
     let planMsg = "";
     if(!newerSameDow && dayDraft.entries.length){
       const newPlan = dayDraft.entries.map(en=>({ exerciseId:en.exerciseId, sets:Number(en.series)||3, reps:Number(en.reps)||10 }));
@@ -4656,7 +4662,7 @@ function monthComplianceHtml(y, m){
     const ds = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
     if(ds > t) break;
     const wd = dsToDate(ds).getDay(); if(wd<1 || wd>5) continue;
-    const dow = dowKeyFromDate(dsToDate(ds));
+    const dow = planDow(ds);
     const s = state.sessions[ds], has = sessionHasWork(s);
     if(has){ plan++; done++; continue; }
     if(!(state.weekPlan[dow]||[]).length) continue;
