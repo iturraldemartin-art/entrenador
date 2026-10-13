@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com https://i.ytimg.com https://api.smartworkout.app; media-src 'self' data: blob: https://api.smartworkout.app; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com https://i.ytimg.com https://api.smartworkout.app; media-src 'self' data: blob: https://api.smartworkout.app; connect-src 'self' https://api.github.com https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#16181a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -967,6 +967,22 @@
     .af-row{ grid-template-columns:repeat(3,minmax(0,1fr)); } .af-row > input:first-child{ grid-column:1/-1; } .af-row-h{ display:none; }
   }
   .idea-new textarea{ width:100%; min-height:84px; resize:vertical; font:inherit; font-size:.95rem; padding:10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink); }
+  .idea-acc{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+  .idea-acc .btn{ min-height:52px; font-size:1rem; font-weight:700; justify-content:center; }
+  .idea-undo{ width:100%; min-height:48px; justify-content:center; font-weight:700; }
+  .ver-list{ margin-top:8px; font-size:.86rem; } .ver-list summary{ cursor:pointer; color:var(--ink-2); padding:4px 0; }
+  .ver-list ul{ list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .ver-list li{ display:flex; align-items:center; gap:8px; justify-content:space-between; padding:7px 10px; border:1px solid var(--line,#333); border-radius:10px; }
+  .ver-list li div{ display:flex; flex-direction:column; min-width:0; } .ver-list small{ color:var(--ink-2); font-size:.74rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ped-head{ display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:.82rem; }
+  .ped-list{ list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .ped-item{ display:flex; align-items:center; gap:10px; padding:8px 10px; border:1px solid var(--line,#333); border-radius:10px; }
+  .ped-txt{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .ped-txt b{ font-size:.88rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ped-txt small{ color:var(--ink-2); font-size:.74rem; }
+  .ped-est{ font-size:.74rem; font-weight:700; padding:3px 8px; border-radius:20px; white-space:nowrap; }
+  .ped-est.pend{ background:rgba(255,193,7,.16); color:#e0a800; } .ped-est.proc{ background:rgba(30,136,229,.16); color:#4aa3f0; } .ped-est.ok{ background:rgba(46,160,67,.16); color:#3fb950; }
+  #ver-new{ position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:9999; display:flex; gap:8px; align-items:center; padding:10px 12px 10px 16px; border-radius:14px; background:var(--card,#222); border:1px solid var(--accent); box-shadow:0 8px 30px rgba(0,0,0,.35); font-size:.9rem; max-width:calc(100vw - 24px); }
   .idea-tools{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .idea-tools .btn{ min-height:44px; }
   .btn.rec-on{ background:var(--danger) !important; border-color:var(--danger) !important; color:#fff !important; animation:recPulse 1.2s infinite; }
@@ -2230,7 +2246,7 @@ const NAVS = [
   {id:"ejercicios", label:"Ejercicios"},
   {id:"progreso", label:"Progreso"},
   {id:"alimentacion", label:"Alimentación"},
-  {id:"guardar", label:"Guardar ideas"},
+  {id:"guardar", label:"Ideas y pedidos"},
 ];
 function renderNav(){
   const mk = (n)=>`<button class="navlink ${state.view===n.id?"active":""}" data-nav="${n.id}">${ICON[n.id]}<span>${n.label}</span></button>`;
@@ -3329,7 +3345,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v13";
+const APP_VERSION = "v15";
+const APP_BUILD = "2026-10-13b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7225,34 +7242,102 @@ async function ideasPut(it){ try{ const dbi = await ideasDb(); await new Promise
 async function ideasDel(id){ try{ const dbi = await ideasDb(); await new Promise(ok=>{ const tx=dbi.transaction("ideas","readwrite"); tx.objectStore("ideas").delete(id); tx.oncomplete=ok; tx.onerror=ok; }); }catch(_){} }
 function ideaFecha(id){ const d=new Date(Number(id.split("-")[0])); return d.toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"}); }
 function ideaAudioExt(mime){ return /mp4|m4a|aac/.test(mime||"") ? "m4a" : (/ogg/.test(mime||"") ? "ogg" : "webm"); }
+const GH_REPO = "iturraldemartin-art/entrenador";
+const Pedidos = { list:null, cargando:false, err:"" };
 function ideasPanelHtml(){
-  const pend = Ideas.list.filter(x=>!x.enviada);
   const canDict = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
   const canRec = !!(navigator.mediaDevices && window.MediaRecorder);
-  const esc = t=> String(t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const esc = t=> String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const notas = Ideas.list.filter(x=>!x.claude);
   return `<div class="today-panel guia">
-    <div class="guia-root">💡 GUARDAR IDEAS</div>
-    <p style="font-size:.86rem;color:var(--ink-2);margin:10px 0 10px;">Se te ocurre algo en el gym → escribilo, <b>dictalo</b> (pasa la voz a texto) o grabá un audio. Después tocá <b>Enviar a Claude</b> y pegás/adjuntás en el chat.</p>
+    <div class="guia-root">💡 IDEAS Y PEDIDOS</div>
+    <p style="font-size:.86rem;color:var(--ink-2);margin:10px 0 10px;">Escribí o <b>dictá</b> lo que se te ocurra. Después elegí:<br>
+      <b>💡 Guardar idea</b> = una nota para pensarla después · <b>🚀 Enviar a Claude</b> = un pedido de cambio para que Claude lo haga en la app.</p>
     <div class="idea-new">
       <textarea id="idea-txt" placeholder="Ej: que el descanso suene también en el reloj…">${esc(Ideas.borrador||"")}</textarea>
       <div class="idea-tools">
         ${canDict?`<button type="button" class="btn ${Ideas.dictOn?"rec-on":""}" data-idea="dict">${Ideas.dictOn?"⏹ Parar dictado":"🗣️ Dictar"}</button>`:""}
         ${canRec?`<button type="button" class="btn ${Ideas.rec?"rec-on":""}" data-idea="rec">${Ideas.rec?`⏹ Parar audio <span id="idea-rec-t">0:00</span>`:"🎙️ Grabar audio"}</button>`:""}
-        <button type="button" class="btn btn-primary" data-idea="save" style="margin-left:auto;">Guardar idea</button>
+      </div>
+      <div class="idea-acc">
+        <button type="button" class="btn idea-btn-nota" data-idea="save">💡 Guardar idea</button>
+        <button type="button" class="btn btn-primary idea-btn-claude" data-idea="claude">🚀 Enviar a Claude</button>
       </div>
     </div>
-    ${Ideas.list.length?`<ul class="idea-list">${Ideas.list.map(it=>`<li class="idea-item ${it.enviada?"sent":""}">
-      <div class="idea-meta"><span>${ideaFecha(it.id)}${it.enviada?" · ✓ enviada":""}${it.audio?" · 🎙️ audio":""}</span>
-        <button type="button" class="btn btn-sm btn-ghost" data-idea="del" data-id="${it.id}" title="Borrar idea">🗑</button></div>
+
+    <h3 class="detail-sec-title" style="margin-top:18px;">📬 Pedidos a Claude</h3>
+    ${pedidosHtml(esc)}
+
+    <h3 class="detail-sec-title" style="margin-top:18px;">↩️ Volver a una versión anterior</h3>
+    ${versionesHtml(esc)}
+
+    <h3 class="detail-sec-title" style="margin-top:18px;">💡 Mis ideas guardadas</h3>
+    ${notas.length?`<ul class="idea-list">${notas.map(it=>`<li class="idea-item">
+      <div class="idea-meta"><span>${ideaFecha(it.id)}${it.audio?" · 🎙️ audio":""}</span>
+        <span style="display:flex;gap:4px;">${it.texto?`<button type="button" class="btn btn-sm" data-idea="claude-de" data-id="${it.id}" title="Mandar esta idea como pedido a Claude">🚀 A Claude</button>`:""}
+        <button type="button" class="btn btn-sm btn-ghost" data-idea="del" data-id="${it.id}" title="Borrar idea">🗑</button></span></div>
       ${it.texto?`<p class="idea-txt">${esc(it.texto)}</p>`:""}
       ${it.audio?`<audio controls preload="none" data-idea-audio="${it.id}"></audio>`:""}
-    </li>`).join("")}</ul>`:`<p style="font-size:.84rem;color:var(--ink-2);margin-top:12px;">Todavía no guardaste ideas.</p>`}
-    <div class="idea-send">
-      <button type="button" class="btn btn-primary" data-idea="send" ${pend.length?"":"disabled"}>📤 Enviar a Claude${pend.length?` (${pend.length})`:""}</button>
-      ${Ideas.list.some(x=>x.enviada)?`<button type="button" class="btn btn-sm" data-idea="clear-sent">Borrar las enviadas</button>`:""}
-    </div>
-    <div class="rules-note" style="margin-top:12px;">✍️ Claude lee el <b>texto</b> (lo escrito y lo dictado). Los audios van de respaldo: Claude no siempre puede escucharlos, así que para pedidos importantes usá <b>Dictar</b>.</div>
+    </li>`).join("")}</ul>`:`<p style="font-size:.84rem;color:var(--ink-2);margin:4px 0 0;">Todavía no guardaste ideas.</p>`}
+    ${notas.length?`<div class="idea-send"><button type="button" class="btn btn-sm" data-idea="send">📋 Compartir mis ideas (archivo)</button></div>`:""}
+    <div class="rules-note" style="margin-top:12px;">🚀 <b>Cómo funciona:</b> al tocar <b>Enviar a Claude</b> se abre GitHub con tu pedido ya escrito: tocá <b>Create</b> (o <b>Submit new issue</b>). Claude lo toma, hace el cambio, lo publica y te deja la respuesta acá. Cuando esté listo, la app te avisa <b>🔄 Hay una versión nueva</b>.</div>
   </div>`;
+}
+function pedidosHtml(esc){
+  if(Pedidos.list===null && !Pedidos.cargando){ pedidosCargar(); }
+  const head = `<div class="ped-head"><span class="af-muted">${Pedidos.cargando?"Actualizando…":Pedidos.err?`⚠️ ${esc(Pedidos.err)}`:""}</span><button type="button" class="btn btn-sm btn-ghost" data-idea="ped-reload">↻ Actualizar</button></div>`;
+  const L = Pedidos.list||[];
+  if(!L.length) return head + `<p style="font-size:.84rem;color:var(--ink-2);margin:4px 0 0;">${Pedidos.list===null?"Cargando…":"Todavía no mandaste pedidos."}</p>`;
+  return head + `<ul class="ped-list">${L.map(p=>{
+    const hecho = p.state==="closed", proc = !hecho && (p.labels||[]).some(l=>/proceso/i.test(l.name||""));
+    const est = hecho ? `<span class="ped-est ok">✅ Hecho</span>` : proc ? `<span class="ped-est proc">🔧 En proceso</span>` : `<span class="ped-est pend">⏳ Pendiente</span>`;
+    const f = new Date(p.created_at).toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit"});
+    return `<li class="ped-item">${est}<div class="ped-txt"><b>${esc(String(p.title||"").replace(/^\[Claude\]\s*/i,""))}</b><small>#${p.number} · ${f}${p.comments?` · 💬 ${p.comments} respuesta${p.comments>1?"s":""}`:""}</small></div>
+      <a class="btn btn-sm" href="${esc(p.html_url)}" target="_blank" rel="noopener">Ver</a></li>`;
+  }).join("")}</ul>`;
+}
+const Versiones = { list:null, cargando:false, err:"" };
+function versionesHtml(esc){
+  if(Versiones.list===null && !Versiones.cargando) versionesCargar();
+  const L = Versiones.list||[];
+  const fmt = d=> new Date(d).toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit"})+" "+new Date(d).toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+  return `<p style="font-size:.84rem;color:var(--ink-2);margin:0 0 8px;">¿Un cambio no te gustó? Pedile a Claude que lo deshaga. Tus datos (entrenos, comidas, peso) <b>no se tocan</b>: solo vuelve el diseño y las funciones de la app.</p>
+    <button type="button" class="btn idea-undo" data-idea="undo">↩️ Deshacer el último cambio</button>
+    ${L.length?`<details class="ver-list"><summary>Ver versiones publicadas (${L.length})</summary><ul>${L.map((c,i)=>`<li>
+      <div><b>${fmt(c.fecha)}${i===0?` <span class="ped-est ok">actual</span>`:""}</b><small>${esc(c.msg)}</small></div>
+      ${i>0?`<button type="button" class="btn btn-sm" data-idea="volver" data-sha="${c.sha}" data-fecha="${esc(fmt(c.fecha))}">Volver a esta</button>`:""}
+    </li>`).join("")}</ul></details>`:(Versiones.err?`<p class="af-muted" style="font-size:.8rem;">⚠️ ${esc(Versiones.err)}</p>`:"")}`;
+}
+async function versionesCargar(){
+  Versiones.cargando = true; Versiones.err = "";
+  try{
+    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/commits?path=index.html&per_page=8`, { headers:{ Accept:"application/vnd.github+json" } });
+    if(!r.ok) throw new Error("No se pudo leer el historial ("+r.status+")");
+    const arr = await r.json();
+    Versiones.list = (arr||[]).map(c=>({ sha:c.sha, fecha:(c.commit&&c.commit.committer&&c.commit.committer.date)||"", msg:String((c.commit&&c.commit.message)||"").split("\n")[0].slice(0,90) }));
+  }catch(e){ Versiones.err = (e && e.message) || "Sin conexión"; Versiones.list = []; }
+  Versiones.cargando = false;
+  if(state.view==="guardar") renderGuardar();
+}
+async function pedidosCargar(){
+  Pedidos.cargando = true; Pedidos.err = "";
+  try{
+    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/issues?state=all&per_page=30&sort=created&direction=desc`, { headers:{ Accept:"application/vnd.github+json" } });
+    if(!r.ok) throw new Error(r.status===403 ? "GitHub limitó las consultas, probá en un rato" : "No se pudo leer GitHub ("+r.status+")");
+    const arr = await r.json();
+    Pedidos.list = (arr||[]).filter(x=> !x.pull_request && (/^\[Claude\]/i.test(x.title||"") || (x.labels||[]).some(l=>l.name==="claude"))).slice(0,15);
+  }catch(e){ Pedidos.err = (e && e.message) || "Sin conexión"; if(Pedidos.list===null) Pedidos.list = []; }
+  Pedidos.cargando = false;
+  if(state.view==="guardar") renderGuardar();
+}
+function pedidoAbrir(texto){
+  texto = String(texto||"").trim(); if(!texto){ toast("Escribí o dictá el pedido primero"); return false; }
+  const titulo = "[Claude] " + (texto.length>70 ? texto.slice(0,67).trim()+"…" : texto);
+  const cuerpo = `${texto}\n\n---\nPedido desde la app Entrenador Personal · ${fmtDateLong(todayStr())} · versión ${APP_VERSION} (${APP_BUILD})\nClaude: hacé este cambio en index.html, probalo, publicalo y respondé acá en castellano qué cambió.`;
+  const url = `https://github.com/${GH_REPO}/issues/new?labels=claude&title=${encodeURIComponent(titulo)}&body=${encodeURIComponent(cuerpo)}`;
+  window.open(url, "_blank", "noopener");
+  setTimeout(()=>{ Pedidos.list = null; if(state.view==="guardar") renderGuardar(); }, 45000);   // al volver, refresca el estado
+  return true;
 }
 function ideasAttachAudio(){
   document.querySelectorAll("[data-idea-audio]").forEach(a=>{
@@ -7313,7 +7398,7 @@ async function ideaSave(){
   await ideasLoad(); toast("💡 Idea guardada");
 }
 async function ideasSend(){
-  const pend = Ideas.list.filter(x=>!x.enviada).slice().reverse();   // de la más vieja a la más nueva
+  const pend = Ideas.list.filter(x=>!x.claude).slice().reverse();   // de la más vieja a la más nueva
   if(!pend.length) return;
   const stamp = todayStr();
   const files = [];
@@ -7332,7 +7417,6 @@ async function ideasSend(){
     else if(navigator.canShare && navigator.canShare({ files:[tfile] })){ await navigator.share({ files:[tfile], title:"Ideas para la app" }); ok = true; if(files.length>1) ideasDownload(files.slice(1)); }
   }catch(e){ if(e && e.name==="AbortError") return; }
   if(!ok){ ideasDownload(files); try{ await navigator.clipboard.writeText(txt); toast("📋 Texto copiado y archivos descargados · pegalos en el chat de Claude"); }catch(_){ toast("Archivos descargados · adjuntalos en el chat de Claude"); } }
-  for(const it of pend){ it.enviada = true; await ideasPut(it); }
   await ideasLoad();
 }
 function ideasDownload(files){
@@ -7345,11 +7429,41 @@ document.addEventListener("click", async e=>{
   if(k==="dict") return ideaDictToggle();
   if(k==="save") return ideaSave();
   if(k==="send") return ideasSend();
+  if(k==="claude"){ ideasKeepDraft(); if(pedidoAbrir(Ideas.borrador)){ Ideas.borrador = ""; renderGuardar(); toast("🚀 Se abrió GitHub · tocá Create para mandarlo"); } return; }
+  if(k==="claude-de"){ const it = Ideas.list.find(x=>x.id===b.dataset.id); if(it && pedidoAbrir(it.texto)){ it.claude = true; await ideasPut(it); await ideasLoad(); } return; }
+  if(k==="ped-reload"){ pedidosCargar(); versionesCargar(); renderGuardar(); return; }
+  if(k==="undo"){ if(!armConfirm(b, "¿Seguro? Tocá de nuevo")) return;
+    pedidoAbrir("↩️ DESHACER: deshacé el último cambio publicado de la app (volvé index.html a la versión anterior). No toques los datos guardados."); toast("↩️ Se abrió GitHub · tocá Create para confirmar"); return; }
+  if(k==="volver"){ if(!armConfirm(b, "¿Seguro?")) return;
+    pedidoAbrir(`↩️ VOLVER A VERSIÓN: dejá index.html como estaba en la versión del ${b.dataset.fecha} (commit ${b.dataset.sha}). Si después de esa versión hubo cambios que conviene conservar, preguntame antes. No toques los datos guardados.`); toast("↩️ Se abrió GitHub · tocá Create para confirmar"); return; }
   if(k==="del"){ if(!armConfirm(b, "¿Borrar?")) return; await ideasDel(b.dataset.id); return ideasLoad(); }
   if(k==="clear-sent"){ for(const it of Ideas.list.filter(x=>x.enviada)) await ideasDel(it.id); return ideasLoad(); }
 });
 document.addEventListener("input", e=>{ if(e.target && e.target.id==="idea-txt") Ideas.borrador = e.target.value; });
 ideasLoad();
+
+/* ======================= AVISO DE VERSIÓN NUEVA =======================
+   Cada 10 min (y al volver a la app) mira si en GitHub hay un index.html con otro APP_BUILD.
+   Si lo hay, muestra un cartel "Hay una versión nueva · Actualizar" que recarga la app. */
+async function versionChequear(){
+  try{
+    if(location.protocol==="file:") return;
+    const r = await fetch("./index.html?v="+Date.now(), { cache:"no-store" }); if(!r.ok) return;
+    const t = await r.text(), m = t.match(/const APP_BUILD = "([^"]+)"/);
+    if(m && m[1] !== APP_BUILD) versionCartel();
+  }catch(_){}
+}
+function versionCartel(){
+  if(document.getElementById("ver-new")) return;
+  const d = document.createElement("div"); d.id = "ver-new";
+  d.innerHTML = `<span>🔄 Hay una versión nueva de la app</span><button type="button" class="btn btn-primary btn-sm">Actualizar</button><button type="button" class="btn btn-sm btn-ghost" aria-label="Cerrar">✕</button>`;
+  d.querySelector(".btn-primary").onclick = ()=> location.reload();
+  d.querySelector(".btn-ghost").onclick = ()=> d.remove();
+  document.body.appendChild(d);
+}
+setTimeout(versionChequear, 15000);
+setInterval(versionChequear, 10*60*1000);
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible") versionChequear(); });
 
 /* ======================= INIT ======================= */
 initStorage();
