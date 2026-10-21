@@ -21,6 +21,7 @@ html,body{margin:0}
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--bg);color:var(--fg)}
 body{font-family:var(--font);min-height:100%;padding-block:16px 24px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -226,6 +227,7 @@ function showTab(t){
   ST.tab=t; save();
   document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===t));
   for (const p of ["cambio","mp","usd"]) $("pane-"+p).hidden = p!==t;
+  window.scrollTo(0,0);
 }
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 
