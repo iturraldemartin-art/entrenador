@@ -679,6 +679,13 @@
   /* ---------- Alimentación: solapas internas, recetario, heladera, ayuno, compras, nutri ---------- */
   .rx-tabs{ display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; margin:0 0 16px; padding-bottom:2px; }
   .rx-tabs::-webkit-scrollbar{ display:none; }
+  .rx-subtabs{ margin-top:-8px; } .rx-subtabs .rx-tab{ padding:5px 12px; font-size:.8rem; }
+  .p90-datos{ display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; }
+  .p90-datos .field{ margin:0; } .p90-dato{ background:var(--surface-2); border-radius:10px; padding:8px 10px; }
+  .p90-dato small{ display:block; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); } .p90-dato b{ font-size:1.15rem; }
+  .p90-esp{ width:100%; border-collapse:collapse; font-size:.9rem; } .p90-esp th{ text-align:left; font-size:.72rem; color:var(--ink-2); font-weight:600; padding:6px; text-transform:uppercase; letter-spacing:.05em; }
+  .p90-esp td{ padding:8px 6px; border-top:1px solid var(--line); } .p90-esp td.b{ font-weight:700; } .p90-esp .up{ color:#7fe0a8; } .p90-esp .dn{ color:#ffb27a; }
+  .p90-nav{ display:flex; align-items:center; gap:6px; } .p90-nav span{ min-width:150px; text-align:center; font-weight:600; font-size:.88rem; }
   .rx-tab{ flex:none; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); border-radius:20px; padding:8px 14px; font-weight:600; font-size:.86rem; cursor:pointer; white-space:nowrap; }
   .rx-tab:hover{ border-color:var(--ink-2); color:var(--ink); }
   .rx-tab.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
@@ -2245,7 +2252,7 @@ const NAVS = [
   {id:"semana", label:"Semana"},
   {id:"ejercicios", label:"Ejercicios"},
   {id:"progreso", label:"Progreso"},
-  {id:"alimentacion", label:"Alimentación"},
+  {id:"alimentacion", label:"Plan 90"},
   {id:"guardar", label:"Ideas y pedidos"},
 ];
 function renderNav(){
@@ -3329,7 +3336,7 @@ function render(){
   else { dot.className="storage-dot local"; txt.textContent="Conectando…"; }
 
   document.querySelectorAll(".view").forEach(v=> v.classList.toggle("active", v.dataset.view===state.view));
-  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], alimentacion:["Alimentación","Registro con foto · recetario argentino · heladera · ayuno · compras · nutri IA"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
+  const titles = {hoy:["Hoy","Tu plan del día y racha de entrenos"], calendario:["Calendario","Días agrupados por semana, semanas por mes"], semana:["Semana","Elegí ejercicios, series y repeticiones por día"], ejercicios:["Ejercicios","Catálogo con músculo trabajado y forma correcta"], progreso:["Progreso","Peso, tiempo y comparativas entre semanas o meses"], alimentacion:["Plan 90","Mi plan · plan comidas · cocina · asistentes"], guardar:["Guardar ideas","Anotá o grabá ideas para la app y mandáselas a Claude · cómo actualizar"]};
   document.getElementById("view-title").textContent = titles[state.view][0];
   document.getElementById("view-sub").textContent = titles[state.view][1];
   const _fd = new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
@@ -3346,7 +3353,7 @@ function render(){
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
 const APP_VERSION = "v15";
-const APP_BUILD = "2026-10-13c";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_BUILD = "2026-10-21a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -5582,6 +5589,9 @@ function aiErrMsg(e){
 /* ======================= ALIMENTACIÓN · SOLAPAS =======================
    Registro (foto → calorías) · Recetario argentino · Mi heladera · Yo armo mi comida · Ayuno · Compras · Nutri IA */
 const RX_TABS = [["registro","📷 Registro"],["meta","🎯 Mi meta"],["zona","📍 Mi zona"],["recetario","📖 Recetario"],["heladera","🧊 Mi heladera"],["armo","👨‍🍳 Yo armo mi comida"],["plan","📅 Plan de comidas"],["ayuno","⏳ Ayuno"],["compras","🛒 Compras"],["nutri","💬 Nutri IA"]];
+/* Plan 90: 4 grupos (se agrupan las solapas de siempre, no se borra ninguna) */
+const RX_GROUPS = [["🎯 Mi plan",["meta"]],["📅 Plan comidas",["registro","plan","ayuno"]],["👨‍🍳 Cocina",["recetario","heladera","armo","zona"]],["💬 Asistentes",["nutri","compras"]]];
+const RX_LBL = { registro:"📷 Mi día" };
 const RX = { sub:"registro", filtro:"todos", q:"", open:null, porc:{}, shown:{}, busy:false, err:"", abort:null,
   hel:{ ings:[], recetas:[], tipo:"cualquiera", min:"45", obj:"rendidora y sana", porc:"2", cant:"4" },
   armo:{ ings:[], receta:null, deseo:"", tipo:"cualquiera", porc:"2" },
@@ -5594,8 +5604,12 @@ function rxBusyFocus(){ const a = document.activeElement, v = document.getElemen
 
 function renderAlimentacion(){
   const root = document.getElementById("view-alimentacion"); if(!root) return;
-  if(!root.querySelector("#rx-body")) root.innerHTML = `<div class="rx-tabs" role="tablist" aria-label="Secciones de alimentación"></div><div id="rx-body"></div>`;
-  root.querySelector(".rx-tabs").innerHTML = RX_TABS.map(([k,l])=>`<button role="tab" aria-selected="${RX.sub===k}" class="rx-tab ${RX.sub===k?"on":""}" data-rx="sub" data-k="${k}">${l}</button>`).join("");
+  if(!root.querySelector("#rx-body")) root.innerHTML = `<div class="rx-tabs" role="tablist" aria-label="Secciones de Plan 90"></div><div class="rx-tabs rx-subtabs"></div><div id="rx-body"></div>`;
+  const grp = RX_GROUPS.find(g=>g[1].includes(RX.sub)) || RX_GROUPS[0], lbl = k=> RX_LBL[k] || (RX_TABS.find(t=>t[0]===k)||[k,k])[1];
+  root.querySelector(".rx-tabs").innerHTML = RX_GROUPS.map(g=>`<button role="tab" aria-selected="${g===grp}" class="rx-tab ${g===grp?"on":""}" data-rx="sub" data-k="${g===grp?RX.sub:g[1][0]}">${g[0]}</button>`).join("");
+  const sb = root.querySelector(".rx-subtabs");
+  sb.innerHTML = grp[1].length>1 ? grp[1].map(k=>`<button class="rx-tab ${RX.sub===k?"on":""}" data-rx="sub" data-k="${k}">${lbl(k)}</button>`).join("") : "";
+  sb.style.display = grp[1].length>1 ? "" : "none";
   const body = root.querySelector("#rx-body");
   if(RX.sub==="registro") aliRenderRegistro(body);
   else if(RX.sub==="meta") rxMeta(body);
@@ -6188,10 +6202,11 @@ function rxMeta(el){
   const notifOk = typeof Notification!=="undefined" && Notification.permission==="granted";
   const mesNombre = dsToDate(hoy).toLocaleDateString("es-AR",{month:"long"});
   el.innerHTML = `
+  ${p90DatosHtml(hoy)}
   ${esLunes && !pesadoHoy ? `<div class="mt-banner">⚖️ <b>Hoy es lunes: toca pesarte.</b> En ayunas, después del baño y antes de desayunar. <button class="btn btn-sm btn-primary" data-ali="pesar" data-mt="go">Registrar pesaje</button></div>`:""}
   <div class="mt-grid">
     <div class="today-panel mt-card">
-      <h3 class="pg-h3" style="margin-top:0;">⚖️ Peso</h3>
+      <h3 class="pg-h3" style="margin-top:0;">2 · Mis objetivos · ⚖️ Peso</h3>
       ${aliPesoBox(hoy)}
       <div class="field" style="margin-top:12px;"><label>Peso objetivo (kg)</label>
         <input type="number" step="0.5" data-alic="pesoObj" value="${aliEsc(aliCfg.pesoObj)}" placeholder="¿A cuánto querés llegar?"></div>
@@ -6252,8 +6267,64 @@ function rxMeta(el){
     `}
     <p class="af-muted" style="margin:12px 0 0;">Son sugerencias generales a partir de tus datos, no reemplazan a un médico o nutricionista.</p>
   </div>`;
+  const _pl = el.querySelector(".mt-grid"); if(_pl) _pl.insertAdjacentHTML("afterend", p90EspejoHtml(hoy));
   el.insertAdjacentHTML("beforeend", mtCiclosHtml());
 }
+/* ---------- Plan 90 · Mis datos + Espejo semana a semana ---------- */
+const P90 = { w:0 };
+function p90DatosHtml(hoy){
+  const c = aliCfg, p = aliPesoAl(hoy), e = aliEsc;
+  return `<div class="today-panel"><h3 class="pg-h3" style="margin-top:0;">1 · Mis datos</h3>
+    <div class="p90-datos">
+      <div class="field"><label>Edad</label><input type="number" data-alic="edad" value="${e(c.edad)}" placeholder="años"></div>
+      <div class="field"><label>Altura (cm)</label><input type="number" data-alic="altura" value="${e(c.altura)}" placeholder="cm"></div>
+      <div class="field"><label>Sexo</label><select data-alic="sexo"><option value="h" ${c.sexo==="h"?"selected":""}>Hombre</option><option value="m" ${c.sexo==="m"?"selected":""}>Mujer</option></select></div>
+      <div class="field"><label>Sueño (h/noche)</label><input type="number" step="0.5" data-alic="sueno" value="${e(c.sueno)}" placeholder="horas"></div>
+      <div class="p90-dato"><small>Peso hoy</small><b>${p ? String(p.kg).replace(".",",")+" kg" : "—"}</b></div>
+      <div class="p90-dato"><small>Entrena</small><b>Lun a vie</b></div>
+    </div></div>`;
+}
+function p90Lunes(ds){ const d = dsToDate(ds), g = (d.getDay()+6)%7; return addDays(ds, -g); }
+function p90Sem(lun){
+  const dias = [0,1,2,3,4,5,6].map(i=>addDays(lun,i)).filter(k=>k<=todayStr());
+  const pes = dias.filter(k=>aliN(aliDay(k).peso)>0), com = dias.filter(k=>(aliDay(k).items||[]).length);
+  const kc = com.length ? com.reduce((a,k)=>a+aliTot(aliDay(k).items).kcal,0)/com.length : 0;
+  const pr = com.length ? com.reduce((a,k)=>a+aliTot(aliDay(k).items).p,0)/com.length : 0;
+  const ag = dias.filter(k=>aliN(aliDay(k).agua)>0);
+  return { peso: pes.length ? aliN(aliDay(pes[pes.length-1]).peso) : null, com: com.length, kcal: kc, p: pr,
+    ent: dias.filter(k=> typeof dayMin==="function" && dayMin(k)>5).length,
+    agua: ag.length ? ag.reduce((a,k)=>a+aliN(aliDay(k).agua),0)/ag.length : 0 };
+}
+function p90EspejoHtml(hoy){
+  const lun = addDays(p90Lunes(hoy), -7*P90.w), ant = addDays(lun,-7), A = p90Sem(lun), B = p90Sem(ant);
+  const n1 = v=> String(+(+v).toFixed(1)).replace(".",",");
+  const ini = aliCfg.cicloIni ? p90Lunes(aliCfg.cicloIni) : null;
+  const nro = ini ? Math.floor((dsToDate(lun)-dsToDate(ini))/(7*864e5))+1 : null;
+  const dif = (a,b,u,bueno)=>{ if(a==null||b==null||(!a&&!b)) return `<td></td>`; const d = a-b; if(Math.abs(d)<0.05) return `<td>=</td>`;
+    return `<td class="${(d>0)===(bueno>0)?"up":"dn"}">${d>0?"+":""}${n1(d)}${u}</td>`; };
+  const fila = (t,a,b,u,bueno,fmt)=>`<tr><td>${t}</td><td>${b==null?"—":fmt(b)}</td><td class="b">${a==null?"—":fmt(a)}</td>${dif(a,b,u,bueno)}</tr>`;
+  const kg = v=>n1(v)+" kg", d7 = v=>v+" de 7", d5 = v=>v+" de 5", kc = v=>v?Math.round(v)+" kcal":"—", g = v=>v?Math.round(v)+" g":"—", vs = v=>v?n1(v):"—";
+  return `<div class="today-panel">
+    <div class="today-panel-head"><h3 class="pg-h3" style="margin:0;">3 · Espejo semana a semana${nro && nro>0 ? ` · semana ${nro} del ciclo`:""}</h3>
+      <div class="p90-nav"><button class="btn btn-sm" data-p90="prev" aria-label="Semana anterior">‹</button><span>${P90.w===0?"Esta semana":"Semana del "+fmtShort(lun)}</span><button class="btn btn-sm" data-p90="next" aria-label="Semana siguiente" ${P90.w===0?"disabled":""}>›</button></div></div>
+    <div style="overflow-x:auto;"><table class="p90-esp">
+      <thead><tr><th></th><th>Sem. ${fmtShort(ant)}</th><th>Sem. ${fmtShort(lun)}</th><th>Cambio</th></tr></thead>
+      <tbody>
+        ${fila("Peso", A.peso, B.peso, " kg", -1, kg)}
+        ${fila("Días con comidas cargadas", A.com, B.com, "", 1, d7)}
+        ${fila("Calorías promedio", A.kcal||null, B.kcal||null, "", 0, kc)}
+        ${fila("Proteína promedio", A.p||null, B.p||null, " g", 1, g)}
+        ${fila("Entrenos", A.ent, B.ent, "", 1, d5)}
+        ${fila("Agua (vasos/día)", A.agua||null, B.agua||null, "", 1, vs)}
+      </tbody></table></div>
+    <p class="af-muted" style="margin:8px 0 0;">Sale solo de lo que cargás: pesaje del lunes, comidas, agua y el tiempo de entreno.</p>
+  </div>`;
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest && e.target.closest("[data-p90]"); if(!b) return;
+  if(b.dataset.p90==="prev") P90.w++; else if(b.dataset.p90==="next" && P90.w>0) P90.w--;
+  renderAlimentacion();
+});
 function mtICS(){
   const R = mtRec(), lunes = mtLunesDelMes(), hs = [R.h1, R.h2].filter(Boolean);
   const pad = n=> String(n).padStart(2,"0"), now = new Date();
