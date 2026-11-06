@@ -3352,8 +3352,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v15";
-const APP_BUILD = "2026-10-21a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v16";
+const APP_BUILD = "2026-11-06a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7194,21 +7194,26 @@ document.addEventListener("click", async e=>{
 /* ======================= CB · COMBINACIONES DE SERIES =======================
    Botón "CB" en cada ejercicio de Hoy (al lado de la nota). Solo aparece la combinación si la cargás.
    Tipos: series continuas, rest-pause, drop set, pirámide, superserie o libre.
-   Bloques: repeticiones × veces (ej: 7×2 → 5×2 → 3×2), retención en segundos (isometría en la contracción)
-   y descanso entre bloques (0 = sin descanso, continuo). Queda guardado por ejercicio en "meta/combos".
-   "▶ Guía" abre un paso a paso a pantalla completa con timer de retención y de descanso. */
+   Bloques: repeticiones + retención en segundos de ESE bloque (ej: 12 reps · 5 s → 8 reps · 5 s → 6 reps · 5 s).
+   Sin descanso entre bloques (continuo). Queda guardado por ejercicio en "meta/combos".
+   Combos viejos (reps × veces + retención general) se convierten solos: cada "vez" pasa a ser un bloque.
+   "▶ Guía" abre un paso a paso a pantalla completa con el timer de retención de cada bloque. */
 const CB_TIPOS = { continuas:"Series continuas", restpause:"Rest-pause", drop:"Drop set", piramide:"Pirámide", superserie:"Superserie", libre:"Libre" };
 let exCombos = {}, cbEdit = null, cbRun = null;
+function cbNorm(c){ if(!c || !c.bloques) return c; const gr = +c.ret||0, out = [];
+  c.bloques.forEach(b=>{ const veces = Math.max(1, +b.x||1), ret = (b.ret!==undefined && b.ret!==null) ? +b.ret||0 : gr;
+    for(let k=0;k<veces;k++) out.push({ r:+b.r||1, x:1, ret }); });
+  return Object.assign({}, c, { bloques:out, ret:0, desc:0 }); }
 function cbDelNombre(name){ // "retención 5 [7x2+5x2+3x2]" escrito en el nombre del ejercicio
   const n = String(name||""), b = n.match(/\[([^\]]+)\]/); if(!b) return null;
   const bloques = b[1].split("+").map(s=>s.trim().match(/^(\d+)\s*[x×]\s*(\d+)$/i)).filter(Boolean).map(m=>({ r:+m[1], x:+m[2] }));
   if(!bloques.length) return null;
   const ret = n.match(/retenci[oó]n\s*(\d+)/i);
-  return { tipo:"continuas", ret: ret ? +ret[1] : 0, bloques, desc:0, nota:"", delNombre:true };
+  return cbNorm({ tipo:"continuas", ret: ret ? +ret[1] : 0, bloques, desc:0, nota:"", delNombre:true });
 }
-function exCombo(id){ const c = exCombos[id]; if(c && c.borrado) return null; if(c && c.bloques && c.bloques.length) return c; const ex = exerciseById(id); return ex ? cbDelNombre(ex.n) : null; }
-function cbResumen(c){ const tot = c.bloques.reduce((a,b)=>a+b.r*b.x,0);
-  return `${CB_TIPOS[c.tipo]||"Combinación"}${c.ret?` · retención ${c.ret} s`:""} · ${c.bloques.map(b=>`${b.r}×${b.x}`).join(" → ")} = ${tot} reps${c.desc?` · descanso ${c.desc} s`:" · sin descanso"}`; }
+function exCombo(id){ const c = exCombos[id]; if(c && c.borrado) return null; if(c && c.bloques && c.bloques.length) return cbNorm(c); const ex = exerciseById(id); return ex ? cbDelNombre(ex.n) : null; }
+function cbResumen(c){ c = cbNorm(c); const tot = c.bloques.reduce((a,b)=>a+b.r,0);
+  return `${CB_TIPOS[c.tipo]||"Combinación"} · ${c.bloques.map(b=>`${b.r}${b.ret?` (${b.ret} s)`:""}`).join(" → ")} = ${tot} reps`; }
 function exCbLine(id){ const c = exCombo(id); if(!c) return "";
   return `<div class="ex-cb-line"><span class="ex-cb-tag">CB</span><span>${cbResumen(c)}</span><button type="button" class="btn btn-sm" data-cbgo="${id}">▶ Guía</button></div>`; }
 function exCbBtn(id){ const has = !!exCombo(id); return `<button type="button" class="btn btn-sm btn-ghost ex-cb-btn ${has?"has":""}" data-excb="${id}" title="Combinación de series (CB)" aria-label="Combinación de series">CB</button>`; }
@@ -7217,16 +7222,12 @@ function cbModal(){
   openModal(`<div class="modal-head"><div><h2>CB · Combinación de series</h2><div style="color:var(--ink-2);font-size:.85rem;">${ex?ex.n:""} · se guarda para este ejercicio</div></div>
     <button class="modal-close" type="button" data-action="close-modal">${ICON.close}</button></div>
     <div class="field"><label>Tipo</label><div class="pl-chips">${Object.entries(CB_TIPOS).map(([k,l])=>`<button type="button" class="chip filter-chip ${c.tipo===k?"on":""}" data-cbt="${k}">${l}</button>`).join("")}</div></div>
-    <div class="field"><label>Bloques (repeticiones × veces)</label>
+    <div class="field"><label>Bloques (repeticiones + retención)</label>
       ${c.bloques.map((b,i)=>`<div class="cb-bl"><span>Bloque ${i+1}</span>
         <div class="pl-step"><button type="button" data-cbb="${i}:r:-1">−</button><b>${b.r}</b><button type="button" data-cbb="${i}:r:1">+</button></div><small>reps</small>
-        <span>×</span><div class="pl-step"><button type="button" data-cbb="${i}:x:-1">−</button><b>${b.x}</b><button type="button" data-cbb="${i}:x:1">+</button></div><small>veces</small>
+        <span>·</span><div class="pl-step"><button type="button" data-cbb="${i}:ret:-1">−</button><b>${b.ret||0}</b><button type="button" data-cbb="${i}:ret:1">+</button></div><small>seg retención</small>
         <button type="button" class="btn btn-icon btn-ghost btn-sm" data-cbdel="${i}" aria-label="Quitar bloque">✕</button></div>`).join("")}
       <button type="button" class="btn btn-sm btn-ghost" data-cbadd="1">＋ Agregar bloque</button></div>
-    <div class="field-row">
-      <div class="field"><label>Retención (seg)</label><div class="pl-step"><button type="button" data-cbn="ret:-1">−</button><b>${c.ret}</b><button type="button" data-cbn="ret:1">+</button></div></div>
-      <div class="field"><label>Descanso entre bloques (seg)</label><div class="pl-step"><button type="button" data-cbn="desc:-15">−</button><b>${c.desc}</b><button type="button" data-cbn="desc:15">+</button></div></div>
-    </div>
     <div class="field"><label for="cb-nota">Nota</label><input type="text" id="cb-nota" value="${aliEsc(c.nota||"")}" placeholder="Ej: bajada lenta en 3 segundos"></div>
     <div class="cb-prev">${c.bloques.length ? cbResumen(c) : "Agregá al menos un bloque"}</div>
     <div class="modal-foot">${exCombos[c.id] && !exCombos[c.id].borrado ? `<button class="btn btn-danger btn-ghost" type="button" data-cbsave="del">Quitar CB</button>`:""}<button class="btn" type="button" data-action="close-modal">Cancelar</button><button class="btn btn-primary" type="button" data-cbsave="ok" ${c.bloques.length?"":"disabled"}>Guardar CB</button></div>`);
@@ -7234,24 +7235,23 @@ function cbModal(){
 document.addEventListener("click", async e=>{
   const t = e.target.closest && e.target.closest("[data-excb],[data-cbt],[data-cbb],[data-cbdel],[data-cbadd],[data-cbn],[data-cbsave],[data-cbgo],[data-cbrun]"); if(!t) return;
   const ds = t.dataset;
-  if(ds.excb){ try{ syncDayDraftFromDom(); }catch(_){} const base = exCombo(ds.excb) || { tipo:"continuas", ret:0, bloques:[{ r:10, x:1 }], desc:0, nota:"" };
+  if(ds.excb){ try{ syncDayDraftFromDom(); }catch(_){} const base = exCombo(ds.excb) || { tipo:"continuas", ret:0, bloques:[{ r:10, x:1, ret:0 }], desc:0, nota:"" };
     cbEdit = Object.assign({ id:ds.excb }, JSON.parse(JSON.stringify(base))); return cbModal(); }
   if(!cbEdit && !ds.cbgo && !ds.cbrun) return;
   const keepNota = ()=>{ const n = document.getElementById("cb-nota"); if(n && cbEdit) cbEdit.nota = n.value; };
   if(ds.cbt){ keepNota(); cbEdit.tipo = ds.cbt; return cbModal(); }
-  if(ds.cbb){ keepNota(); const [i,f,d] = ds.cbb.split(":"); const b = cbEdit.bloques[+i]; b[f] = Math.max(1, Math.min(f==="r"?50:10, b[f] + (+d))); return cbModal(); }
+  if(ds.cbb){ keepNota(); const [i,f,d] = ds.cbb.split(":"); const b = cbEdit.bloques[+i]; b[f] = f==="ret" ? Math.max(0, Math.min(60, (+b.ret||0) + (+d))) : Math.max(1, Math.min(50, b[f] + (+d))); return cbModal(); }
   if(ds.cbdel){ keepNota(); cbEdit.bloques.splice(+ds.cbdel,1); return cbModal(); }
-  if(ds.cbadd){ keepNota(); const last = cbEdit.bloques[cbEdit.bloques.length-1]; cbEdit.bloques.push({ r: last ? Math.max(1,last.r-2) : 10, x: last ? last.x : 1 }); return cbModal(); }
+  if(ds.cbadd){ keepNota(); const last = cbEdit.bloques[cbEdit.bloques.length-1]; cbEdit.bloques.push({ r: last ? Math.max(1,last.r-2) : 10, x:1, ret: last ? (+last.ret||0) : 0 }); return cbModal(); }
   if(ds.cbn){ keepNota(); const [f,d] = ds.cbn.split(":"); cbEdit[f] = Math.max(0, Math.min(f==="ret"?60:300, (cbEdit[f]||0) + (+d))); return cbModal(); }
   if(ds.cbsave){ keepNota(); const id = cbEdit.id;
-    const val = ds.cbsave==="del" ? { borrado:true } : { tipo:cbEdit.tipo, ret:cbEdit.ret, bloques:cbEdit.bloques, desc:cbEdit.desc, nota:(cbEdit.nota||"").trim() };
+    const val = ds.cbsave==="del" ? { borrado:true } : { tipo:cbEdit.tipo, ret:0, bloques:cbEdit.bloques.map(b=>({ r:b.r, x:1, ret:+b.ret||0 })), desc:0, nota:(cbEdit.nota||"").trim() };
     exCombos = Object.assign({}, exCombos, { [id]: val }); cbEdit = null; closeModal(); try{ redrawDayEditor(); }catch(_){ try{ render(); }catch(__){} }
     if(!db){ toast("Sin conexión: no se guardó"); return; }
     try{ await db.doc("meta/combos").set(exCombos); toast(ds.cbsave==="del" ? "CB quitada" : "CB guardada"); }catch(_){ toast("No se pudo guardar"); }
     return; }
   if(ds.cbgo){ const c = exCombo(ds.cbgo); if(!c) return; const ex = exerciseById(ds.cbgo);
-    const pasos = []; c.bloques.forEach((b,bi)=>{ for(let k=1;k<=b.x;k++){ pasos.push({ txt:`${b.r} repeticiones`, sub:`Bloque ${bi+1} · tanda ${k} de ${b.x}`, reps:b.r });
-      const ultimo = bi===c.bloques.length-1 && k===b.x; if(!ultimo && c.desc) pasos.push({ desc:c.desc }); } });
+    const pasos = c.bloques.map((b,bi)=>({ txt:`${b.r} repeticiones`, sub:`Bloque ${bi+1} de ${c.bloques.length}`, reps:b.r, ret:+b.ret||0 }));
     cbRun = { n: ex ? ex.n : "", c, pasos, i:0, t:0, timer:null, hechas:0 }; try{ if(typeof requestWakeLock==="function") requestWakeLock(); }catch(_){} return cbRender(); }
   if(ds.cbrun){ const R = cbRun; if(!R) return;
     if(ds.cbrun==="x"){ clearInterval(R.timer); cbRun = null; return cbRender(); }
@@ -7259,7 +7259,7 @@ document.addEventListener("click", async e=>{
     if(ds.cbrun==="next"){ clearInterval(R.timer); R.t = 0; const p = R.pasos[R.i]; if(p && p.reps) R.hechas += p.reps;
       if(R.i < R.pasos.length-1){ R.i++; const q = R.pasos[R.i]; if(q.desc) cbTimer(q.desc); return cbRender(); }
       clearInterval(R.timer); cbRun = null; toast("💪 Combinación terminada"); return cbRender(); }
-    if(ds.cbrun==="ret"){ cbTimer(R.c.ret); return cbRender(); }
+    if(ds.cbrun==="ret"){ const p = R.pasos[R.i]; cbTimer(p && p.ret); return cbRender(); }
   }
 });
 function cbTimer(seg){ const R = cbRun; if(!R || !seg) return; clearInterval(R.timer); R.t = seg;
@@ -7268,13 +7268,13 @@ function cbRender(){
   let o = document.getElementById("cb-run");
   if(!cbRun){ if(o) o.remove(); return; }
   if(!o){ o = document.createElement("div"); o.id = "cb-run"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); document.body.appendChild(o); }
-  const R = cbRun, p = R.pasos[R.i], tot = R.c.bloques.reduce((a,b)=>a+b.r*b.x,0);
+  const R = cbRun, p = R.pasos[R.i], tot = R.c.bloques.reduce((a,b)=>a+b.r,0);
   o.innerHTML = `<div class="rx-cook-in">
     <div class="rx-cook-top"><b>CB · ${aliEsc(R.n)}</b><span>Paso ${R.i+1} de ${R.pasos.length}</span><button class="btn btn-sm" data-cbrun="x">✕ Salir</button></div>
     <div class="rx-cook-bar"><div style="width:${(R.i+1)/R.pasos.length*100}%"></div></div>
     ${p.desc ? `<p class="rx-cook-step">😮‍💨 Descanso</p><div class="rx-cook-timer"><span class="mono">${segTxt(R.t)}</span></div>`
       : `<div class="cb-sub">${aliEsc(p.sub)}</div><p class="rx-cook-step">${aliEsc(p.txt)}</p>
-         ${R.c.ret ? `<div class="rx-cook-timer">${R.t>0 ? `<span class="mono">${R.t}</span><span>retené…</span>` : `<button class="btn btn-primary" data-cbrun="ret">⏱ Retención ${R.c.ret} s</button>`}<small class="af-muted">en la contracción de cada repetición</small></div>` : ""}`}
+         ${p.ret ? `<div class="rx-cook-timer">${R.t>0 ? `<span class="mono">${R.t}</span><span>retené…</span>` : `<button class="btn btn-primary" data-cbrun="ret">⏱ Retención ${p.ret} s</button>`}<small class="af-muted">en la contracción de cada repetición</small></div>` : ""}`}
     <div class="af-muted">Llevás ${R.hechas} de ${tot} repeticiones${R.c.nota?` · ${aliEsc(R.c.nota)}`:""}</div>
     <div class="rx-cook-nav"><button class="btn" data-cbrun="prev" ${R.i?"":"disabled"}>← Anterior</button><button class="btn btn-primary" data-cbrun="next">${R.i<R.pasos.length-1?"Hecho, siguiente →":"✓ Terminé"}</button></div>
   </div>`;
