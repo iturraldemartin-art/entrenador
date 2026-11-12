@@ -254,6 +254,26 @@ const when = iso => new Date(iso).toLocaleString("es-AR",{day:"2-digit",month:"2
 let ST={}; try{ ST=JSON.parse(localStorage.getItem("simcambio4")||"{}"); }catch(e){}
 function save(){ try{ localStorage.setItem("simcambio4", JSON.stringify(ST)); }catch(e){} }
 
+// ===== Puntos de miles en los montos (coma = decimales) =====
+function thou(el){
+  const v=el.value, pos=el.selectionStart==null?v.length:el.selectionStart;
+  const before=v.slice(0,pos).replace(/[^\d,]/g,"").length;
+  const s=v.replace(/[^\d,]/g,""), i=s.indexOf(",");
+  let ent=i<0?s:s.slice(0,i); const dec=i<0?"":s.slice(i+1).replace(/,/g,"");
+  ent=ent.replace(/^0+(?=\d)/,""); if(i>=0&&ent==="") ent="0";
+  const out=ent.replace(/\B(?=(\d{3})+(?!\d))/g,".")+(i>=0?","+dec:"");
+  if(out===v) return; el.value=out;
+  let n=0,q=0; while(q<out.length&&n<before){ if(/[\d,]/.test(out[q])) n++; q++; }
+  try{ el.setSelectionRange(q,q); }catch(e){}
+}
+function thouInit(el){ const n=parse(el.value); if(isFinite(n)) el.value=n.toLocaleString("es-AR",{maximumFractionDigits:6}); }
+for (const id of ["amt","mpAmt","uAmt"]) $(id).addEventListener("input",e=>{
+  const el=e.target;
+  if (e.data==="."){ const q=el.selectionStart, v=el.value;
+    if (v[q-1]==="."){ el.value=v.slice(0,q-1)+(v.includes(",")?"":",")+v.slice(q); try{ el.setSelectionRange(q,q); }catch(_){} } }
+  thou(el);
+});
+
 // ===== Pestañas =====
 function showTab(t){
   ST.tab=t; save();
@@ -454,6 +474,7 @@ copyBtn("copy","resV","Copiar resultado"); copyBtn("mpCopy","mpV","Copiar total"
 })();
 
 let dbDoc=null;
+for (const id of ["amt","mpAmt","uAmt"]) thouInit($(id));
 showTab(ST.tab||"cambio"); mpSync(); recalcAll(); refresh();
 setInterval(refresh, 2*60*1000);
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) refresh(); });
