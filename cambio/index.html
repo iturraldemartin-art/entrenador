@@ -163,12 +163,12 @@ td:first-child,th:first-child{text-align:left} td small{color:var(--muted)}
       <div class="chips" role="group" aria-label="Medio de pago">
         <button class="chip" data-m="disp" aria-pressed="false"><b>Dinero disponible</b><span>sin comisión</span></button>
         <button class="chip" data-m="tc" aria-pressed="true"><b>Tarjeta</b><span id="chipTc">6,99%</span></button>
-        <button class="chip" data-m="cmp" aria-pressed="false"><b>Crédito MP</b><span id="chipCmp">CFT 437%</span></button>
+        <button class="chip" data-m="cmp" aria-pressed="false"><b>Crédito MP</b><span id="chipCmp">+16,0%</span></button>
       </div>
     </div>
     <div>
       <label class="lbl" for="mpPct" id="mpPctLbl">Comisión con IVA</label>
-      <div class="box big"><input id="mpPct" inputmode="decimal" autocomplete="off" value="6,99"><span class="u">%</span><button class="clr" id="mpReset" aria-label="Volver al valor por defecto" title="Volver al valor por defecto">↺</button></div>
+      <div class="box big"><span class="u" id="mpPre" hidden>$</span><input id="mpPct" inputmode="decimal" autocomplete="off" value="6,99"><span class="u" id="mpUnit">%</span><button class="clr" id="mpReset" aria-label="Volver al valor por defecto" title="Volver al valor por defecto">↺</button></div>
       <div class="hint" id="mpHint"></div>
     </div>
     <div id="cuotasWrap" hidden>
@@ -342,23 +342,29 @@ for (const id of ["curA","curB"]) $(id).addEventListener("change",calc);
 
 // ===== MP =====
 const MP_DEF={disp:0,tc:6.99,cmp:437};
-const mp={ m:ST.mpM||"tc", pct:{...MP_DEF,...(ST.mpPct||{})}, n:ST.mpN||1 };
-$("cuotas").innerHTML=[1,3,6,9,12,18].map(n=>`<button data-n="${n}">${n}</button>`).join("");
+// Cuota real de Crédito MP por cada $1.000 pedidos (app de MP, 12/11/2026)
+const MP_COEF_DEF={1:1160.22,3:451.87,6:279.36};
+const mp={ m:ST.mpM||"tc", pct:{...MP_DEF,...(ST.mpPct||{})}, coef:{...MP_COEF_DEF,...(ST.mpCoef||{})}, n:ST.mpN||1 };
+if (!MP_COEF_DEF[mp.n]) mp.n=1;
+function rateFrom(coef,n){ const q=coef/1000; if(n===1) return q-1; let lo=0,hi=2; for(let k=0;k<80;k++){ const i=(lo+hi)/2; (i/(1-Math.pow(1+i,-n))>q)?hi=i:lo=i; } return (lo+hi)/2; }
+const recPct=n=>(mp.coef[n]*n/1000-1)*100;
+$("cuotas").innerHTML=[1,3,6].map(n=>`<button data-n="${n}">${n}</button>`).join("");
 if (ST.mpAmt!=null) $("mpAmt").value=ST.mpAmt;
-function mpChips(){ $("chipTc").textContent=fmt(mp.pct.tc,2)+"%"; $("chipCmp").textContent="CFT "+fmt(mp.pct.cmp,0)+"%"; }
+function mpChips(){ $("chipTc").textContent=fmt(mp.pct.tc,2)+"%"; $("chipCmp").textContent="+"+fmt(recPct(mp.n),1)+"%"; }
 function mpSync(){
   document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.m===mp.m));
   document.querySelectorAll("#cuotas button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.n===mp.n));
   mpChips();
-  $("mpPct").value=fmt(mp.pct[mp.m], mp.m==="cmp"?0:2);
+  $("mpPct").value = mp.m==="cmp" ? fmt(mp.coef[mp.n],2) : fmt(mp.pct[mp.m],2);
+  $("mpPre").hidden = mp.m!=="cmp"; $("mpUnit").hidden = mp.m==="cmp";
   $("mpPct").disabled = mp.m==="disp";
-  $("mpPctLbl").textContent = mp.m==="cmp"?"CFT anual (costo financiero total)":"Comisión con IVA";
+  $("mpPctLbl").textContent = mp.m==="cmp"?`Cuota que muestra MP por cada $1.000 (${mp.n} ${mp.n===1?"cuota":"cuotas"})`:"Comisión con IVA";
   $("cuotasWrap").hidden = mp.m!=="cmp";
   mpCalc();
 }
 function mpCalc(){
   const M=parse($("mpAmt").value);
-  Object.assign(ST,{mpAmt:$("mpAmt").value,mpM:mp.m,mpPct:mp.pct,mpN:mp.n}); save();
+  Object.assign(ST,{mpAmt:$("mpAmt").value,mpM:mp.m,mpPct:mp.pct,mpCoef:mp.coef,mpN:mp.n}); save();
   const V=$("mpV"),U=$("mpU"),B=$("mpBrk"),K=$("mpK"),H=$("mpHint");
   K.textContent="Total a pagar";
   if (!isFinite(M)||M<=0){ V.textContent="—"; U.textContent=""; B.innerHTML=""; H.textContent=""; return; }
@@ -373,20 +379,19 @@ function mpCalc(){
     B.innerHTML=`<dt>Dinero a transferir</dt><dd>$ ${fmt(M,2)}</dd><dt>Comisión con IVA (${fmt(p,2)}%)</dt><dd>$ ${fmt(c,2)}</dd><dt class="tot">Total</dt><dd class="tot">$ ${fmt(T,2)}</dd>`;
     H.textContent="Si la app te muestra otro %, escribilo acá.";
   } else {
-    const i=Math.pow(1+p/100,1/12)-1, n=mp.n;
-    const q = n===1 ? M*(1+i) : M*i/(1-Math.pow(1+i,-n)), T=q*n, it=T-M;
-    K.textContent = n===1?"Pagás en 1 pago":`${n} cuotas de`;
+    const n=mp.n, q=M*mp.coef[n]/1000, T=q*n, it=T-M, i=rateFrom(mp.coef[n],n), tea=Math.pow(1+i,12)-1;
+    K.textContent = n===1?"Pagás en 1 cuota":`${n} cuotas de`;
     V.textContent="$ "+fmt(q,2); U.textContent = n===1?"a 30 días":`Total $ ${fmt(T,2)}`;
-    B.innerHTML=`<dt>Dinero a transferir</dt><dd>$ ${fmt(M,2)}</dd><dt>Tasa mensual equivalente</dt><dd>${fmt(i*100,2)}%</dd><dt>Intereses y cargos</dt><dd>$ ${fmt(it,2)}</dd><dt class="tot">Total a devolver</dt><dd class="tot">$ ${fmt(T,2)}</dd><dt>Recargo sobre lo transferido</dt><dd>${fmt(it/M*100,2)}%</dd>`;
-    H.textContent=`El ${fmt(p,0)}% es anual y compuesto: equivale a ${fmt(i*100,2)}% por mes (no es ${fmt(p,0)} ÷ 12). Si MP te muestra otro CFT para esas cuotas, cambialo acá.`;
+    B.innerHTML=`<dt>Dinero pedido</dt><dd>$ ${fmt(M,2)}</dd><dt>Tasa mensual real</dt><dd>${fmt(i*100,2)}%</dd><dt>Intereses y cargos</dt><dd>$ ${fmt(it,2)}</dd><dt class="tot">Total a devolver</dt><dd class="tot">$ ${fmt(T,2)}</dd><dt>Recargo sobre lo pedido</dt><dd>${fmt(it/M*100,2)}%</dd><dt>Equivale a anual (aprox.)</dt><dd>${fmt(tea*100,0)}%</dd>`;
+    H.textContent="Calculado con las cuotas reales de MP (para $1.000). Si MP te muestra otra cuota, escribila acá y ↺ vuelve a la original.";
   }
 }
 document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ mp.m=c.dataset.m; mpSync(); });
 $("cuotas").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; mp.n=+b.dataset.n; mpSync(); };
 $("mpAmt").addEventListener("input",mpCalc);
-$("mpPct").addEventListener("input",()=>{ const v=parse($("mpPct").value); if(isFinite(v)&&v>=0){ mp.pct[mp.m]=v; mpChips(); mpCalc(); } });
+$("mpPct").addEventListener("input",()=>{ const v=parse($("mpPct").value); if(isFinite(v)&&v>=0){ if(mp.m==="cmp"){ if(v>0) mp.coef[mp.n]=v; } else mp.pct[mp.m]=v; mpChips(); mpCalc(); } });
 $("mpClr").onclick=()=>{ $("mpAmt").value=""; $("mpAmt").focus(); mpCalc(); };
-$("mpReset").onclick=()=>{ mp.pct[mp.m]=MP_DEF[mp.m]; mpSync(); };
+$("mpReset").onclick=()=>{ if(mp.m==="cmp") mp.coef[mp.n]=MP_COEF_DEF[mp.n]; else mp.pct[mp.m]=MP_DEF[mp.m]; mpSync(); };
 
 // ===== U$S (DolarApp) =====
 const u={ buy: ST.uBuy!==false, inPesos: !!ST.uPesos };
