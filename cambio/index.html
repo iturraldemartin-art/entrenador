@@ -377,8 +377,8 @@ function mpCalc(){
     const q = n===1 ? M*(1+i) : M*i/(1-Math.pow(1+i,-n)), T=q*n, it=T-M;
     K.textContent = n===1?"Pagás en 1 pago":`${n} cuotas de`;
     V.textContent="$ "+fmt(q,2); U.textContent = n===1?"a 30 días":`Total $ ${fmt(T,2)}`;
-    B.innerHTML=`<dt>Dinero a transferir</dt><dd>$ ${fmt(M,2)}</dd><dt>Tasa mensual equivalente</dt><dd>${fmt(i*100,2)}%</dd><dt>Intereses y cargos</dt><dd>$ ${fmt(it,2)}</dd><dt class="tot">Total a devolver</dt><dd class="tot">$ ${fmt(T,2)}</dd><dt>Recargo sobre lo transferido</dt><dd>${fmt(it/M*100,1)}%</dd>`;
-    H.textContent="Estimado con el CFT. Si MP te muestra otro CFT para esas cuotas, cambialo acá.";
+    B.innerHTML=`<dt>Dinero a transferir</dt><dd>$ ${fmt(M,2)}</dd><dt>Tasa mensual equivalente</dt><dd>${fmt(i*100,2)}%</dd><dt>Intereses y cargos</dt><dd>$ ${fmt(it,2)}</dd><dt class="tot">Total a devolver</dt><dd class="tot">$ ${fmt(T,2)}</dd><dt>Recargo sobre lo transferido</dt><dd>${fmt(it/M*100,2)}%</dd>`;
+    H.textContent=`El ${fmt(p,0)}% es anual y compuesto: equivale a ${fmt(i*100,2)}% por mes (no es ${fmt(p,0)} ÷ 12). Si MP te muestra otro CFT para esas cuotas, cambialo acá.`;
   }
 }
 document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ mp.m=c.dataset.m; mpSync(); });
