@@ -565,6 +565,9 @@
   #alarm-flash div{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:2.2rem; }
   #alarm-flash small{ display:block; font-family:"IBM Plex Sans",sans-serif; font-weight:500; font-size:.85rem; opacity:.85; margin-top:10px; }
   @keyframes alflash{ 0%{ background:rgba(217,83,10,.95);} 100%{ background:rgba(20,20,15,.92);} }
+  #alarm-flash.verde{ background:rgba(46,160,67,.94); }
+  #alarm-flash.verde.on{ animation:alflashV .5s steps(2) 6; }
+  @keyframes alflashV{ 0%{ background:rgba(46,160,67,.96);} 100%{ background:rgba(20,20,15,.92);} }
   /* ---------- Medios: radio / TV / apps ---------- */
   .sidebar{ overflow-y:auto; }
   .media-box{ border-top:1px solid var(--line); padding-top:14px; display:flex; flex-direction:column; gap:10px; }
@@ -1973,21 +1976,36 @@ function playAlarmSound(kind){
     });
   }
 }
-function flashAlert(text){
+function flashAlert(text, verde){
   try{
     let el = document.getElementById("alarm-flash");
     if(!el){ el = document.createElement("div"); el.id = "alarm-flash"; document.body.appendChild(el); el.addEventListener("click", ()=>el.classList.remove("on")); }
     el.innerHTML = `<div><b>⏱</b>${text}<small>tocá para cerrar</small></div>`;
+    el.classList.toggle("verde", !!verde);
     el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
     clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove("on"), 5000);
   }catch(e){}
 }
-function playBeep(text){
+function playBeep(text, verde){
   try{ undim(); }catch(e){}
   try{ playAlarmSound(alarmSound); }catch(e){}
   try{ if(navigator.vibrate) navigator.vibrate([400,150,400,150,800]); }catch(e){}
-  if(text) flashAlert(text);
+  if(text) flashAlert(text, verde);
 }
+/* Aviso "APAGAR EL RELOJ": al tildar la última serie del último ejercicio, si a los 3 minutos el
+   cronómetro sigue corriendo, la pantalla titila en verde (igual que el aviso de 15 min) y se repite
+   cada 3 minutos hasta que lo apagues. Se cancela si destildás una serie o apagás el reloj. */
+const APAGAR_AVISO_MS = 3*60*1000;
+let apagarAvisoT = null;
+function apagarAvisoProgramar(){
+  clearTimeout(apagarAvisoT);
+  apagarAvisoT = setTimeout(function chk(){
+    if(!runningTimerDate()){ apagarAvisoT = null; return; }
+    playBeep("APAGAR EL RELOJ", true);
+    apagarAvisoT = setTimeout(chk, APAGAR_AVISO_MS);
+  }, APAGAR_AVISO_MS);
+}
+function apagarAvisoCancelar(){ clearTimeout(apagarAvisoT); apagarAvisoT = null; }
 function openAlarmModal(){
   const list = (cur, act)=> `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;">${Object.keys(ALARM_SOUNDS).map(k=>`<button class="btn ${k===cur?"btn-primary":""}" style="justify-content:flex-start;white-space:normal;text-align:left;" data-action="${act}" data-sound="${k}">${ALARM_SOUNDS[k]}${k===cur?" ✓":""}</button>`).join("")}</div>`;
   openModal(`<div class="modal-head"><h2>Sonidos de los avisos</h2><button class="modal-close" data-action="close-modal">${ICON.close}</button></div>
@@ -2091,6 +2109,7 @@ async function timerStart(){
 }
 async function timerStop(){
   const d = runningTimerDate();
+  try{ apagarAvisoCancelar(); }catch(_){}
   if(!d) return;
   const total = timerMsFor(d);
   releaseWakeLock(); stopKeepAlive();
@@ -3352,8 +3371,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v16";
-const APP_BUILD = "2026-11-06a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v17";
+const APP_BUILD = "2026-11-13a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -4392,9 +4411,12 @@ document.addEventListener("click", async e=>{
   if(st.ok) autoTimer = null;
   dayDraftDirty = true;
   redrawDayEditor(); refreshNoteButtons();
+  if(!st.ok) apagarAvisoCancelar();
   if(st.ok){
+    // si te olvidaste de prender el reloj, arranca solo al tildar una serie de hoy
+    if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ try{ await timerStart(); }catch(_){} }
     const allDone = dayDraft.entries.every(x=> !x.exerciseId || ensureDetalle(x).every(z=>z.ok));
-    if(allDone){ restStop(); toast("¡Entreno completo! Tocá Guardar registro 💪"); }
+    if(allDone){ restStop(); toast("¡Entreno completo! Tocá Guardar registro 💪"); if(dayDraft.dateStr===todayStr()) apagarAvisoProgramar(); }
     else {
       restStart();
       if(en.detalle.every(z=>z.ok)){
