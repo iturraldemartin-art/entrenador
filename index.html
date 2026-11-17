@@ -3372,7 +3372,7 @@ function render(){
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
 const APP_VERSION = "v18";
-const APP_BUILD = "2026-11-17a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_BUILD = "2026-11-17b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3742,7 +3742,7 @@ function dayEditorBody(d){
     <div class="today-panel-head">
       <div><h2>Entreno del día</h2></div>
     </div>
-    ${PLAN_CORRIDO[d.dateStr] ? `<div class="rules-note" style="border-left-color:#1E88E5;">🔁 <b>Semana corrida:</b> hoy toca la rutina del <b>${DOW_LABEL[PLAN_CORRIDO[d.dateStr]].toLowerCase()}</b>. Solo esta semana; el lunes 19 vuelve todo a lo normal.</div>` : ""}
+    ${PLAN_CORRIDO[d.dateStr] ? `<div class="rules-note" style="border-left-color:#1E88E5;">🔁 <b>Semana corrida:</b> hoy toca la rutina del <b>${DOW_LABEL[PLAN_CORRIDO[d.dateStr]].toLowerCase()}</b>. Cambio solo por esta vez; después sigue la rutina normal.</div>` : ""}
     <div class="rules-note"><b>Regla de siempre:</b> movilidad de zona y calentamiento antes de empezar.</div>
     <div>${rows || `<p style="color:var(--ink-2);font-size:.88rem;margin:2px 0 14px;">Sin ejercicios para este día. Configurá el día en la pestaña Semana, o agregá uno acá.</p>
       <button class="btn" style="margin-top:4px;" data-action="day-add-blank">${ICON.plus} Agregar ejercicio</button>`}</div>
