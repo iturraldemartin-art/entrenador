@@ -1774,7 +1774,7 @@ function dowKeyFromDate(dt){ const j=dt.getDay(); return ["dom","lun","mar","mie
 // Corrimiento de rutinas SOLO por una semana (fecha → rutina de qué día se hace). Pasada la fecha, todo vuelve solo a lo normal.
 // Semana del 12/10/2026: el lunes 12 fue feriado → mar hace la del lunes, mié la del martes, jue la del miércoles,
 // vie la del jueves, y la rutina del viernes se suprime. La planificación de la Semana NO se modifica.
-const PLAN_CORRIDO = { "2026-10-13":"lun", "2026-10-14":"mar", "2026-10-15":"mie", "2026-10-16":"jue" };
+const PLAN_CORRIDO = { "2026-10-13":"lun", "2026-10-14":"mar", "2026-10-15":"mie", "2026-10-16":"jue", "2026-11-17":"mie", "2026-11-18":"mar" };
 function planDow(ds){ return PLAN_CORRIDO[ds] || dowKeyFromDate(dsToDate(ds)); }
 function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))); }
 
@@ -3371,8 +3371,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v17";
-const APP_BUILD = "2026-11-13a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v18";
+const APP_BUILD = "2026-11-17a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
