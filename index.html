@@ -565,6 +565,8 @@
   #alarm-flash div{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:2.2rem; }
   #alarm-flash small{ display:block; font-family:"IBM Plex Sans",sans-serif; font-weight:500; font-size:.85rem; opacity:.85; margin-top:10px; }
   @keyframes alflash{ 0%{ background:rgba(217,83,10,.95);} 100%{ background:rgba(20,20,15,.92);} }
+  select optgroup{ font-weight:800; color:var(--accent); background:var(--surface-2); }
+  select optgroup option{ font-weight:400; color:var(--ink); background:var(--surface); }
   #alarm-flash.verde{ background:rgba(46,160,67,.94); }
   #alarm-flash.verde.on{ animation:alflashV .5s steps(2) 6; }
   @keyframes alflashV{ 0%{ background:rgba(46,160,67,.96);} 100%{ background:rgba(20,20,15,.92);} }
@@ -1805,6 +1807,34 @@ const EX_META_FIX = {
 };
 function allExercises(){ return BUILTIN_EXERCISES.concat(state.exercisesCustom.map(e=> EX_META_FIX[e.id] ? Object.assign({}, e, EX_META_FIX[e.id], { n:e.n }) : e)); }
 function exerciseById(id){ return allExercises().find(e=>e.id===id); }
+/* Ordena solo los ejercicios cargados a mano: lee el nombre y lo pone en su grupo muscular. */
+function catPorNombre(nombre){
+  const t = String(nombre||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const R = [
+    ["Piernas", ["cuadri","femoral","isquio","glute","gemelo","pantorr","sentadilla","prensa","hack","zancada","estocada","step","escalador","aductor","abductor","peso muerto","hip thrust","pierna","burro","sillon","camilla","bulgara","good morning"], ["cuadriceps","gluteos"], "squat"],
+    ["Brazos",  ["tricep","bicep","curl","martillo","frances","scott","antebrazo","muneca","patada de tri"], ["triceps"], "extension"],
+    ["Hombros", ["hombro","militar","lateral","frontal","vuelo","pajaro","arnold","face pull","deltoid","posterior"], ["hombros"], "press"],
+    ["Espalda", ["remo","jalon","dominada","pullover","espalda","trapecio","encogim","que me importa","lumbar","dorsal"], ["espalda"], "row"],
+    ["Pecho",   ["pecho","banca","press plano","inclinad","declinad","apertura","cruce","pec deck","contractora","fondo","flexion"], ["pecho"], "push"],
+    ["Abdominales", ["abdom","crunch","plancha","core","oblicuo","rueda"], ["abdominales"], "core"],
+    ["Cardio",  ["cinta","bici","eliptic","correr","trote","soga","sprint","cardio"], [], "cardio"],
+  ];
+  for(const [cat, kws, mus, pat] of R){ if(kws.some(k=> t.includes(k))){
+    let m = mus; if(cat==="Brazos" && /bicep|curl|martillo|scott/.test(t) && !/tricep/.test(t)) m = ["biceps"];
+    if(cat==="Piernas" && /femoral|isquio|good morning|peso muerto/.test(t)) m = ["isquios","gluteos"];
+    return { cat, mus:m, pat }; } }
+  return null;
+}
+let catAutoHecho = false;
+async function catAutoOrdenar(){
+  if(catAutoHecho || !db) return; catAutoHecho = true;
+  for(const e of state.exercisesCustom){
+    if(e.cat && e.cat!=="Otros") continue;
+    const c = catPorNombre(e.n); if(!c) continue;
+    try{ const doc = Object.assign({}, e, { cat:c.cat, mus:(e.mus&&e.mus.length)?e.mus:c.mus, pat:c.pat }); delete doc.id; await db.doc("exercises/"+e.id).set(doc); }catch(_){}
+  }
+  setTimeout(()=>{ catAutoHecho = false; }, 60000);
+}
 
 function todayStr(d){ d=d||new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function fmtDateLong(dateStr){
@@ -2258,6 +2288,7 @@ async function initStorage(){
     db.collection("exercises").onSnapshot(snap=>{
       state.exercisesCustom = snap.docs.map(d=>Object.assign({id:d.id}, d.data()));
       render();
+      try{ if(state.exercisesCustom.some(e=>!e.cat || e.cat==="Otros")) catAutoOrdenar(); }catch(_){}
     }, ()=>{});
     db.doc("meta/weekplan").onSnapshot(snap=>{
       state.weekPlan = snap.exists ? snap.data() : {};
@@ -2930,10 +2961,16 @@ function rulesCardHtml(){
     </ul>
   </div>`;
 }
+/* Grupos de la lista de ejercicios: resaltados con color y en mayúsculas. Abdominales y Cardio no se
+   muestran (salvo que el ejercicio ya elegido sea de ahí). */
+const CAT_MARCA = { Pecho:"🔴", Espalda:"🔵", Hombros:"🟡", Brazos:"🟢", Piernas:"🟣", Abdominales:"⚪", Cardio:"⚪", Otros:"⚫" };
+const CAT_OCULTAS = ["Abdominales","Cardio"];
 function exerciseOptionsHtml(selectedId){
+  const sel = selectedId ? exerciseById(selectedId) : null;
   const groups = CATS.map(cat=>{
+    if(CAT_OCULTAS.includes(cat) && !(sel && sel.cat===cat)) return "";
     const opts = allExercises().filter(e=>e.cat===cat).map(e=>`<option value="${e.id}" ${e.id===selectedId?"selected":""}>${e.n}</option>`).join("");
-    return opts ? `<optgroup label="${cat}">${opts}</optgroup>` : "";
+    return opts ? `<optgroup label="${CAT_MARCA[cat]||""} ${cat.toUpperCase()} ━━━━━━━━">${opts}</optgroup>` : "";
   }).join("");
   return (selectedId ? "" : `<option value="" selected>— Elegí el ejercicio —</option>`) + groups + `<option value="__manual__">➕ Agregar a mano</option>`;
 }
@@ -3413,8 +3450,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v23";
-const APP_BUILD = "2026-11-19f";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v24";
+const APP_BUILD = "2026-11-19g";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3621,7 +3658,9 @@ async function confirmManualEntry(){
   const inp = document.querySelector('input[data-role="ejercicio-manual"]');
   const name = inp ? inp.value.trim() : "";
   if(!name){ toast("Escribí un nombre para el ejercicio"); if(inp) inp.focus(); return; }
-  const ex = { id:"custom_"+uid(), n:name, cat:"Otros", mus:[], mus2:[], eq:"", pat:"push", cues:[] };
+  const auto = catPorNombre(name);
+  const ex = { id:"custom_"+uid(), n:name, cat:auto?auto.cat:"Otros", mus:auto?auto.mus:[], mus2:[], eq:"", pat:auto?auto.pat:"push", cues:[] };
+  if(auto) toast(`Guardado en ${auto.cat}`);
   await saveExercise(ex);
   manualEntrySlot = null;
   if(target.mode==="day" && dayDraft && dayDraft.entries[target.ei]){
