@@ -212,6 +212,41 @@
 
   /* ---------- Hoy: tarjeta de ejercicio (4 cuadros: ejercicio / series / repeticiones / kilos) ---------- */
   .day-ex-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:12px; margin-bottom:10px; }
+  /* ---------- Circuito: varios ejercicios seguidos dentro de una tarjeta ---------- */
+  .circ-btn{ font-weight:700; white-space:nowrap; border:1px dashed var(--ink-2); font-size:.74rem; padding:4px 7px; }
+  .circ-btn b{ color:var(--accent); font-size:1.05em; }
+  @media (max-width:560px){ .circ-btn .circ-lbl{ display:none; } .circ-btn{ padding:4px 5px; } }
+  .day-ex-card.circ{ background:#2a3138; border:1.5px solid #7f97ad; color:#eef1ee; }
+  .circ-head{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .circ-title{ font-family:"Rajdhani",sans-serif; font-weight:700; font-size:1.35rem; letter-spacing:.04em; flex:1; }
+  .circ-tag{ white-space:nowrap; background:#7f97ad; color:#0f1620; font-weight:700; font-size:.72rem; padding:3px 9px; border-radius:20px; letter-spacing:.06em; }
+  .circ-sub{ font-size:.8rem; color:#b9c6d2; margin:2px 0 6px; }
+  .circ-row{ display:grid; grid-template-columns:24px 52px minmax(0,1fr) minmax(0,1fr) 30px; grid-template-areas:"num th ex ex ex" "num th reps kg del"; gap:5px 6px; align-items:end; background:#323b44; border-radius:8px; padding:7px; margin-top:6px; }
+  .circ-row > .num{ grid-area:num; align-self:center; } .circ-row > .th{ grid-area:th; align-self:center; width:52px; height:52px; }
+  .circ-row > .c-ex{ grid-area:ex; } .circ-row > .c-reps{ grid-area:reps; } .circ-row > .c-kg{ grid-area:kg; } .circ-row > .c-del{ grid-area:del; }
+  .day-ex-card.circ .btn-ghost, .day-ex-card.circ .c-del{ color:#cfe0ee; }
+  .day-ex-card.circ .last-ref{ color:#b9c6d2; }
+  .circ-row .num{ width:22px; height:22px; border-radius:50%; background:#0f1620; color:#7f97ad; display:grid; place-items:center; font-weight:700; font-size:.78rem; }
+  .circ-row .th{ border-radius:6px; overflow:hidden; cursor:pointer; background:#fff; }
+  .circ-row .th img{ width:100%; height:100%; object-fit:cover; }
+  .circ-row select{ width:100%; min-width:0; }
+  .circ-row label{ display:block; font-size:.58rem; color:#b9c6d2; letter-spacing:.06em; text-transform:uppercase; }
+  .circ-add{ display:block; width:100%; margin-top:8px; border:1.5px dashed #7f97ad; background:transparent; color:#cfe0ee; border-radius:8px; padding:9px; font-weight:700; cursor:pointer; }
+  .circ-foot{ display:flex; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap; font-size:.85rem; }
+  .circ-foot .pl-step b{ min-width:26px; text-align:center; }
+  .circ-scroll{ overflow-x:auto; margin-top:6px; }
+  .circ-grid{ width:100%; border-collapse:separate; border-spacing:3px; }
+  .circ-grid th button{ white-space:nowrap; width:100%; min-width:46px; height:38px; border-radius:8px; border:1.5px solid #7f97ad; background:#0f1620; color:#eef1ee; font-family:"Rajdhani",sans-serif; font-weight:700; font-size:.95rem; cursor:pointer; }
+  .circ-grid th button.on{ background:var(--good); border-color:var(--good); color:#123; }
+  .circ-grid th button.cur{ border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 3px rgba(255,122,41,.2); }
+  .circ-grid td{ background:#323b44; border-radius:6px; text-align:center; height:34px; font-family:"IBM Plex Mono",monospace; font-size:.75rem; color:#c9d3dc; }
+  .circ-grid td.on{ background:rgba(111,191,122,.28); color:#d8f0d8; }
+  .circ-grid td.ex{ background:transparent; text-align:left; font-family:"IBM Plex Sans",sans-serif; font-size:.78rem; color:#eef1ee; min-width:110px; }
+  .circ-grid td.ex span{ display:flex; align-items:center; gap:6px; }
+  .circ-grid td.ex .th{ width:28px; height:28px; flex:none; border-radius:5px; overflow:hidden; cursor:pointer; background:#fff; }
+  .circ-grid td.ex .th img{ width:100%; height:100%; object-fit:cover; }
+  .circ-sum{ display:flex; align-items:center; gap:6px; margin-top:8px; background:#1b2128; border:1px dashed #7f97ad; border-radius:8px; padding:7px 9px; font-size:.8rem; }
+  .circ-sum .cbt{ background:var(--accent); color:#1a0f00; font-weight:800; font-size:.68rem; border-radius:4px; padding:2px 5px; }
   .day-ex-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
   .day-ex-thumb{ width:38px; height:38px; flex:none; background:var(--surface-2); border-radius:6px; }
   .day-ex-thumb svg{ width:100%; height:100%; display:block; }
@@ -2734,6 +2769,7 @@ function syncDayDraftFromDom(){
   root.querySelectorAll('[data-role="extra"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; if(!en) return; en.extra = Number(sel.value)||0; applyBE(en); });
   root.querySelectorAll('[data-role="set-reps"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; const st=en&&en.detalle&&en.detalle[Number(sel.dataset.si)]; if(st) st.reps = sel.value; });
   root.querySelectorAll('[data-role="set-peso"]').forEach(sel=>{ const en=dayDraft.entries[Number(sel.dataset.ei)]; const st=en&&en.detalle&&en.detalle[Number(sel.dataset.si)]; if(st) st.peso = sel.value; });
+  root.querySelectorAll('[data-circ-f]').forEach(sel=>{ const [ei,i,f] = sel.dataset.circF.split(":"); const en=dayDraft.entries[Number(ei)]; const it=en&&en.circuito&&en.circuito.items[Number(i)]; if(it) it[f] = sel.value; });
 }
 // Capture in-progress dropdown choices keyed by exerciseId (not raw array index) so they can be
 // re-applied after a full rebuild — a rebuild happens on every visit to "Hoy" so a plan change made
@@ -3450,8 +3486,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v25";
-const APP_BUILD = "2026-11-19h";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v26";
+const APP_BUILD = "2026-11-20a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -3781,6 +3817,7 @@ function phaseHint(exId, dateStr){
 }
 function dayEditorBody(d){
   const rows = d.entries.map((en,ei)=>{
+    if(en.circuito) return circCardHtml(d, en, ei);
     const last = lastWeightFor(en.exerciseId, d.dateStr);
     const ex = exerciseById(en.exerciseId);
     const isManual = manualEntrySlot && manualEntrySlot.mode==="day" && manualEntrySlot.ei===ei;
@@ -3795,6 +3832,7 @@ function dayEditorBody(d){
       <div class="day-ex-head">
         <div class="day-ex-thumb" ${ex?`data-action="open-exercise" data-id="${ex.id}" title="Ver cómo se hace"`:""}>${exThumb(ex)}</div>
         <div class="day-ex-name-wrap"><div class="day-ex-name">${ex ? ex.n : "—"}</div>${en.exerciseId?exNoteLine(en.exerciseId):""}${en.exerciseId?exCbLine(en.exerciseId):""}</div>
+        <button type="button" class="btn btn-sm btn-ghost circ-btn" data-circ-on="${ei}" title="Armar un circuito: varios ejercicios seguidos" aria-label="Convertir en circuito">🔁<span class="circ-lbl"> Circuito</span> <b>＋</b></button>
         ${en.exerciseId?exStartBtnHtml(d, en, ei):""}
         ${en.exerciseId?`<button type="button" class="btn btn-sm btn-ghost ex-note-btn" data-exnote="${en.exerciseId}" title="Nota de la máquina (asiento, agarre…)" aria-label="Nota del ejercicio">${NOTE_ICON}</button>`:""}
         ${en.exerciseId?exCbBtn(en.exerciseId):""}
@@ -7440,6 +7478,128 @@ document.addEventListener("click", ()=> setTimeout(uiSave, 300), true);
     }, 300);
   }, 250);
 })();
+/* ======================= CIRCUITO =======================
+   "🔁 Circuito ＋" en la tarjeta de un ejercicio la convierte en circuito: 2 o más ejercicios que se
+   hacen seguidos, sin soltar. Paso 1 (armar): elegís cada ejercicio, reps y kilos, y las vueltas.
+   Paso 2 (entrenar): ejercicios en filas y vueltas en columnas; un solo toque por vuelta marca todo
+   y arranca el descanso de 1 minuto. Se guarda dentro del día como en.circuito; las vueltas hechas
+   también quedan como series del primer ejercicio, así el día cuenta igual que siempre. */
+function circSync(en){
+  const c = en.circuito; if(!c) return;
+  c.vueltas = Math.max(1, Math.min(10, Number(c.vueltas)||1));
+  if(!Array.isArray(c.hechas)) c.hechas = [];
+  c.hechas.length = c.vueltas; for(let v=0; v<c.vueltas; v++) c.hechas[v] = !!c.hechas[v];
+  const first = c.items.find(i=>i.exerciseId) || null;
+  en.exerciseId = first ? first.exerciseId : "";
+  en.series = String(c.vueltas); en.reps = String(first ? first.reps||"" : ""); en.peso = String(first ? first.peso||"" : "");
+  delete en.base; delete en.extra;
+  en.detalle = c.hechas.map(ok=>({ reps:en.reps, peso:en.peso, ok }));
+  if(c.hechas.some(Boolean)) en.empezado = true;
+}
+function circExOpts(id){ return exerciseOptionsHtml(id).replace('<option value="__manual__">➕ Agregar a mano</option>',""); }
+function circThumb(exId){ const ex = exId && exerciseById(exId); return `<div class="th" ${ex?`data-action="open-exercise" data-id="${ex.id}" title="Ver cómo se hace"`:""}>${ex?exThumb(ex):""}</div>`; }
+function circResumen(c){
+  const its = c.items.filter(i=>i.exerciseId);
+  const reps = its.reduce((a,i)=>a+(Number(i.reps)||0),0), kg = its.reduce((a,i)=>a+(Number(i.reps)||0)*(Number(i.peso)||0),0);
+  const nom = i=>{ const ex = exerciseById(i.exerciseId); return ex ? ex.n.split(/[,(]/)[0].trim() : "—"; };
+  return `${its.map(i=>`${nom(i)} ${i.reps||"?"}`).join(" → ")} = <b>${reps} reps</b> por vuelta${kg?` · ${kg} kg movidos`:""}`;
+}
+function circCardHtml(d, en, ei){
+  const c = en.circuito, its = c.items;
+  const foot = `<div class="day-ex-foot"><span class="last-ref">${its.filter(i=>i.exerciseId).length} ejercicios · ${c.vueltas} vueltas · descanso 1 min por vuelta</span>
+    <div class="day-ex-foot-actions">
+      <button class="btn btn-sm btn-icon" data-action="day-move-up" data-ei="${ei}" title="Subir" ${ei===0?"disabled":""}>${ICON.arrowUp}</button>
+      <button class="btn btn-sm btn-icon" data-action="day-move-down" data-ei="${ei}" title="Bajar" ${ei===d.entries.length-1?"disabled":""}>${ICON.arrowDown}</button>
+      <button type="button" class="btn btn-sm btn-icon btn-add-below" data-action="day-add-below" data-ei="${ei}" title="Agregar otro ejercicio debajo" aria-label="Agregar ejercicio debajo">${ICON.plus}</button>
+      <button class="btn btn-sm btn-icon btn-danger" data-action="day-rm-ex" data-ei="${ei}" title="Quitar circuito">${ICON.trash}</button>
+    </div></div>`;
+  if(c.editando){
+    return `<div class="day-ex-card circ" data-card-ei="${ei}">
+      <div class="circ-head"><span class="circ-title">🔁 CIRCUITO</span><span class="circ-tag">ARMANDO</span></div>
+      <div class="circ-sub">Agregá los ejercicios en el orden en que los hacés (mínimo 2). Elegí reps y kilos de cada uno.</div>
+      ${its.map((it,i)=>`<div class="circ-row">
+        <span class="num">${i+1}</span>${circThumb(it.exerciseId)}
+        <div class="c-ex"><label>Ejercicio</label><select data-circ-f="${ei}:${i}:exerciseId" data-circ-ex="${ei}:${i}">${circExOpts(it.exerciseId)}</select></div>
+        <div class="c-reps"><label>Reps</label><select data-circ-f="${ei}:${i}:reps">${numberOptionsHtml(50, it.reps)}</select></div>
+        <div class="c-kg"><label>Kilos</label><select data-circ-f="${ei}:${i}:peso">${pesoOptionsHtml(it.peso)}</select></div>
+        <button type="button" class="btn btn-sm btn-icon btn-ghost c-del" data-circ-del="${ei}:${i}" title="Sacar del circuito" aria-label="Sacar del circuito">✕</button>
+      </div>`).join("")}
+      <button type="button" class="circ-add" data-circ-add="${ei}">＋ Agregar otro ejercicio al circuito</button>
+      <div class="circ-foot">Vueltas:
+        <div class="pl-step"><button type="button" data-circ-v="${ei}:-1">−</button><b>${c.vueltas}</b><button type="button" data-circ-v="${ei}:1">+</button></div>
+        <span style="flex:1"></span>
+        <button type="button" class="btn btn-sm btn-ghost" data-circ-off="${ei}">Volver a ejercicio común</button>
+        <button type="button" class="btn btn-sm btn-primary" data-circ-ok="${ei}">✓ Listo</button>
+      </div>
+      ${foot}</div>`;
+  }
+  const next = c.hechas.findIndex(x=>!x), ok = its.filter(i=>i.exerciseId);
+  return `<div class="day-ex-card circ ${next<0?"ex-done":""}" data-card-ei="${ei}">
+    <div class="circ-head"><span class="circ-title">🔁 CIRCUITO</span><button type="button" class="btn btn-sm" data-circ-edit="${ei}">✏️ Editar</button></div>
+    <div style="margin:4px 0 2px"><span class="circ-tag">${ok.length} EJERCICIOS · ${next<0?"COMPLETO ✓":`VUELTA ${next+1} DE ${c.vueltas}`}</span></div>
+    <div class="circ-sub">${next<0?"¡Circuito terminado! 💪":"Hacé todos seguidos y tocá la vuelta (arriba) al terminar ↓"}</div>
+    <div class="circ-scroll"><table class="circ-grid">
+      <tr><th></th>${c.hechas.map((h,v)=>`<th><button type="button" class="${h?"on":(v===next?"cur":"")}" data-circ-vuelta="${ei}:${v}" aria-pressed="${h}">${h?"✓ ":""}V${v+1}</button></th>`).join("")}</tr>
+      ${ok.map(it=>{ const ex = exerciseById(it.exerciseId);
+        return `<tr><td class="ex"><span>${circThumb(it.exerciseId)}${ex?ex.n:"—"}</span></td>${c.hechas.map(h=>`<td class="${h?"on":""}">${it.reps||"?"}×${it.peso||"–"}</td>`).join("")}</tr>`; }).join("")}
+    </table></div>
+    <div class="circ-sum"><span class="cbt">CB</span><span>${circResumen(c)}</span></div>
+    ${foot}</div>`;
+}
+async function circCommit(en){ circSync(en); dayDraftDirty = true; redrawDayEditor(); try{ refreshNoteButtons(); }catch(_){} try{ await autosaveDay(); }catch(_){} }
+document.addEventListener("click", async e=>{
+  const b = e.target.closest && e.target.closest("[data-circ-on],[data-circ-add],[data-circ-del],[data-circ-v],[data-circ-ok],[data-circ-edit],[data-circ-off],[data-circ-vuelta]");
+  if(!b || !dayDraft) return;
+  syncDayDraftFromDom();
+  const ds = b.dataset, num = s=>Number(String(s).split(":")[0]);
+  const ei = num(ds.circOn ?? ds.circAdd ?? ds.circDel ?? ds.circV ?? ds.circOk ?? ds.circEdit ?? ds.circOff ?? ds.circVuelta);
+  const en = dayDraft.entries[ei]; if(!en) return;
+  if(ds.circOn!==undefined){
+    const first = en.exerciseId ? { exerciseId:en.exerciseId, reps:String(en.reps||10), peso:String(en.peso||"") } : { exerciseId:"", reps:"10", peso:"" };
+    en.circuito = { items:[first, { exerciseId:"", reps:"10", peso:"" }], vueltas: Number(en.series)||4, hechas:[], editando:true };
+    delete en.detenido; en.abierto = true;
+    toast("🔁 Circuito: elegí los ejercicios en orden");
+    return circCommit(en);
+  }
+  const c = en.circuito; if(!c) return;
+  if(ds.circAdd!==undefined){ const last = c.items[c.items.length-1]; c.items.push({ exerciseId:"", reps:String(last ? last.reps||10 : 10), peso:"" }); return circCommit(en); }
+  if(ds.circDel!==undefined){ const i = Number(ds.circDel.split(":")[1]); c.items.splice(i,1); if(!c.items.length) c.items.push({ exerciseId:"", reps:"10", peso:"" }); return circCommit(en); }
+  if(ds.circV!==undefined){ c.vueltas = Math.max(1, Math.min(10, (Number(c.vueltas)||1) + Number(ds.circV.split(":")[1]))); return circCommit(en); }
+  if(ds.circOk!==undefined){
+    c.items = c.items.filter(i=>i.exerciseId);
+    if(c.items.length < 2){ if(!c.items.length) c.items.push({ exerciseId:"", reps:"10", peso:"" }); c.items.push({ exerciseId:"", reps:"10", peso:"" }); toast("Elegí al menos 2 ejercicios para el circuito"); return circCommit(en); }
+    c.editando = false; toast("✓ Circuito listo · tocá la vuelta cuando termines cada una"); return circCommit(en);
+  }
+  if(ds.circEdit!==undefined){ c.editando = true; return circCommit(en); }
+  if(ds.circOff!==undefined){
+    const f = c.items.find(i=>i.exerciseId);
+    delete en.circuito; en.exerciseId = f ? f.exerciseId : ""; en.series = String(c.vueltas); en.reps = String(f ? f.reps : 10); en.peso = String(f ? f.peso : "");
+    en.detalle = []; ensureDetalle(en); delete en.empezado;
+    toast("Volvió a ser un ejercicio común"); return circCommit(en);
+  }
+  if(ds.circVuelta!==undefined){
+    const v = Number(ds.circVuelta.split(":")[1]);
+    c.hechas[v] = !c.hechas[v];
+    circSync(en);
+    if(c.hechas[v]){
+      autoTimer = null;
+      if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ try{ await timerStart(); }catch(_){} }
+      const allDone = dayDraft.entries.every(x=> !x.exerciseId || ensureDetalle(x).every(z=>z.ok));
+      restStart();
+      if(allDone){ toast("¡Entreno completo! Tocá Guardar registro 💪"); if(dayDraft.dateStr===todayStr()) apagarAvisoProgramar(); }
+      else if(c.hechas.every(Boolean)) toast("✓ Circuito terminado");
+      else toast(`✓ Vuelta ${v+1} · descanso 1 minuto`);
+    } else { try{ apagarAvisoCancelar(); }catch(_){} }
+    return circCommit(en);
+  }
+});
+document.addEventListener("change", e=>{
+  const sel = e.target.closest && e.target.closest("#day-editor [data-circ-f]"); if(!sel || !dayDraft) return;
+  const [ei,i,f] = sel.dataset.circF.split(":"); const en = dayDraft.entries[Number(ei)]; const it = en && en.circuito && en.circuito.items[Number(i)]; if(!it) return;
+  syncDayDraftFromDom();
+  if(f==="exerciseId" && it.exerciseId && !it.peso){ try{ const last = lastSessionFor(it.exerciseId, dayDraft.dateStr); if(last && last.peso) it.peso = String(last.peso); }catch(_){} }
+  circCommit(en);
+});
 (function cbInit(){
   let tries = 0;
   const w = setInterval(()=>{ tries++;
