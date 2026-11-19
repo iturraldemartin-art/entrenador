@@ -2964,7 +2964,7 @@ function rulesCardHtml(){
 /* Grupos de la lista de ejercicios: resaltados con color y en mayúsculas. Abdominales y Cardio no se
    muestran (salvo que el ejercicio ya elegido sea de ahí). */
 const CAT_MARCA = { Pecho:"🔴", Espalda:"🔵", Hombros:"🟡", Brazos:"🟢", Piernas:"🟣", Abdominales:"⚪", Cardio:"⚪", Otros:"⚫" };
-const CAT_OCULTAS = ["Abdominales","Cardio"];
+const CAT_OCULTAS = [];   // (Abdominales y Cardio vuelven a mostrarse)
 function exerciseOptionsHtml(selectedId){
   const sel = selectedId ? exerciseById(selectedId) : null;
   const groups = CATS.map(cat=>{
@@ -3450,8 +3450,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v24";
-const APP_BUILD = "2026-11-19g";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v25";
+const APP_BUILD = "2026-11-19h";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
