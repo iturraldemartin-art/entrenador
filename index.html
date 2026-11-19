@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com https://i.ytimg.com https://api.smartworkout.app; media-src 'self' data: blob: https://api.smartworkout.app; connect-src 'self' https://api.github.com https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<!doctype html><html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com https://i.ytimg.com https://api.smartworkout.app; media-src 'self' data: blob: https://api.smartworkout.app; connect-src 'self' https://api.github.com https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://apis.google.com; frame-src https://entrenador-mmi.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com https://www.tiktok.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#16181a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1569,6 +1569,13 @@ function exDemoHtml0(ex){
   </div>${exLinkHtml(ex.id)}`;
 }
 const EX_STEPS = {
+ "custom_cb911f4b-b887-4f2e-a32d-242973207b7a":[
+  "Parate en la máquina Hack mirando HACIA la máquina (al revés que en la sentadilla), con el pecho o los hombros contra las almohadillas.",
+  "Pies al ancho de cadera en el centro de la plataforma; rodillas apenas flexionadas y FIJAS durante todo el movimiento.",
+  "Bajá llevando la cadera hacia atrás, con la espalda recta y la cabeza alineada, hasta sentir que estira la parte de atrás de la pierna.",
+  "Subí empujando la cadera hacia adelante y apretando los glúteos arriba, sin trabar ni tirar el cuerpo hacia atrás.",
+  "Bajada lenta (2–3 segundos). Si se te redondea la espalda, bajá menos o usá menos peso.",
+ ],
  "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830":[
   "Ajustá el asiento para que el agarre quede a la altura del medio del pecho, y apoyá el pecho firme contra el respaldo.",
   "Agarrá la manija con UNA sola mano; la otra apoyala en la máquina o en la pierna para quedar estable.",
@@ -3380,8 +3387,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v19";
-const APP_BUILD = "2026-11-19a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v20";
+const APP_BUILD = "2026-11-19b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7153,6 +7160,7 @@ document.addEventListener("click", e=>{
    YouTube arranca solo en el segundo indicado; Instagram no deja adelantar desde afuera, así que se muestra
    el aviso "adelantá hasta…". Cada video se puede cambiar desde la app (✏️ Cambiar video) y queda en "meta/videos". */
 const EX_VIDEO_LINKS = {
+  "custom_cb911f4b-b887-4f2e-a32d-242973207b7a": { url:"https://www.tiktok.com/@personal_trainer29/video/7392432569322654982", start:0, nota:"Hack good morning: rodillas fijas, la cadera va atrás y la espalda siempre recta." },
   "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830": { url:"https://youtu.be/SY1G2GQEdo8", start:0, nota:"Remo sentado a 1 mano en máquina: mirá el recorrido del codo y que el torso no gire." },
   "jalon_pecho": { url:"https://api.smartworkout.app/asset/video/f72099c0-fc80-45d0-b174-8fdbc03f7d57.mp4", pagina:"https://smartworkout.app/es/biblioteca-ejercicios/espalda/maquina-de-jalon-de-espalda", fuente:"SmartWorkout", start:0, nota:"Animación con los músculos que trabajan (en rojo): dorsales, redondo mayor e infraespinoso." },
   "custom_7b624707-6b84-4813-9649-982a010f747a": { url:"https://www.instagram.com/reel/DQEv88EDaOq/", start:0, nota:"Step up a peso corporal: mirá la altura del banco y que la fuerza vaya al talón de la pierna de arriba." },
@@ -7176,6 +7184,7 @@ function vidParse(url){
   const u = String(url||"");
   let m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|watch\?v=|embed\/|live\/))([\w-]{11})/); if(m) return { tipo:"yt", id:m[1] };
   m = u.match(/instagram\.com\/(?:reel|p|tv)\/([\w-]+)/); if(m) return { tipo:"ig", id:m[1] };
+  m = u.match(/tiktok\.com\/(?:@[\w.-]+\/video|embed(?:\/v2)?|player\/v1)\/(\d+)/); if(m) return { tipo:"tt", id:m[1] };
   if(/^https:\/\/[^\s"'<>]+\.(?:mp4|webm)(?:\?[^\s"'<>]*)?$/i.test(u)) return { tipo:"mp4", id:u };
   return null;
 }
@@ -7190,12 +7199,13 @@ function exVidHtml(ex){
   let player = "";
   if(p && p.tipo==="yt") player = `<iframe class="exv-yt" src="https://www.youtube-nocookie.com/embed/${p.id}?start=${st}&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${p.id}" title="Video de ${aliEsc(ex.n)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
   else if(p && p.tipo==="ig") player = `<iframe class="exv-ig" src="https://www.instagram.com/reel/${p.id}/embed/" title="Video de ${aliEsc(ex.n)}" allowfullscreen loading="lazy"></iframe>`;
+  else if(p && p.tipo==="tt") player = `<iframe class="exv-ig" src="https://www.tiktok.com/player/v1/${p.id}?loop=1&music_info=0&description=0&rel=0" title="Video de ${aliEsc(ex.n)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy"></iframe>`;
   else if(p && p.tipo==="mp4") player = `<video class="exv-mp4" src="${aliEsc(p.id)}${st?"#t="+st:""}" ${vidThumb(ex.id)?`poster="${vidThumb(ex.id)}"`:""} autoplay muted loop playsinline controls preload="metadata" title="Video de ${aliEsc(ex.n)}"></video>`;
   const abrir = p && p.tipo==="yt" ? `https://www.youtube.com/watch?v=${p.id}${st?`&t=${st}s`:""}` : (v.pagina || v.url);
   return `<div class="exv">
     ${player}
     ${(st || v.nota) ? `<div class="exv-nota">${st && p && p.tipo==="ig" ? `⏩ <b>Adelantá hasta ${segTxt(st)}</b> · ` : st ? `▶ Arranca en ${segTxt(st)} · ` : ""}${aliEsc(v.nota||"")}</div>` : ""}
-    <div class="exv-acc"><a class="btn btn-sm" href="${aliEsc(abrir)}" target="_blank" rel="noopener">↗ Abrir en ${p && p.tipo==="ig" ? "Instagram" : p && p.tipo==="yt" ? "YouTube" : aliEsc(v.fuente || "el navegador")}</a>${edit}</div>
+    <div class="exv-acc"><a class="btn btn-sm" href="${aliEsc(abrir)}" target="_blank" rel="noopener">↗ Abrir en ${p && p.tipo==="ig" ? "Instagram" : p && p.tipo==="yt" ? "YouTube" : p && p.tipo==="tt" ? "TikTok" : aliEsc(v.fuente || "el navegador")}</a>${edit}</div>
   </div>`;
 }
 document.addEventListener("click", e=>{
