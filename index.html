@@ -811,6 +811,8 @@
   .exv-mp4{ width:100%; max-width:640px; aspect-ratio:16/9; border:0; border-radius:10px; background:#282A2C; align-self:center; object-fit:contain; }
   .exv-err{ padding:14px; border-radius:10px; background:var(--bg-2,#f3f3f3); color:var(--ink-2); font-size:.9rem; text-align:center; }
   .exv-ig{ width:100%; max-width:400px; height:620px; max-height:75vh; border:0; border-radius:10px; background:#fff; align-self:center; }
+  .exv-tt{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; width:100%; max-width:400px; min-height:180px; align-self:center; border-radius:10px; background:#111; color:#fff; text-decoration:none; text-align:center; padding:18px; border:1px solid var(--line); }
+  .exv-tt b{ font-size:2.6rem; line-height:1; color:#fe2c55; } .exv-tt span{ font-weight:700; font-size:1.05rem; } .exv-tt small{ opacity:.7; font-size:.78rem; }
   .exv-nota{ font-size:.86rem; background:var(--accent-soft); border:1px solid var(--accent-soft-2); border-radius:8px; padding:8px 10px; }
   .exv-acc{ display:flex; gap:8px; flex-wrap:wrap; } .exv-acc a{ text-decoration:none; }
   .ex-cb-btn{ flex:none; font-family:"Rajdhani",sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.04em; padding:5px 8px; color:var(--ink-2); }
@@ -3388,7 +3390,7 @@ function render(){
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
 const APP_VERSION = "v20";
-const APP_BUILD = "2026-11-19b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_BUILD = "2026-11-19c";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7199,7 +7201,7 @@ function exVidHtml(ex){
   let player = "";
   if(p && p.tipo==="yt") player = `<iframe class="exv-yt" src="https://www.youtube-nocookie.com/embed/${p.id}?start=${st}&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${p.id}" title="Video de ${aliEsc(ex.n)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
   else if(p && p.tipo==="ig") player = `<iframe class="exv-ig" src="https://www.instagram.com/reel/${p.id}/embed/" title="Video de ${aliEsc(ex.n)}" allowfullscreen loading="lazy"></iframe>`;
-  else if(p && p.tipo==="tt") player = `<iframe class="exv-ig" src="https://www.tiktok.com/player/v1/${p.id}?loop=1&music_info=0&description=0&rel=0" title="Video de ${aliEsc(ex.n)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+  else if(p && p.tipo==="tt") player = `<a class="exv-tt" href="${aliEsc(v.url)}" target="_blank" rel="noopener"><b>▶</b><span>Ver el video en TikTok</span><small>TikTok no deja reproducirlo adentro de la app: se abre en TikTok</small></a>`;
   else if(p && p.tipo==="mp4") player = `<video class="exv-mp4" src="${aliEsc(p.id)}${st?"#t="+st:""}" ${vidThumb(ex.id)?`poster="${vidThumb(ex.id)}"`:""} autoplay muted loop playsinline controls preload="metadata" title="Video de ${aliEsc(ex.n)}"></video>`;
   const abrir = p && p.tipo==="yt" ? `https://www.youtube.com/watch?v=${p.id}${st?`&t=${st}s`:""}` : (v.pagina || v.url);
   return `<div class="exv">
