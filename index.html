@@ -3413,8 +3413,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v22";
-const APP_BUILD = "2026-11-19e";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v23";
+const APP_BUILD = "2026-11-19f";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7385,9 +7385,20 @@ document.addEventListener("click", ()=> setTimeout(uiSave, 300), true);
     if(u.hoyDate && state.hoyDate!==u.hoyDate && u.hoyDate!==todayStr()){ state.hoyDate = u.hoyDate; dayDraft = null; try{ render(); }catch(_){} return; }
     if(!document.querySelector("[data-card-ei]")) return;            // todavía cargando el día
     clearInterval(w);
-    const ei = uiActiveEi() >= 0 ? uiActiveEi() : u.ei;
-    const card = ei>=0 && document.querySelector(`[data-card-ei="${ei}"]`);
-    setTimeout(()=>{ try{ if(card) card.scrollIntoView({ block:"start" }); else window.scrollTo(0, u.y||0); }catch(_){} }, 200);
+    // La app termina de cargar en tandas (rutina, registro, reloj) y cada tanda redibuja la pantalla:
+    // durante 12 s se vuelve a llevar al ejercicio cada vez que algo lo mueva, salvo que toques la pantalla.
+    let toco = false; const stop = ()=>{ toco = true; };
+    ["touchstart","wheel","keydown","mousedown"].forEach(ev=> window.addEventListener(ev, stop, { once:true, passive:true }));
+    const t0 = Date.now();
+    const fix = setInterval(()=>{
+      if(toco || Date.now()-t0 > 12000){ clearInterval(fix); return; }
+      const ei = uiActiveEi() >= 0 ? uiActiveEi() : u.ei;
+      const card = ei>=0 && document.querySelector(`[data-card-ei="${ei}"]`);
+      try{
+        if(card){ const top = card.getBoundingClientRect().top; if(Math.abs(top - 70) > 40) window.scrollTo(0, window.scrollY + top - 70); }
+        else if(u.y && Math.abs(window.scrollY - u.y) > 40) window.scrollTo(0, u.y);
+      }catch(_){}
+    }, 300);
   }, 250);
 })();
 (function cbInit(){
