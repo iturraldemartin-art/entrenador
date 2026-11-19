@@ -1259,7 +1259,7 @@ window.__STANDALONE__ = true;
       if(!hadCtrl || reloaded) { hadCtrl = true; return; }
       reloaded = true;
       var t = document.getElementById("timer-box");
-      if(t && t.classList.contains("running")) return;   // no cortar un entreno: se aplica al próximo arranque
+      if((t && t.classList.contains("running")) || window.__entrenando) return;   // no cortar un entreno: se aplica al próximo arranque
       location.reload();
     });
   }
@@ -2055,7 +2055,7 @@ function openAlarmModal(){
     <h3 class="detail-sec-title" style="margin-top:16px;">⏱ Cronómetro · cada 15 minutos</h3>
     <p style="font-size:.84rem;color:var(--ink-2);margin:0 0 10px;">Tocá uno para escucharlo y elegirlo.</p>
     ${list(alarmSound, "alarm-pick")}
-    <h3 class="detail-sec-title" style="margin-top:18px;">💪 Fin del descanso · 45 segundos</h3>
+    <h3 class="detail-sec-title" style="margin-top:18px;">💪 Fin del descanso · 1 minuto</h3>
     <p style="font-size:.84rem;color:var(--ink-2);margin:0 0 10px;">Suena al terminar el descanso entre series.</p>
     ${list(restSound, "rest-pick")}
     <div class="rules-note" style="margin-top:14px;">📱 Este volumen se suma al <b>volumen multimedia</b> del celular (el de música/videos). Si al 100% no te alcanza, subí el del celular.</div>
@@ -3413,8 +3413,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v21";
-const APP_BUILD = "2026-11-19d";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v22";
+const APP_BUILD = "2026-11-19e";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -4458,7 +4458,7 @@ document.addEventListener("click", async e=>{
     // si te olvidaste de prender el reloj, arranca solo al tildar una serie de hoy
     if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ try{ await timerStart(); }catch(_){} }
     const allDone = dayDraft.entries.every(x=> !x.exerciseId || ensureDetalle(x).every(z=>z.ok));
-    if(allDone){ restStop(); toast("¡Entreno completo! Tocá Guardar registro 💪"); if(dayDraft.dateStr===todayStr()) apagarAvisoProgramar(); }
+    if(allDone){ restStart(); toast("¡Entreno completo! Tocá Guardar registro 💪"); if(dayDraft.dateStr===todayStr()) apagarAvisoProgramar(); }
     else {
       restStart();
       if(en.detalle.every(z=>z.ok)){
@@ -4559,7 +4559,7 @@ document.addEventListener("click", e=>{
 });
 
 /* ---- Temporizador de descanso ---- */
-const REST_SECS = 45;                              // descanso entre series: SIEMPRE 45 segundos
+const REST_SECS = 60;                              // descanso entre series: SIEMPRE 1 minuto
 const Rest = { secs: REST_SECS, endAt: 0, tick: null };
 try{ localStorage.removeItem("entrenador-descanso-45"); }catch(_){}
 function restFmt(ms){ const t=Math.max(0,Math.ceil(ms/1000)); return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); }
@@ -4568,7 +4568,7 @@ function restBar(){
   if(!b){ b=document.createElement("div"); b.id="rest-bar"; b.className="rest-bar"; b.setAttribute("role","timer"); document.body.appendChild(b);
     b.addEventListener("click", ev=>{ const a = ev.target.closest("[data-rest]"); if(!a) return; const k=a.dataset.rest;
       if(k==="skip") restStop();
-      else { const d = k==="plus"?15:-15;   // ±15 solo para este descanso; el próximo vuelve a 45 s
+      else { const d = k==="plus"?15:-15;   // ±15 solo para este descanso; el próximo vuelve a 1 minuto
         Rest.endAt = Math.max(Date.now()+1000, Rest.endAt + d*1000); restRender(); if(!Rest.tick) Rest.tick=setInterval(restRender,250); } });
   }
   return b;
@@ -4595,7 +4595,7 @@ function restRender(){
   const b = restBar(), left = Rest.endAt - Date.now();
   if(left <= 0){
     clearInterval(Rest.tick); Rest.tick = null;
-    b.hidden = true; b.classList.remove("blink");                      // a los 45 s se apaga
+    b.hidden = true; b.classList.remove("blink");                      // al terminar el minuto se apaga
     try{ playAlarmSound(restSound); }catch(_){}                         // sonido elegido al terminar el descanso
     try{ undim(); }catch(_){}                                           // se ilumina para ver el próximo paso
     try{ if(navigator.vibrate) navigator.vibrate([400,150,400,150,800]); }catch(_){}
@@ -7348,6 +7348,48 @@ function cbRender(){
     <div class="rx-cook-nav"><button class="btn" data-cbrun="prev" ${R.i?"":"disabled"}>← Anterior</button><button class="btn btn-primary" data-cbrun="next">${R.i<R.pasos.length-1?"Hecho, siguiente →":"✓ Terminé"}</button></div>
   </div>`;
 }
+/* ======================= VOLVER DONDE ESTABAS =======================
+   Si el celular se bloquea y el sistema cierra la app, al volver se abre en la misma pestaña, en el
+   ejercicio que estabas haciendo y con el descanso que venía corriendo. Se guarda en este equipo. */
+const UI_KEY = "entrenador-ui";
+function uiActiveEi(){
+  if(!dayDraft || !dayDraft.entries) return -1;
+  let i = dayDraft.entries.findIndex(x=> x.exerciseId && exOpen(x));
+  if(i<0) i = dayDraft.entries.findIndex(x=> x.exerciseId && exActive(x));
+  return i;
+}
+function uiSave(){
+  try{
+    const ei = uiActiveEi();
+    window.__entrenando = !!runningTimerDate() || ei>=0;
+    localStorage.setItem(UI_KEY, JSON.stringify({ ts:Date.now(), day:todayStr(), view:state.view, hoyDate:state.hoyDate||null,
+      ei, y:window.scrollY||0, restEnd:(Rest.tick && Rest.endAt>Date.now()) ? Rest.endAt : 0 }));
+  }catch(_){}
+}
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="hidden") uiSave(); });
+window.addEventListener("pagehide", uiSave);
+setInterval(uiSave, 10000);
+document.addEventListener("click", ()=> setTimeout(uiSave, 300), true);
+(function uiRestore(){
+  let u = null; try{ u = JSON.parse(localStorage.getItem(UI_KEY)||"null"); }catch(_){}
+  if(!u || u.day!==todayStr() || Date.now()-u.ts > 4*3600*1000) return;
+  if(u.restEnd && u.restEnd > Date.now()){ Rest.secs = REST_SECS; Rest.endAt = u.restEnd; const b = restBar(); b.hidden = false; clearInterval(Rest.tick); Rest.tick = setInterval(restRender, 250); restRender(); }
+  let tries = 0;
+  const w = setInterval(()=>{ tries++;
+    if(tries > 120){ clearInterval(w); return; }
+    if(!state.view) return;
+    if(u.view && u.view!=="hoy"){
+      if(state.view!==u.view){ state.view = u.view; try{ render(); }catch(_){} }
+      clearInterval(w); setTimeout(()=>{ try{ window.scrollTo(0, u.y||0); }catch(_){} }, 300); return;
+    }
+    if(u.hoyDate && state.hoyDate!==u.hoyDate && u.hoyDate!==todayStr()){ state.hoyDate = u.hoyDate; dayDraft = null; try{ render(); }catch(_){} return; }
+    if(!document.querySelector("[data-card-ei]")) return;            // todavía cargando el día
+    clearInterval(w);
+    const ei = uiActiveEi() >= 0 ? uiActiveEi() : u.ei;
+    const card = ei>=0 && document.querySelector(`[data-card-ei="${ei}"]`);
+    setTimeout(()=>{ try{ if(card) card.scrollIntoView({ block:"start" }); else window.scrollTo(0, u.y||0); }catch(_){} }, 200);
+  }, 250);
+})();
 (function cbInit(){
   let tries = 0;
   const w = setInterval(()=>{ tries++;
