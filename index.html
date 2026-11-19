@@ -1569,6 +1569,13 @@ function exDemoHtml0(ex){
   </div>${exLinkHtml(ex.id)}`;
 }
 const EX_STEPS = {
+ "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830":[
+  "Ajustá el asiento para que el agarre quede a la altura del medio del pecho, y apoyá el pecho firme contra el respaldo.",
+  "Agarrá la manija con UNA sola mano; la otra apoyala en la máquina o en la pierna para quedar estable.",
+  "Tirá llevando el codo hacia atrás, pegado al cuerpo, hasta que la mano llegue al costado de las costillas.",
+  "Al final apretá el omóplato hacia atrás y adentro 1 segundo, sin girar el torso.",
+  "Volvé lento estirando el brazo y dejando que el hombro se adelante un poco. Hacé todas las reps de un lado y después cambiá.",
+ ],
  "custom_7b624707-6b84-4813-9649-982a010f747a":[
   "Preparación: banco o cajón firme a una altura entre el 80% y el 100% de tu rodilla. Muy bajo = poco recorrido; muy alto = se rompe la postura.",
   "Apoyá el pie ENTERO arriba (la pierna de trabajo). El otro queda en el piso, un poco atrás. Si querés más control, agarrate de algo con una mano.",
@@ -1758,6 +1765,8 @@ const state = {
 
 /* Datos fijos para ejercicios propios (se respeta el nombre que puso el usuario) */
 const EX_META_FIX = {
+  "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830": { cat:"Espalda", mus:["espalda"], mus2:["biceps"], eq:"Máquina", pat:"row",
+    cues:["Pecho fijo contra el respaldo","Codo atrás pegado al cuerpo","Apretá el omóplato al final, volvé lento"] },
   "custom_7b624707-6b84-4813-9649-982a010f747a": { cat:"Piernas", mus:["gluteos","cuadriceps"], mus2:["isquios","pantorrillas","abdominales"], eq:"Banco o cajón (peso corporal)", pat:"lunge",
     cues:["Banco a la altura de la rodilla (80–100%)","Fuerza en el talón de la pierna de arriba","Subí en diagonal hacia adelante, bajá lento"] },
 };
@@ -3371,8 +3380,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v18";
-const APP_BUILD = "2026-11-17b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v19";
+const APP_BUILD = "2026-11-19a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7144,6 +7153,7 @@ document.addEventListener("click", e=>{
    YouTube arranca solo en el segundo indicado; Instagram no deja adelantar desde afuera, así que se muestra
    el aviso "adelantá hasta…". Cada video se puede cambiar desde la app (✏️ Cambiar video) y queda en "meta/videos". */
 const EX_VIDEO_LINKS = {
+  "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830": { url:"https://youtu.be/SY1G2GQEdo8", start:0, nota:"Remo sentado a 1 mano en máquina: mirá el recorrido del codo y que el torso no gire." },
   "jalon_pecho": { url:"https://api.smartworkout.app/asset/video/f72099c0-fc80-45d0-b174-8fdbc03f7d57.mp4", pagina:"https://smartworkout.app/es/biblioteca-ejercicios/espalda/maquina-de-jalon-de-espalda", fuente:"SmartWorkout", start:0, nota:"Animación con los músculos que trabajan (en rojo): dorsales, redondo mayor e infraespinoso." },
   "custom_7b624707-6b84-4813-9649-982a010f747a": { url:"https://www.instagram.com/reel/DQEv88EDaOq/", start:0, nota:"Step up a peso corporal: mirá la altura del banco y que la fuerza vaya al talón de la pierna de arriba." },
   "custom_e018fa52-2439-4121-b3ba-48a3a986b96a": { url:"https://youtube.com/shorts/8UgCDN4ldI4", start:0, nota:"Femoral en máquina + negativas. Si no arranca justo en el movimiento, tocá ✏️ y poné el segundo." },
