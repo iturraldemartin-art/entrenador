@@ -1345,7 +1345,7 @@ const BUILTIN_EXERCISES = [
  {id:"cruce_polea",n:"Cruce de poleas",cat:"Pecho",mus:["pecho"],mus2:[],eq:"Máquina",pat:"press",cues:["Cerrar el movimiento adelante del cuerpo, no a los lados","Ligera inclinación de torso adelante"]},
  {id:"fondos_o_flexiones",n:"Fondos en paralelas o flexiones",cat:"Pecho",mus:["pecho"],mus2:["triceps","hombros"],eq:"Peso corporal",pat:"push",cues:["Mínimo 10 repeticiones, buscando el fallo","Bajar controlado, sin forzar el hombro"]},
  // ---- Tríceps ----
- {id:"extension_triceps_polea_unilateral",n:"Extensión de tríceps en polea (unilateral)",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Máquina",pat:"extension",cues:["Un brazo por vez, que cueste el último tramo","Codo fijo pegado al cuerpo"]},
+ {id:"extension_triceps_polea_unilateral",n:"Extensión de tríceps unilateral en polea",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Máquina",pat:"extension",cues:["Un brazo por vez, que cueste el último tramo","Codo fijo pegado al cuerpo"]},
  {id:"triceps_tras_nuca_mancuerna",n:"Tríceps tras nuca con mancuerna (dos manos)",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Mancuernas",pat:"extension",cues:["Codos apuntando al techo, quietos durante todo el recorrido","Bajar controlado detrás de la nuca"]},
  {id:"triceps_tras_nuca_polea_soga",n:"Tríceps tras nuca en polea con soga",cat:"Brazos",mus:["triceps"],mus2:[],eq:"Máquina",pat:"extension",cues:["Abrir levemente la soga al extender","Codos fijos, sin despegarlos de la cabeza"]},
  // ---- Espalda ----
@@ -1471,6 +1471,21 @@ const PATTERN_LABEL = { push:"Empuje", pull:"Tracción", squat:"Sentadilla", hin
 const EX_PHOTO = new Set(["custom_f5861d15-8ddc-45d9-99b2-8bf61e817a49","custom_73a02213-42d8-4472-aa79-6950b8c16759","custom_3c362c5b-d84a-484f-809c-b43549b66c8f","custom_c0f4dad2-e73e-4a41-9e83-08f86d9791ca","custom_93222666-633f-4a25-ade8-7c5111dbd2f3","custom_e0817d8c-79db-41fb-9793-d256c33f2573","custom_02a3762f-dd45-4dac-8bd2-9ae4ae1aa50f","custom_24710b00-613d-486e-b6f1-fb859779f8f8","custom_25d575fb-3256-4c8a-87f0-1acd4982ba2a","custom_37fc84ea-20a9-45cb-9f0f-9c8395ba8db9","custom_44bf03e4-dec7-4d37-ba35-45ba0ee4831d","custom_db11ee42-4214-4778-9017-126c3524dfee","abdominales_maquina", "abduccion_aduccion_maquina", "apertura_inclinada_mancuernas", "bicicleta_fija", "buenos_dias", "cinta_caminata_trote", "cruce_polea", "crunch_abdominal", "crunch_polea_alta", "curl_21", "curl_banco_scott", "curl_banda_elastica", "curl_barra_cerrado", "curl_barra_prono", "curl_biceps_barra_manc", "curl_concentrado", "curl_femoral_sentado", "curl_inverso_barra", "curl_martillo", "curl_muneca_barra", "curl_muneca_inverso", "curl_polea_baja", "dominadas", "elevacion_frontal", "elevacion_lateral", "elevacion_lateral_maquina", "elevacion_lateral_polea", "elevacion_piernas_colgado", "elevacion_rodillas_paralelas", "eliptico", "escalador", "estocada_localizada", "extension_biceps_bayesian", "extension_cuadriceps_maquina", "extension_triceps_polea_cuerda", "extension_triceps_polea_unilateral", "facepull_polea", "femoral_camilla", "femoral_hip_thrust", "flexiones_lastradas", "fondos_banco", "fondos_maquina", "fondos_o_flexiones", "gemelos", "gemelos_prensa", "gemelos_sentado", "giro_ruso", "hack_cuadriceps", "hip_thrust_barra", "jalon_pecho", "jalon_tras_nuca", "pajaro_posterior_mancuernas", "paseo_granjero", "patada_gluteo_polea", "patada_triceps_mancuerna", "pec_deck_contractora", "peso_muerto", "peso_muerto_rumano", "plancha_abdominal", "plancha_lateral", "prensa_piernas", "prensa_una_pierna", "press_arnold", "press_banca_mancuernas", "press_banca_plano", "press_cerrado_banca", "press_declinado", "press_frances_barra", "press_hombro_unilateral_suelo", "press_inclinado_mancuernas", "press_inclinado_maquina", "press_militar", "press_militar_mancuernas", "press_plano_smith", "puente_gluteo_una_pierna", "puente_gluteos", "pullover_polea", "remo_barra", "remo_en_t", "remo_hack_neutro", "remo_hack_prono", "remo_invertido", "remo_mancuerna_un_brazo", "remo_maquina_sentado", "remo_menton", "remo_polea_baja_barra", "remoergometro", "rueda_abdominal", "salto_soga", "sentadilla_bulgara", "sentadilla_frontal", "sentadilla_libre_mancuernas", "sentadilla_smith", "sentadilla_sumo", "step_up_cajon", "trapecio_encogimientos", "triceps_tras_nuca_mancuerna", "triceps_tras_nuca_polea_soga", "zancada_caminando"]);
 // Video propio para ejercicios puntuales (recorte de un video que pasó Martin; crédito al autor).
 const EX_VIDEO = {
+  "extension_triceps_polea_unilateral": {
+    credit: "Video: Martín Treno",
+    frames: [
+      {t:"1 · Postura", c:"De costado a la polea, una mano agarrada a la máquina; el brazo de trabajo con el codo pegado al cuerpo."},
+      {t:"2 · Bajada", c:"Estirá el brazo hacia abajo hasta el final, sin mover el codo de su lugar."},
+      {t:"3 · Vuelta", c:"Subí controlado hasta unos 90 grados de codo, así la tensión queda en el tríceps."},
+    ],
+    steps: [
+      "Polea alta con agarre de un solo brazo. Parate de costado a la máquina y agarrate firme con la otra mano.",
+      "Codo del brazo de trabajo pegado al costado del cuerpo: es el eje y NO se mueve en todo el ejercicio.",
+      "Estirá el brazo hacia abajo hasta extenderlo completo y apretá el tríceps 1 segundo.",
+      "Volvé lento hasta que el codo quede a unos 90 grados; no subas más alto, así no se escapa la tensión del tríceps.",
+      "Cuerpo quieto, sin balancearte. Hacé todas las reps de un brazo y después cambiá.",
+    ],
+  },
   "sprints_series": {
     credit: "Video: @spartanhealth_ (TikTok)",
     frames: [
@@ -1571,6 +1586,13 @@ function exDemoHtml0(ex){
   </div>${exLinkHtml(ex.id)}`;
 }
 const EX_STEPS = {
+ "custom_2989cefb-ae94-4752-8df8-cf5fec1eb4fd":[
+  "Manos apoyadas en el piso a la altura del pecho, más cerradas que el ancho de hombros (pulgares casi bajo el pecho).",
+  "Cuerpo recto como una tabla: glúteos y abdomen apretados, sin dejar caer la cadera.",
+  "Bajá despacio con los codos PEGADOS al cuerpo, apuntando hacia atrás (no hacia los costados).",
+  "Pecho casi tocando las manos y empujá fuerte con los tríceps hasta estirar los brazos.",
+  "Si cuesta completar las reps, apoyá las rodillas y mantené la misma técnica.",
+ ],
  "custom_cb911f4b-b887-4f2e-a32d-242973207b7a":[
   "Parate en la máquina Hack mirando HACIA la máquina (al revés que en la sentadilla), con el pecho o los hombros contra las almohadillas.",
   "Pies al ancho de cadera en el centro de la plataforma; rodillas apenas flexionadas y FIJAS durante todo el movimiento.",
@@ -1774,6 +1796,8 @@ const state = {
 
 /* Datos fijos para ejercicios propios (se respeta el nombre que puso el usuario) */
 const EX_META_FIX = {
+  "custom_2989cefb-ae94-4752-8df8-cf5fec1eb4fd": { cat:"Brazos", mus:["triceps"], mus2:["pecho","hombros"], eq:"Peso corporal", pat:"push",
+    cues:["Manos cerradas, bajo el pecho","Codos pegados apuntando atrás","Cuerpo recto, sin hundir la cadera"] },
   "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830": { cat:"Espalda", mus:["espalda"], mus2:["biceps"], eq:"Máquina", pat:"row",
     cues:["Pecho fijo contra el respaldo","Codo atrás pegado al cuerpo","Apretá el omóplato al final, volvé lento"] },
   "custom_7b624707-6b84-4813-9649-982a010f747a": { cat:"Piernas", mus:["gluteos","cuadriceps"], mus2:["isquios","pantorrillas","abdominales"], eq:"Banco o cajón (peso corporal)", pat:"lunge",
@@ -3389,8 +3413,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v20";
-const APP_BUILD = "2026-11-19c";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v21";
+const APP_BUILD = "2026-11-19d";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7162,6 +7186,7 @@ document.addEventListener("click", e=>{
    YouTube arranca solo en el segundo indicado; Instagram no deja adelantar desde afuera, así que se muestra
    el aviso "adelantá hasta…". Cada video se puede cambiar desde la app (✏️ Cambiar video) y queda en "meta/videos". */
 const EX_VIDEO_LINKS = {
+  "custom_2989cefb-ae94-4752-8df8-cf5fec1eb4fd": { url:"https://youtu.be/SBsFH_XlulQ", start:0, nota:"Flexión cerrada para tríceps: codos pegados al cuerpo y manos más juntas que los hombros." },
   "custom_cb911f4b-b887-4f2e-a32d-242973207b7a": { url:"https://www.tiktok.com/@personal_trainer29/video/7392432569322654982", start:0, nota:"Hack good morning: rodillas fijas, la cadera va atrás y la espalda siempre recta." },
   "custom_dce05c58-cc88-4e75-82a4-f68acbc9f830": { url:"https://youtu.be/SY1G2GQEdo8", start:0, nota:"Remo sentado a 1 mano en máquina: mirá el recorrido del codo y que el torso no gire." },
   "jalon_pecho": { url:"https://api.smartworkout.app/asset/video/f72099c0-fc80-45d0-b174-8fdbc03f7d57.mp4", pagina:"https://smartworkout.app/es/biblioteca-ejercicios/espalda/maquina-de-jalon-de-espalda", fuente:"SmartWorkout", start:0, nota:"Animación con los músculos que trabajan (en rojo): dorsales, redondo mayor e infraespinoso." },
