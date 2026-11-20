@@ -81,6 +81,13 @@ h1{margin:0;text-align:center;color:var(--accent);font-size:1.6rem;font-weight:8
 .cuotas button{all:unset;cursor:pointer;min-width:44px;text-align:center;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--field);font-weight:700;font-size:.9rem}
 .cuotas button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
 .hint{font-size:.74rem;color:var(--muted);margin-top:6px}
+.pix{border:1px solid var(--line);border-radius:12px;background:var(--field);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.pix-h{display:flex;justify-content:space-between;align-items:baseline}
+.pix-h b{font-size:.8rem;letter-spacing:.08em;color:var(--accent)}
+.pix-h small{color:var(--muted);font-size:.72rem}
+.pix-r{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.pix-r b{font-size:1.05rem}
+.pix-t{color:var(--muted);font-size:.72rem}
 .rates{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
 .rates-h{display:flex;justify-content:space-between;align-items:center}
 .rates-h span{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -141,6 +148,12 @@ td:first-child,th:first-child{text-align:left} td small{color:var(--muted)}
       <div class="d" id="resD"></div>
     </section>
     <button class="copy" id="copy">Copiar resultado</button>
+    <section class="pix" aria-live="polite">
+      <div class="pix-h"><b>R. PAÍS</b><small>1 R$ pagando con Pix en Brasil</small></div>
+      <div class="pix-r"><span>Cocos</span><b id="pixCocos">—</b></div>
+      <div class="pix-r"><span>ARQ</span><b id="pixArq">—</b></div>
+      <div class="pix-t" id="pixT">Cargando…</div>
+    </section>
     <section class="rates">
       <div class="rates-h"><span>Cotizaciones</span><button class="ref" id="refresh">↻ Actualizar</button></div>
       <table><thead><tr><th></th><th>Compra</th><th>Venta</th></tr></thead><tbody id="tbl"></tbody></table>
@@ -430,8 +443,21 @@ function renderRates(){
 function recalcAll(){ renderRates(); calc(); mpCalc(); uCalc(); }
 
 async function getJSON(url){ const c=new AbortController(); setTimeout(()=>c.abort(),6000); return (await fetch(url,{signal:c.signal,cache:"no-store"})).json(); }
+async function pixRefresh(){
+  try{
+    const d=await fetch("https://raw.githubusercontent.com/iturraldemartin-art/entrenador/datos/pix.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.json());
+    const f=v=>v?"$ "+fmt(v,2):"—";
+    $("pixCocos").textContent=f(d.cocos); $("pixArq").textContent=f(d.arq);
+    $("pixT").textContent="Actualizado "+when(d.ts)+" · fuente comparapix.ar";
+    try{ localStorage.setItem("simPix",JSON.stringify(d)); }catch(_){}
+  }catch(e){
+    let d=null; try{ d=JSON.parse(localStorage.getItem("simPix")||"null"); }catch(_){}
+    if (d){ $("pixCocos").textContent="$ "+fmt(d.cocos,2); $("pixArq").textContent="$ "+fmt(d.arq,2); $("pixT").textContent="Sin conexión · último dato "+when(d.ts); }
+    else $("pixT").textContent="No se pudo cargar ahora";
+  }
+}
 async function refresh(){
-  $("refresh").textContent="Actualizando…";
+  $("refresh").textContent="Actualizando…"; pixRefresh();
   const [d,fx,cy] = await Promise.allSettled([
     getJSON("https://dolarapi.com/v1/dolares"), getJSON("https://open.er-api.com/v6/latest/USD"), getJSON("https://criptoya.com/api/usdc/ars/1")
   ]);
