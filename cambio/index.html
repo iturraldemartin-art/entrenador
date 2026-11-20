@@ -121,7 +121,7 @@ td:first-child,th:first-child{text-align:left} td small{color:var(--muted)}
     <div class="rp-bar" aria-live="polite"><div><div class="l">RIESGO PAÍS</div><div class="h" id="rpH">—</div></div><div style="display:flex;gap:8px;align-items:center"><span class="v" id="rpV">—</span><span class="rp-chip" id="rpC" hidden></span></div></div>
     <header>
       <h1>Simulador de Cambio</h1>
-      <p class="sub">USD al CCL · Real y Guaraní a tipo tarjeta contra el peso</p>
+      <p class="sub">USD al CCL · Real a Pix (promedio Cocos y ARQ) · Guaraní a tarjeta</p>
     </header>
     <div class="seg" role="group" aria-label="Operación">
       <button id="modeSell" aria-pressed="true">Vendo</button>
@@ -322,6 +322,7 @@ if (ST.amt!=null) $("amt").value=ST.amt; if (ST.fee!=null) $("fee").value=ST.fee
 function arsRate(c){
   if (c==="ARS") return {compra:1,venta:1,tipo:""};
   if (c==="USD") return {...R.ccl,tipo:"CCL"};
+  if (c==="BRL" && R.pix) return {compra:R.pix, venta:R.pix, tipo:"Pix prom. Cocos/ARQ"};
   const per = c==="BRL"?R.brlPerUsd:R.pygPerUsd;
   return {compra:R.tarjeta.compra/per, venta:R.tarjeta.venta/per, tipo:"tarjeta"};
 }
@@ -442,7 +443,7 @@ function renderRates(){
   $("appH").innerHTML = (appLive?'<span class="live">● En vivo</span> · ':'<span class="old">● Sin actualizar</span> · ')+when(a.updated);
   const brl=arsRate("BRL"), pyg=arsRate("PYG");
   $("tbl").innerHTML=[["U$S CCL",R.ccl.compra,R.ccl.venta,2],["U$S Tarjeta",R.tarjeta.compra,R.tarjeta.venta,2],["U$S Oficial",R.oficial.compra,R.oficial.venta,2],
-    ["R$ <small>tarjeta</small>",brl.compra,brl.venta,2],["GS <small>tarjeta</small>",pyg.compra,pyg.venta,4]]
+    [R.pix?"R$ <small>Pix prom.</small>":"R$ <small>tarjeta</small>",brl.compra,brl.venta,2],["GS <small>tarjeta</small>",pyg.compra,pyg.venta,4]]
     .map(r=>`<tr><td>${r[0]}</td><td>$ ${fmt(r[1],r[3])}</td><td>$ ${fmt(r[2],r[3])}</td></tr>`).join("")
     + `<tr><td>1 U$S <small>oficial país</small></td><td colspan="2">R$ ${fmt(R.brlPerUsd,3)} · GS ${fmt(R.pygPerUsd,0)}</td></tr>`;
   $("stamp").innerHTML = (live?'<span class="live">● En vivo</span>':'<span class="old">● Sin conexión a cotizaciones</span>')+" · "+when(R.updated);
@@ -450,6 +451,10 @@ function renderRates(){
 function recalcAll(){ renderRates(); calc(); mpCalc(); uCalc(); }
 
 async function getJSON(url){ const c=new AbortController(); setTimeout(()=>c.abort(),6000); return (await fetch(url,{signal:c.signal,cache:"no-store"})).json(); }
+function pixSet(d){
+  const v=[d.cocos,d.arq].filter(x=>x>0); if(!v.length) return;
+  R.pix=v.reduce((a,b)=>a+b,0)/v.length; recalcAll();
+}
 function rpShow(r){
   if (!r||!r.v) return;
   $("rpV").textContent=fmt(r.v,0); $("rpH").textContent=r.hora+" · Rava";
@@ -461,11 +466,11 @@ async function pixRefresh(){
     const f=v=>v?"$ "+fmt(v,2):"—";
     $("pixCocos").textContent=f(d.cocos); $("pixArq").textContent=f(d.arq);
     $("pixT").textContent="Actualizado "+when(d.ts)+" · fuente comparapix.ar";
-    rpShow(d.rp);
+    rpShow(d.rp); pixSet(d);
     try{ localStorage.setItem("simPix",JSON.stringify(d)); }catch(_){}
   }catch(e){
     let d=null; try{ d=JSON.parse(localStorage.getItem("simPix")||"null"); }catch(_){}
-    if (d){ rpShow(d.rp); $("pixCocos").textContent="$ "+fmt(d.cocos,2); $("pixArq").textContent="$ "+fmt(d.arq,2); $("pixT").textContent="Sin conexión · último dato "+when(d.ts); }
+    if (d){ rpShow(d.rp); pixSet(d); $("pixCocos").textContent="$ "+fmt(d.cocos,2); $("pixArq").textContent="$ "+fmt(d.arq,2); $("pixT").textContent="Sin conexión · último dato "+when(d.ts); }
     else $("pixT").textContent="No se pudo cargar ahora";
   }
 }
