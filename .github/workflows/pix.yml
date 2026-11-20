@@ -1,0 +1,33 @@
+name: Cotización real Pix (Cocos y ARQ)
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: pix
+jobs:
+  pix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar cotizaciones y guardarlas en la rama datos
+        run: |
+          set -e
+          curl -sS -m 30 -A "Mozilla/5.0 simulador-cambio" https://api.comparapix.ar/quotes -o q.json
+          python3 - <<'PY'
+          import json, datetime
+          d = json.load(open("q.json"))
+          def ars(k):
+              for q in d.get(k, {}).get("quotes", []):
+                  if q.get("symbol") == "BRLARS": return round(q["buy"], 2)
+          out = {"cocos": ars("cocos"), "arq": ars("arq"),
+                 "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")}
+          assert out["cocos"] or out["arq"], "sin datos"
+          json.dump(out, open("pix.json", "w"))
+          print(out)
+          PY
+          mkdir pub && mv pix.json pub/ && cd pub
+          git init -q -b datos
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add pix.json && git commit -q -m "Cotización Pix"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" datos
