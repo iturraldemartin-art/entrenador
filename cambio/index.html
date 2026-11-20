@@ -81,6 +81,12 @@ h1{margin:0;text-align:center;color:var(--accent);font-size:1.6rem;font-weight:8
 .cuotas button{all:unset;cursor:pointer;min-width:44px;text-align:center;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--field);font-weight:700;font-size:.9rem}
 .cuotas button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
 .hint{font-size:.74rem;color:var(--muted);margin-top:6px}
+.rp-bar{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--field)}
+.rp-bar .l{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.rp-bar .h{color:var(--muted);font-size:.7rem}
+.rp-bar .v{font-weight:800;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.rp-chip{display:inline-block;padding:2px 8px;border-radius:999px;font-weight:700;font-size:.8rem;background:rgba(239,91,91,.15);color:#ef5b5b}
+.rp-chip.dn{background:rgba(52,199,123,.15);color:#34c77b}
 .pix{border:1px solid var(--line);border-radius:12px;background:var(--field);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .pix-h{display:flex;justify-content:space-between;align-items:baseline}
 .pix-h b{font-size:.8rem;letter-spacing:.08em;color:var(--accent)}
@@ -112,6 +118,7 @@ td:first-child,th:first-child{text-align:left} td small{color:var(--muted)}
       <div><div class="t">U$S Cripto</div><div class="h" id="criptoH"></div></div>
       <div class="p"><div><small>Compra</small><span id="criptoC">—</span></div><div><small>Venta</small><span id="criptoV">—</span></div></div>
     </div>
+    <div class="rp-bar" aria-live="polite"><div><div class="l">RIESGO PAÍS</div><div class="h" id="rpH">—</div></div><div style="display:flex;gap:8px;align-items:center"><span class="v" id="rpV">—</span><span class="rp-chip" id="rpC" hidden></span></div></div>
     <header>
       <h1>Simulador de Cambio</h1>
       <p class="sub">USD al CCL · Real y Guaraní a tipo tarjeta contra el peso</p>
@@ -443,16 +450,22 @@ function renderRates(){
 function recalcAll(){ renderRates(); calc(); mpCalc(); uCalc(); }
 
 async function getJSON(url){ const c=new AbortController(); setTimeout(()=>c.abort(),6000); return (await fetch(url,{signal:c.signal,cache:"no-store"})).json(); }
+function rpShow(r){
+  if (!r||!r.v) return;
+  $("rpV").textContent=fmt(r.v,0); $("rpH").textContent=r.hora+" · Rava";
+  const c=$("rpC"); c.hidden=false; c.textContent=(r.var>=0?"▲ ":"▼ ")+fmt(Math.abs(r.var),2)+"%"; c.classList.toggle("dn",r.var<0);
+}
 async function pixRefresh(){
   try{
     const d=await fetch("https://raw.githubusercontent.com/iturraldemartin-art/entrenador/datos/pix.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.json());
     const f=v=>v?"$ "+fmt(v,2):"—";
     $("pixCocos").textContent=f(d.cocos); $("pixArq").textContent=f(d.arq);
     $("pixT").textContent="Actualizado "+when(d.ts)+" · fuente comparapix.ar";
+    rpShow(d.rp);
     try{ localStorage.setItem("simPix",JSON.stringify(d)); }catch(_){}
   }catch(e){
     let d=null; try{ d=JSON.parse(localStorage.getItem("simPix")||"null"); }catch(_){}
-    if (d){ $("pixCocos").textContent="$ "+fmt(d.cocos,2); $("pixArq").textContent="$ "+fmt(d.arq,2); $("pixT").textContent="Sin conexión · último dato "+when(d.ts); }
+    if (d){ rpShow(d.rp); $("pixCocos").textContent="$ "+fmt(d.cocos,2); $("pixArq").textContent="$ "+fmt(d.arq,2); $("pixT").textContent="Sin conexión · último dato "+when(d.ts); }
     else $("pixT").textContent="No se pudo cargar ahora";
   }
 }

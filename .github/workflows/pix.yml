@@ -1,4 +1,4 @@
-name: Cotización real Pix (Cocos y ARQ)
+name: Cotización real Pix (Cocos y ARQ) y Riesgo País
 on:
   schedule:
     - cron: "*/15 * * * *"
@@ -22,6 +22,16 @@ jobs:
                   if q.get("symbol") == "BRLARS": return round(q["buy"], 2)
           out = {"cocos": ars("cocos"), "arq": ars("arq"),
                  "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")}
+          import re, urllib.request
+          try:
+              req = urllib.request.Request("https://www.rava.com/perfil/RIESGO%20PAIS", headers={"User-Agent": "Mozilla/5.0"})
+              h = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
+              m = re.search(r"<title>[^<]*\$([\d.,]+) \(([+-]?[\d.,]+)%\)", h)
+              t = re.search(r"\d{2}/\d{2} \d{2}:\d{2}", h)
+              num = lambda x: float(x.replace(".", "").replace(",", "."))
+              if m: out["rp"] = {"v": num(m.group(1)), "var": num(m.group(2)), "hora": t.group(0) if t else ""}
+          except Exception as e:
+              print("rava:", e)
           assert out["cocos"] or out["arq"], "sin datos"
           json.dump(out, open("pix.json", "w"))
           print(out)
