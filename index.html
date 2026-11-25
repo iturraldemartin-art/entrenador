@@ -1508,6 +1508,21 @@ const PATTERN_LABEL = { push:"Empuje", pull:"Tracción", squat:"Sentadilla", hin
 const EX_PHOTO = new Set(["custom_f5861d15-8ddc-45d9-99b2-8bf61e817a49","custom_73a02213-42d8-4472-aa79-6950b8c16759","custom_3c362c5b-d84a-484f-809c-b43549b66c8f","custom_c0f4dad2-e73e-4a41-9e83-08f86d9791ca","custom_93222666-633f-4a25-ade8-7c5111dbd2f3","custom_e0817d8c-79db-41fb-9793-d256c33f2573","custom_02a3762f-dd45-4dac-8bd2-9ae4ae1aa50f","custom_24710b00-613d-486e-b6f1-fb859779f8f8","custom_25d575fb-3256-4c8a-87f0-1acd4982ba2a","custom_37fc84ea-20a9-45cb-9f0f-9c8395ba8db9","custom_44bf03e4-dec7-4d37-ba35-45ba0ee4831d","custom_db11ee42-4214-4778-9017-126c3524dfee","abdominales_maquina", "abduccion_aduccion_maquina", "apertura_inclinada_mancuernas", "bicicleta_fija", "buenos_dias", "cinta_caminata_trote", "cruce_polea", "crunch_abdominal", "crunch_polea_alta", "curl_21", "curl_banco_scott", "curl_banda_elastica", "curl_barra_cerrado", "curl_barra_prono", "curl_biceps_barra_manc", "curl_concentrado", "curl_femoral_sentado", "curl_inverso_barra", "curl_martillo", "curl_muneca_barra", "curl_muneca_inverso", "curl_polea_baja", "dominadas", "elevacion_frontal", "elevacion_lateral", "elevacion_lateral_maquina", "elevacion_lateral_polea", "elevacion_piernas_colgado", "elevacion_rodillas_paralelas", "eliptico", "escalador", "estocada_localizada", "extension_biceps_bayesian", "extension_cuadriceps_maquina", "extension_triceps_polea_cuerda", "extension_triceps_polea_unilateral", "facepull_polea", "femoral_camilla", "femoral_hip_thrust", "flexiones_lastradas", "fondos_banco", "fondos_maquina", "fondos_o_flexiones", "gemelos", "gemelos_prensa", "gemelos_sentado", "giro_ruso", "hack_cuadriceps", "hip_thrust_barra", "jalon_pecho", "jalon_tras_nuca", "pajaro_posterior_mancuernas", "paseo_granjero", "patada_gluteo_polea", "patada_triceps_mancuerna", "pec_deck_contractora", "peso_muerto", "peso_muerto_rumano", "plancha_abdominal", "plancha_lateral", "prensa_piernas", "prensa_una_pierna", "press_arnold", "press_banca_mancuernas", "press_banca_plano", "press_cerrado_banca", "press_declinado", "press_frances_barra", "press_hombro_unilateral_suelo", "press_inclinado_mancuernas", "press_inclinado_maquina", "press_militar", "press_militar_mancuernas", "press_plano_smith", "puente_gluteo_una_pierna", "puente_gluteos", "pullover_polea", "remo_barra", "remo_en_t", "remo_hack_neutro", "remo_hack_prono", "remo_invertido", "remo_mancuerna_un_brazo", "remo_maquina_sentado", "remo_menton", "remo_polea_baja_barra", "remoergometro", "rueda_abdominal", "salto_soga", "sentadilla_bulgara", "sentadilla_frontal", "sentadilla_libre_mancuernas", "sentadilla_smith", "sentadilla_sumo", "step_up_cajon", "trapecio_encogimientos", "triceps_tras_nuca_mancuerna", "triceps_tras_nuca_polea_soga", "zancada_caminando"]);
 // Video propio para ejercicios puntuales (recorte de un video que pasó Martin; crédito al autor).
 const EX_VIDEO = {
+  "custom_4d82cbe0-fd1b-4c9a-955e-07a0ad3ba37f": {
+    credit: "Video: @gymtraveler (TikTok) · recortado a la técnica",
+    frames: [
+      {t:"1 · Agarre", c:"Barra detrás del cuerpo, agarre prono al ancho de hombros, brazos estirados."},
+      {t:"2 · Subida", c:"Subí los hombros hacia las orejas y llevalos un poco hacia atrás; los brazos no se doblan."},
+      {t:"3 · Perfil", c:"Torso derecho apenas inclinado adelante; la barra sube pegada a los glúteos."},
+    ],
+    steps: [
+      "Barra detrás del cuerpo (en un rack o levantándola con cuidado), agarre por encima al ancho de los hombros.",
+      "Parado firme, rodillas apenas flojas, torso derecho apenas inclinado hacia adelante y la barra pegada a los glúteos.",
+      "Subí los hombros hacia las orejas y apretá los omóplatos hacia atrás. Los brazos quedan estirados: no tires con los bíceps.",
+      "Sostené 1 segundo arriba y bajá lento hasta estirar bien el trapecio.",
+      "Sin rotar los hombros ni balancear el cuerpo. Trabaja trapecio, deltoides posterior, romboides y elevador de la escápula.",
+    ],
+  },
   "extension_triceps_polea_unilateral": {
     credit: "Video: Martín Treno",
     frames: [
@@ -3486,8 +3501,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v27";
-const APP_BUILD = "2026-11-25a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v28";
+const APP_BUILD = "2026-11-25b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -7447,13 +7462,29 @@ document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState=
 window.addEventListener("pagehide", uiSave);
 setInterval(uiSave, 10000);
 document.addEventListener("click", ()=> setTimeout(uiSave, 300), true);
+// Al volver a la app sin que se recargue (saliste a ver otra cosa), si la pantalla quedó arriba
+// la vuelve a llevar al ejercicio que estabas haciendo.
+let uiUltimo = null;
+document.addEventListener("visibilitychange", ()=>{
+  if(document.visibilityState==="hidden"){ try{ uiUltimo = JSON.parse(localStorage.getItem(UI_KEY)||"null"); }catch(_){} return; }
+  const u = uiUltimo; if(!u || state.view!=="hoy" || u.view!=="hoy") return;
+  let toco = false; const stop = ()=>{ toco = true; };
+  ["touchstart","wheel","keydown","mousedown"].forEach(ev=> window.addEventListener(ev, stop, { once:true, passive:true }));
+  const t0 = Date.now();
+  const fix = setInterval(()=>{
+    if(toco || Date.now()-t0 > 8000){ clearInterval(fix); return; }
+    const ei = uiActiveEi() >= 0 ? uiActiveEi() : u.ei;
+    const card = ei>=0 && document.querySelector(`[data-card-ei="${ei}"]`);
+    try{ if(card){ const top = card.getBoundingClientRect().top; if(Math.abs(top - 70) > 120) window.scrollTo(0, window.scrollY + top - 70); } }catch(_){}
+  }, 400);
+});
 (function uiRestore(){
   let u = null; try{ u = JSON.parse(localStorage.getItem(UI_KEY)||"null"); }catch(_){}
   if(!u || u.day!==todayStr() || Date.now()-u.ts > 4*3600*1000) return;
   if(u.restEnd && u.restEnd > Date.now()){ Rest.secs = REST_SECS; Rest.endAt = u.restEnd; const b = restBar(); b.hidden = false; clearInterval(Rest.tick); Rest.tick = setInterval(restRender, 250); restRender(); }
   let tries = 0;
   const w = setInterval(()=>{ tries++;
-    if(tries > 120){ clearInterval(w); return; }
+    if(tries > 240){ clearInterval(w); return; }
     if(!state.view) return;
     if(u.view && u.view!=="hoy"){
       if(state.view!==u.view){ state.view = u.view; try{ render(); }catch(_){} }
@@ -7468,7 +7499,7 @@ document.addEventListener("click", ()=> setTimeout(uiSave, 300), true);
     ["touchstart","wheel","keydown","mousedown"].forEach(ev=> window.addEventListener(ev, stop, { once:true, passive:true }));
     const t0 = Date.now();
     const fix = setInterval(()=>{
-      if(toco || Date.now()-t0 > 12000){ clearInterval(fix); return; }
+      if(toco || Date.now()-t0 > 20000){ clearInterval(fix); return; }
       const ei = uiActiveEi() >= 0 ? uiActiveEi() : u.ei;
       const card = ei>=0 && document.querySelector(`[data-card-ei="${ei}"]`);
       try{
