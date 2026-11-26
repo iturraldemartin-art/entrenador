@@ -1952,7 +1952,35 @@ async function deleteSession(dateStr){
   else{ localSave(); render(); }
 }
 let autoTimer = null;   // si el cronómetro lo arrancó "Empezar" (y no vos), para poder deshacerlo si era solo para mirar
+/* Respaldo: cada vez que se guarda el día (cada serie tildada, cada vuelta, cada cambio) queda también una
+   copia en este celular. Si el registro de la nube no aparece, al abrir la app se recupera solo. */
+const RESP_KEY = "entrenador-respaldo";
+function respaldoGuardar(dateStr, data){
+  try{
+    const r = JSON.parse(localStorage.getItem(RESP_KEY)||"{}");
+    r[dateStr] = { ts:Date.now(), data };
+    Object.keys(r).sort().slice(0, Math.max(0, Object.keys(r).length-10)).forEach(k=> delete r[k]);   // guarda los últimos 10 días
+    localStorage.setItem(RESP_KEY, JSON.stringify(r));
+  }catch(_){}
+}
+async function respaldoRecuperar(){
+  if(!db) return;
+  let r = {}; try{ r = JSON.parse(localStorage.getItem(RESP_KEY)||"{}"); }catch(_){}
+  for(const ds of Object.keys(r)){
+    const it = r[ds]; if(!it || !it.data || !(it.data.entries||[]).length) continue;
+    if(ds > todayStr()) continue;
+    const hay = (it.data.entries||[]).some(e=> (e.detalle||[]).some(z=>z.ok));
+    if(!hay) continue;
+    try{
+      const snap = await db.doc("sessions/"+ds).get();
+      if(!snap.exists){ await db.doc("sessions/"+ds).set(it.data); toast(`💾 Recuperé el registro del ${ds.slice(8,10)}/${ds.slice(5,7)} desde la copia del celular`); }
+    }catch(_){}
+  }
+}
+setTimeout(respaldoRecuperar, 12000);
 async function saveSession(dateStr, data){
+  if(data && Array.isArray(data.entries) && data.entries.some(e=> (e.detalle||[]).some(z=>z.ok))) data = Object.assign({}, data, { ultimaActividad: (state.sessions[dateStr] && dateStr===todayStr() && actividadReciente) ? Date.now() : ((state.sessions[dateStr]||{}).ultimaActividad || Date.now()) });
+  respaldoGuardar(dateStr, data);
   const prev = state.sessions[dateStr];
   if(data.cerrado===undefined && prev && prev.cerrado) data = Object.assign({}, data, { cerrado:true });
   if(data.registrado===undefined && prev && prev.registrado) data = Object.assign({}, data, { registrado:true });
@@ -2119,15 +2147,48 @@ function playBeep(text, verde){
    cada 3 minutos hasta que lo apagues. Se cancela si destildás una serie o apagás el reloj. */
 const APAGAR_AVISO_MS = 3*60*1000;
 let apagarAvisoT = null;
+let actividadReciente = false;   // true justo después de tildar una serie o una vuelta
+function marcarActividad(){ actividadReciente = true; try{ localStorage.setItem("entrenador-ultima-actividad", String(Date.now())); }catch(_){} setTimeout(()=>{ actividadReciente = false; }, 4000); }
+/* Reloj olvidado: si el reloj sigue andando y pasaron más de 30 minutos desde la última serie tildada,
+   se apaga solo y se guarda el tiempo hasta esa última serie + 3 minutos. Avisa en verde. */
+async function relojOlvidadoChequear(){
+  try{
+    const d = runningTimerDate(); if(!d) return;
+    const t = state.timers[d]; if(!t || !t.runningSince) return;
+    let ult = Number(localStorage.getItem("entrenador-ultima-actividad"))||0;
+    const ses = state.sessions[d]; if(ses && ses.ultimaActividad) ult = Math.max(ult, Number(ses.ultimaActividad)||0);
+    if(!ult || ult < Number(t.runningSince)) return;               // todavía no tildaste nada desde que arrancó
+    if(Date.now() - ult < 30*60*1000) return;
+    const fin = ult + 3*60*1000;
+    const total = (Number(t.totalMs)||0) + Math.max(0, fin - Number(t.runningSince));
+    releaseWakeLock(); stopKeepAlive(); apagarAvisoCancelar();
+    await saveTimer(d, { date:d, totalMs: total, runningSince:null });
+    await closeDayData(d);
+    playBeep("RELOJ APAGADO SOLO", true);
+    toast(`⏱ El reloj quedó prendido: lo apagué en tu última serie + 3 min · ${fmtDur(total)}`);
+    render();
+  }catch(_){}
+}
+setInterval(relojOlvidadoChequear, 60*1000);
+setTimeout(relojOlvidadoChequear, 15000);
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible") setTimeout(relojOlvidadoChequear, 3000); });
+/* Avisos del celular (notificación con sonido y vibración) aunque estés en otra app (Spotify, WhatsApp…).
+   Los dispara el service worker, que sigue andando cuando la app queda en segundo plano. */
+function swPermiso(){ try{ if("Notification" in window && Notification.permission==="default") Notification.requestPermission().catch(()=>{}); }catch(_){} }
+function swAvisar(tag, ms, title, body){
+  try{ const c = navigator.serviceWorker && navigator.serviceWorker.controller; if(c) c.postMessage({ tipo:"avisar", tag, ms, title, body }); }catch(_){}
+}
+function swCancelar(tag){ try{ const c = navigator.serviceWorker && navigator.serviceWorker.controller; if(c) c.postMessage({ tipo:"cancelar", tag }); }catch(_){} }
 function apagarAvisoProgramar(){
   clearTimeout(apagarAvisoT);
+  swAvisar("apagar", APAGAR_AVISO_MS, "⏱ APAGAR EL RELOJ", "Terminaste el entreno hace 3 minutos y el reloj sigue andando.");
   apagarAvisoT = setTimeout(function chk(){
     if(!runningTimerDate()){ apagarAvisoT = null; return; }
     playBeep("APAGAR EL RELOJ", true);
     apagarAvisoT = setTimeout(chk, APAGAR_AVISO_MS);
   }, APAGAR_AVISO_MS);
 }
-function apagarAvisoCancelar(){ clearTimeout(apagarAvisoT); apagarAvisoT = null; }
+function apagarAvisoCancelar(){ clearTimeout(apagarAvisoT); apagarAvisoT = null; swCancelar("apagar"); }
 function openAlarmModal(){
   const list = (cur, act)=> `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;">${Object.keys(ALARM_SOUNDS).map(k=>`<button class="btn ${k===cur?"btn-primary":""}" style="justify-content:flex-start;white-space:normal;text-align:left;" data-action="${act}" data-sound="${k}">${ALARM_SOUNDS[k]}${k===cur?" ✓":""}</button>`).join("")}</div>`;
   openModal(`<div class="modal-head"><h2>Sonidos de los avisos</h2><button class="modal-close" data-action="close-modal">${ICON.close}</button></div>
@@ -2216,6 +2277,7 @@ function renderTimer(){
   }else if(timerTick){ clearInterval(timerTick); timerTick = null; }
 }
 async function timerStart(){
+  swPermiso();
   if(runningTimerDate()) return;
   ensureAudio();
   const d = todayStr();
@@ -3501,8 +3563,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v28";
-const APP_BUILD = "2026-11-25b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v29";
+const APP_BUILD = "2026-11-26a";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
@@ -4542,7 +4604,7 @@ document.addEventListener("click", async e=>{
   ensureDetalle(en);
   const st = en.detalle[si]; if(!st) return;
   st.ok = !st.ok;
-  if(st.ok) autoTimer = null;
+  if(st.ok){ autoTimer = null; marcarActividad(); }
   dayDraftDirty = true;
   redrawDayEditor(); refreshNoteButtons();
   if(!st.ok) apagarAvisoCancelar();
@@ -4661,18 +4723,21 @@ function restBar(){
     b.addEventListener("click", ev=>{ const a = ev.target.closest("[data-rest]"); if(!a) return; const k=a.dataset.rest;
       if(k==="skip") restStop();
       else { const d = k==="plus"?15:-15;   // ±15 solo para este descanso; el próximo vuelve a 1 minuto
-        Rest.endAt = Math.max(Date.now()+1000, Rest.endAt + d*1000); restRender(); if(!Rest.tick) Rest.tick=setInterval(restRender,250); } });
+        Rest.endAt = Math.max(Date.now()+1000, Rest.endAt + d*1000); restAvisoSw(); restRender(); if(!Rest.tick) Rest.tick=setInterval(restRender,250); } });
   }
   return b;
 }
+function restAvisoSw(){ swAvisar("descanso", Math.max(0, Rest.endAt - Date.now()), "💪 Terminó el descanso", "Volvé a la app: te toca la próxima serie."); }
 function restStart(){
   try{ ensureAudio(); }catch(_){}
+  swPermiso();
   Rest.secs = REST_SECS;
   Rest.endAt = Date.now() + REST_SECS*1000;
+  restAvisoSw();
   const b = restBar(); b.hidden = false; b.classList.remove("blink");
   clearInterval(Rest.tick); Rest.tick = setInterval(restRender, 250); restRender();
 }
-function restStop(){ clearInterval(Rest.tick); Rest.tick=null; const b=document.getElementById("rest-bar"); if(b){ b.hidden = true; b.classList.remove("blink"); } }
+function restStop(){ swCancelar("descanso"); clearInterval(Rest.tick); Rest.tick=null; const b=document.getElementById("rest-bar"); if(b){ b.hidden = true; b.classList.remove("blink"); } }
 // Campanadas de ring, bien fuertes: 4 tandas de 3 golpes (~4 s). Usa los tonos donde el oído es más
 // sensible (2–4 kHz) y pasa por el compresor + saturador del aviso, que lo lleva al máximo del volumen.
 function restBells(){
@@ -7613,7 +7678,7 @@ document.addEventListener("click", async e=>{
     c.hechas[v] = !c.hechas[v];
     circSync(en);
     if(c.hechas[v]){
-      autoTimer = null;
+      autoTimer = null; marcarActividad();
       if(dayDraft.dateStr===todayStr() && !runningTimerDate()){ try{ await timerStart(); }catch(_){} }
       const allDone = dayDraft.entries.every(x=> !x.exerciseId || ensureDetalle(x).every(z=>z.ok));
       restStart();
