@@ -1973,6 +1973,11 @@ async function respaldoRecuperar(){
     if(!hay) continue;
     try{
       const snap = await db.doc("sessions/"+ds).get();
+      // si ese mismo entreno ya está en otro día cercano, es porque se movió a propósito: no se recupera
+      const firma = x=> (x.entries||[]).map(e=>e.exerciseId).join(",");
+      const f0 = firma(it.data), d0 = new Date(ds+"T12:00:00");
+      const movido = Object.keys(state.sessions||{}).some(k=> k!==ds && Math.abs((new Date(k+"T12:00:00") - d0)/864e5) <= 3 && firma(state.sessions[k]||{})===f0);
+      if(movido){ const rr = JSON.parse(localStorage.getItem(RESP_KEY)||"{}"); delete rr[ds]; localStorage.setItem(RESP_KEY, JSON.stringify(rr)); continue; }
       if(!snap.exists){ await db.doc("sessions/"+ds).set(it.data); toast(`💾 Recuperé el registro del ${ds.slice(8,10)}/${ds.slice(5,7)} desde la copia del celular`); }
     }catch(_){}
   }
@@ -3563,8 +3568,8 @@ function render(){
   else if(state.view==="guardar") renderGuardar();
 }
 /* ---- Guía fija: cómo subir una actualización a GitHub (para tenerla siempre a mano) ---- */
-const APP_VERSION = "v30";
-const APP_BUILD = "2026-11-26b";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
+const APP_VERSION = "v31";
+const APP_BUILD = "2026-11-26c";   // cambia en cada versión publicada: la app avisa cuando hay una nueva
 const GUIA_PASOS = [
   { t:"Descargar", d:["Tocá el .zip que te pasa Claude","Queda en <b>Descargas</b>"] },
   { t:"Descomprimir", d:["Clic derecho en el zip → <b>Extraer todo</b> → <b>Extraer</b>","Se abre una carpeta con <code>index.html</code>, <code>sw.js</code> y <code>vid</code>"] },
